@@ -1,5 +1,6 @@
 # Browser Grid
 
+Library to integrate browsers like selenium, splash with CrawlerFlow 
 
 ## Install
 
