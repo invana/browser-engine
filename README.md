@@ -1,6 +1,23 @@
 # Browser Grid
 
 
+## Install
+
+```bash
+pip install -e git+https://github.com/crawlerflow/browser-engine.git#egg=browser_engine
+```
+
+
+## Setup
+
+```bash
+
+export BROWSER_TYPE=selenium
+export BROWSER_HOST=http://0.0.0.0:4444 # selenium path
+export AUTH_TOKEN=iamlazydeveloper
+
+```
+
 
 ## To Start the Server 
 
@@ -13,16 +30,6 @@ python -m browser_engine.server.app
 ```
 
 
-
-## Setup
-
-```bash
-
-export BROWSER_TYPE=selenium
-export BROWSER_HOST=http://0.0.0.0:4444
-export AUTH_TOKEN=iamlazydeveloper
-
-```
 
 
 ## How to make a call
