@@ -19,6 +19,8 @@ export AUTH_TOKEN=iamlazydeveloper
 ```
 Currently BROWSER_TYPE can be `selenium` or `splash`. 
 
+With BROWSER_TYPE=splash, BROWSER_HOST would be http://0.0.0.0:8050 or relevant.
+
 ## To Start the Server 
 
 ```bash
