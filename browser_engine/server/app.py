@@ -8,15 +8,23 @@ from flask import request
 app = Flask(__name__)
 api = Api(app)
 
+#
+# class HelloWorldAPIView(Resource):
+#     def get(self):
+#         token = request.args.get('token')
+#         if token != AUTH_TOKEN:
+#             return {"message": "Invalid token"}, 403
+#         browser_request = create_browser_request(request)
+#         return DefaultBrowserResponse(request=browser_request,
+#                                       message="Hello World. Welcome to Browser Engine").get_response()
 
-class HelloWorldAPIView(Resource):
-    def get(self):
-        token = request.args.get('token')
-        if token != AUTH_TOKEN:
-            return {"message": "Invalid token"}, 403
-        browser_request = create_browser_request(request)
-        return DefaultBrowserResponse(request=browser_request,
-                                      message="Hello World. Welcome to Browser Engine").get_response()
+
+from flask import render_template
+
+
+@app.route('/')
+def hello():
+    return render_template('render.html')
 
 
 class PingAPIView(Resource):
@@ -35,8 +43,15 @@ class RenderAPIView(Resource):
         browser_request = create_browser_request(request)
         return DefaultBrowserResponse(request=browser_request, message="Alright! Rendered the url").get_response()
 
+    def post(self):
+        token = request.args.get('token')
+        if token != AUTH_TOKEN:
+            return {"message": "Invalid token"}, 403
+        browser_request = create_browser_request(request)
+        return DefaultBrowserResponse(request=browser_request, message="Alright! Rendered the url").get_response()
 
-api.add_resource(HelloWorldAPIView, '/')
+
+# api.add_resource(HelloWorldAPIView, '/')
 api.add_resource(PingAPIView, '/ping')
 api.add_resource(RenderAPIView, '/render')
 

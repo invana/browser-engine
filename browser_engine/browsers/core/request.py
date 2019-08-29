@@ -47,4 +47,4 @@ class DefaultBrowserRequest(BrowserRequestBase):
         status = None
         screenshot = None
         content_length = None
-        return html, status, screenshot, content_length
+        return html, status, screenshot, content_length, {}

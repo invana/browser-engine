@@ -38,6 +38,27 @@ python -m browser_engine.server.app
 ## How to make a call
 
 ```bash
-curl -XGET http://localhost:5000/render?url=http://invanalabs.ai&browser_type=selenium&token=iamlazydeveloper
+curl -XGET http://localhost:5000/render?url=http://github.com/login&browser_type=selenium&token=iamlazydeveloper
+```
+
+```json
+
+{
+	"url" :"http://github.com/login",
+	"script": null,
+	"browser_settings": {
+		"viewport": "1280x720",
+		"loading_options": {
+			"load_images": false,
+			"load_scripts": false,
+			"load_stylesheets": false
+		}
+	},
+	"cookies": null,
+	"headers": null,
+	"take_screenshot": false,
+	"tasks": []
+
+}
 ```
 
