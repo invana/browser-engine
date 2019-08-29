@@ -1,13 +1,49 @@
-from browser_engine.browsers.splash.default import SplashBrowserRequest
-from browser_engine.browsers.selenium.requests.default import SeleniumChromeBrowserRequest
-from browser_engine.browsers.core.request import DefaultBrowserRequest
 from browser_engine.browsers.core.options import DefaultBrowserOptions
+from browser_engine.browsers.core.request import BrowserRequestBase
+from browser_engine.settings import SELENIUM_HOST, BROWSER_TYPE
+from selenium import webdriver
+from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
+
+
+driver = webdriver.Remote(
+    command_executor='{}/wd/hub'.format(SELENIUM_HOST),
+    desired_capabilities=DesiredCapabilities.CHROME,
+)
+
+
+class SeleniumBrowserRequestBase(BrowserRequestBase):
+    browser_type = "Selenium"
+
+    def make_request(self):
+        self.set_request_start()
+        if "x" in self.browser_options.viewport:
+            w, h = self.browser_options.viewport.split("x")
+            driver.set_window_size(w, h)
+        driver.set_page_load_timeout(self.timeout)
+        driver.get(self.url)
+        html = driver.page_source
+        status_code = 200
+        if self.browser_options.enable_screenshot is False:
+            screenshot = None
+        else:
+            screenshot = driver.get_screenshot_as_base64()
+        content_length = len(html)
+        all_cookies = driver.get_cookies()
+        return html, status_code, screenshot, content_length, all_cookies
+
+
+class SeleniumChromeBrowserRequest(SeleniumBrowserRequestBase):
+    pass
+
+
+class SeleniumUnitHTMLBrowserRequest(SeleniumBrowserRequestBase):
+    pass
 
 
 def create_browser_request(flask_request):
     url = flask_request.args.get('url')
     http_method = flask_request.args.get('http_method', 'get')
-    browser_type = flask_request.args.get('browser_type', 'default')
+    browser_type = flask_request.args.get('browser_type', 'chrome')
     enable_screenshot = flask_request.args.get('enable_screenshot', 0)
     viewport = flask_request.args.get('viewport', "1280x720")
     enable_images = flask_request.args.get('enable_images', 0)
@@ -15,12 +51,7 @@ def create_browser_request(flask_request):
                                             enable_screenshot=enable_screenshot,
                                             viewport=viewport)
 
-    if browser_type.lower() == "splash":
-        browser_klass = SplashBrowserRequest
-    elif browser_type.lower() == "selenium":
-        browser_klass = SeleniumChromeBrowserRequest
-    else:
-        browser_klass = DefaultBrowserRequest
+    browser_klass = SeleniumChromeBrowserRequest
 
     return browser_klass(url=url, http_method=http_method,
                          browser_type=browser_type,

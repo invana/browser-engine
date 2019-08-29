@@ -37,14 +37,3 @@ class BrowserRequestBase(object):
             "browser_type": self.browser_type,
             "browser_options": DefaultBrowserOptions().get_options(),
         }
-
-
-class DefaultBrowserRequest(BrowserRequestBase):
-
-    @staticmethod
-    def make_request():
-        html = None
-        status = None
-        screenshot = None
-        content_length = None
-        return html, status, screenshot, content_length, {}

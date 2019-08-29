@@ -14,13 +14,13 @@ pip install -e git+https://github.com/crawlerflow/browser-engine.git#egg=browser
 ```bash
 
 export BROWSER_TYPE=selenium
-export BROWSER_HOST=http://0.0.0.0:4444 # selenium host
+export SELENIUM_HOST=http://0.0.0.0:4444 # selenium host
 export AUTH_TOKEN=iamlazydeveloper
 
 ```
 Currently BROWSER_TYPE can be `selenium` or `splash`. 
 
-With BROWSER_TYPE=splash, BROWSER_HOST would be http://0.0.0.0:8050 or relevant.
+With BROWSER_TYPE=splash, SELENIUM_HOST would be http://0.0.0.0:8050 or relevant.
 
 ## To Start the Server 
 

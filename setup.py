@@ -16,7 +16,8 @@ setup(
         'flask',
         'flask-restful',
         'uwsgi',
-        'selenium'
+        'selenium',
+        'pyyaml'
     ],
     entry_points={
         'console_scripts': ['browser-engine = browser_engine.server.app']
