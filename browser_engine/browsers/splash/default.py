@@ -22,7 +22,9 @@ class SplashBrowserRequest(BrowserRequestBase):
             status_code = None
             screenshot = None
             content_length = None
-        return html, status_code, screenshot, content_length
+
+        cookies = {}
+        return html, status_code, screenshot, content_length, cookies
 
     def make_request(self):
         self.set_request_start()

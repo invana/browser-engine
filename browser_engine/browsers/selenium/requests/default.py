@@ -1,10 +1,11 @@
 from browser_engine.browsers.core.request import BrowserRequestBase
-from browser_engine.settings import BROWSER_HOST
+from browser_engine.settings import BROWSER_HOST, BROWSER_TYPE
 from selenium import webdriver
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 
-driver = webdriver.Remote(command_executor='{}/wd/hub'.format(BROWSER_HOST),
-                          desired_capabilities=DesiredCapabilities.CHROME)
+if BROWSER_TYPE == "selenium":
+    driver = webdriver.Remote(command_executor='{}/wd/hub'.format(BROWSER_HOST),
+                              desired_capabilities=DesiredCapabilities.CHROME)
 
 
 class SeleniumBrowserRequestBase(BrowserRequestBase):
@@ -24,7 +25,8 @@ class SeleniumBrowserRequestBase(BrowserRequestBase):
         else:
             screenshot = driver.get_screenshot_as_base64()
         content_length = len(html)
-        return html, status_code, screenshot, content_length
+        all_cookies = driver.get_cookies()
+        return html, status_code, screenshot, content_length, all_cookies
 
 
 class SeleniumChromeBrowserRequest(SeleniumBrowserRequestBase):

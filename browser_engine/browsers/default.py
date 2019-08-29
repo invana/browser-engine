@@ -1,5 +1,5 @@
 from browser_engine.browsers.splash.default import SplashBrowserRequest
-from browser_engine.browsers.selenium.default import SeleniumChromeBrowserRequest
+from browser_engine.browsers.selenium.requests.default import SeleniumChromeBrowserRequest
 from browser_engine.browsers.core.request import DefaultBrowserRequest
 from browser_engine.browsers.core.options import DefaultBrowserOptions
 

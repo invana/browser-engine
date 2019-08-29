@@ -25,7 +25,7 @@ With BROWSER_TYPE=splash, BROWSER_HOST would be http://0.0.0.0:8050 or relevant.
 ## To Start the Server 
 
 ```bash
-uwsgi --socket 0.0.0.0:5000 --protocol=http -w browser_engine.server.wsgi:application
+uwsgi --socket 0.0.0.0:5000 --protocol=http -w browser_engine.server.wsgi:application --processes 4 --threads 2
 
 or 
 

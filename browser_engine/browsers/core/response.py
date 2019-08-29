@@ -13,7 +13,7 @@ class BrowserResponseBase(object):
         self.client_details = client_details
 
     def get_response(self):
-        html, status_code, screenshot, content_length = self.request.make_request()
+        html, status_code, screenshot, content_length, all_cookies = self.request.make_request()
         message = {
             "message": self.message,
             "client": ClientDetail(request=self.request).get_client_details(),
@@ -24,7 +24,8 @@ class BrowserResponseBase(object):
                 "status_code": status_code,
                 "html": html,
                 "screenshot": screenshot,
-                "content_length": content_length
+                "content_length": content_length,
+                "cookies": all_cookies
             }
 
         return message
