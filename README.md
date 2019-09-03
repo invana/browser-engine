@@ -9,6 +9,8 @@ pip install -e git+https://github.com/crawlerflow/browser-engine.git#egg=browser
 ```
 
 
+![Screenshot](docs/screenshot.png)
+
 ## Setup
 
 ```bash

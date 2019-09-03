@@ -4,16 +4,21 @@ $(document).ready(function () {
 
 
     var header_template = {
-        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.100 Safari/537.36",
-        "Cookie": "Pycharm-de81e11c=9fcc92ae-1279-46e1-ad4d-bd3026913c4d; csrftoken=gKCVS8MkdL1izAGibdedXmgp8dwrT5McLNbL4V0tsv9L8O4ANGec2i7LsShjlyW3",
+        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3809.100 Safari/517.36",
+        "Cookies": [
+            {
+                "name": "user.expires_at",
+                "value": "xxxxxx",
+                "domain": "www.example.com"
+            }],
         "Referer": null,
-
+        "Proxy": null
     };
-    var url_template = "https://invanalabs.ai";
-
-
-    $('[name="url"]').val(url_template);
     $('[name="headers"]').html(JSON.stringify(header_template, null, 4));
+
+
+    var url_template = "https://invanalabs.ai";
+    $('[name="url"]').val(url_template);
 
 
     $("#submit-button").click(function () {
@@ -35,7 +40,7 @@ $(document).ready(function () {
         };
         $.ajax({
             type: 'POST',
-            url: "/render?url=" + url + "&timeout=" + timeout + "&viewport=" + viewport +"&token=" + token,
+            url: "/render?url=" + url + "&timeout=" + timeout + "&viewport=" + viewport + "&token=" + token,
             data: JSON.stringify(body),
             contentType: "application/json",
             dataType: 'json'
@@ -43,7 +48,7 @@ $(document).ready(function () {
             .done(function (data) {
                 console.log(data);
 
-                data['response']['html'] = "<truncated>";
+                data['response']['html'] = "< =truncated= >";
                 var screenshot = data['response']['screenshot'];
                 console.log("screeenshot", screenshot);
                 $("#response-viewer").html(JSON.stringify(data, null, 4));

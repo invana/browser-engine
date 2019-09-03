@@ -3,29 +3,67 @@ from browser_engine.browsers.core.request import BrowserRequestBase
 from browser_engine.settings import SELENIUM_HOST, BROWSER_TYPE
 from selenium import webdriver
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
-
-driver = webdriver.Remote(
-    command_executor='{}/wd/hub'.format(SELENIUM_HOST),
-    desired_capabilities=DesiredCapabilities.CHROME,
-)
+from selenium.webdriver.common.proxy import Proxy, ProxyType
 
 
 class SeleniumBrowserRequestBase(BrowserRequestBase):
     browser_type = "Selenium"
 
-    def make_request(self):
-        self.set_request_start()
+    def create_driver(self):
+        capabilities = webdriver.DesiredCapabilities.CHROME
+
+        proxy_address = self.headers.get("proxy")
+        if proxy_address:
+            proxy = Proxy({
+                'proxyType': ProxyType.MANUAL,
+                'httpProxy': proxy_address,
+                'ftpProxy': proxy_address,
+                'sslProxy': proxy_address,
+                'noProxy': ''})
+        else:
+            proxy = None
+            # proxy.add_to_capabilities(capabilities)
+        # print ("Proxy", proxy)
+        driver = webdriver.Remote(
+            command_executor='{}/wd/hub'.format(SELENIUM_HOST),
+            desired_capabilities=capabilities,
+            proxy=proxy
+        )
+
+        return driver
+
+    def delete_cookies(self, driver=None):
         driver.delete_all_cookies()
+
+    def update_viewport(self, driver=None):
         if "x" in self.browser_options.viewport:
             w, h = self.browser_options.viewport.split("x")
             driver.set_window_size(w, h)
+
+    def update_timeout(self, driver=None):
         driver.set_page_load_timeout(self.timeout)
+
+    def get_page(self, driver=None):
         driver.get(self.url)
+
+    def update_headers(self, driver=None):
         if self.headers:
             cookies = self.headers.get("cookies", {})
             for cookie in cookies:
                 if cookie.get("name") and cookie.get("value"):
-                    driver.add_cookie({'name': cookie['name'], 'value': cookie['value'], 'domain': cookie.get('domain')})
+                    driver.add_cookie(
+                        {'name': cookie['name'], 'value': cookie['value'], 'domain': cookie.get('domain')})
+
+    def close_browser(self, driver=None):
+        driver.close()
+
+    def make_request(self):
+        self.set_request_start()
+        driver = self.create_driver()
+        self.update_viewport(driver=driver)
+        self.delete_cookies(driver=driver)
+        self.get_page(driver=driver)
+        self.update_headers(driver=driver)
         driver.refresh()
         html = driver.page_source
         all_cookies = driver.get_cookies()
@@ -37,6 +75,7 @@ class SeleniumBrowserRequestBase(BrowserRequestBase):
             screenshot = driver.get_screenshot_as_base64()
         content_length = len(html)
         all_cookies = driver.get_cookies()
+        self.close_browser(driver=driver)
         return html, status_code, screenshot, content_length, all_cookies
 
 
