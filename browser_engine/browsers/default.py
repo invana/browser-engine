@@ -4,7 +4,6 @@ from browser_engine.settings import SELENIUM_HOST, BROWSER_TYPE
 from selenium import webdriver
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 
-
 driver = webdriver.Remote(
     command_executor='{}/wd/hub'.format(SELENIUM_HOST),
     desired_capabilities=DesiredCapabilities.CHROME,
@@ -16,12 +15,21 @@ class SeleniumBrowserRequestBase(BrowserRequestBase):
 
     def make_request(self):
         self.set_request_start()
+        driver.delete_all_cookies()
         if "x" in self.browser_options.viewport:
             w, h = self.browser_options.viewport.split("x")
             driver.set_window_size(w, h)
         driver.set_page_load_timeout(self.timeout)
         driver.get(self.url)
+        if self.headers:
+            cookies = self.headers.get("cookies", {})
+            for cookie in cookies:
+                if cookie.get("name") and cookie.get("value"):
+                    driver.add_cookie({'name': cookie['name'], 'value': cookie['value'], 'domain': cookie.get('domain')})
+        driver.refresh()
         html = driver.page_source
+        all_cookies = driver.get_cookies()
+
         status_code = 200
         if self.browser_options.enable_screenshot is False:
             screenshot = None
@@ -50,9 +58,10 @@ def create_browser_request(flask_request):
     browser_options = DefaultBrowserOptions(enable_images=enable_images,
                                             enable_screenshot=enable_screenshot,
                                             viewport=viewport)
-
+    headers = flask_request.get_json()
     browser_klass = SeleniumChromeBrowserRequest
-
-    return browser_klass(url=url, http_method=http_method,
+    return browser_klass(url=url,
+                         http_method=http_method,
                          browser_type=browser_type,
+                         headers=headers.get("headers", {}),
                          browser_options=browser_options)

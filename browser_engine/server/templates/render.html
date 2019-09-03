@@ -3,29 +3,97 @@
 <head>
     <meta charset="UTF-8">
     <title>CrawlerFlow Browser & Automation Engine</title>
-    <style>
-        html, body{
-            font-size: 14px;
-            font-family: 'Consolas', 'Deja Vu Sans Mono', 'Bitstream Vera Sans Mono', monospace;
-        }
-        h1 {
-            color: #5c4ee5;
-            padding-bottom: 0;
-            line-height: 1rem;
-            font-size: 1.6rem;
-        }
-        .sub-heading{
-            font-size: 1.2rem;
-            color: #666666;
-        }
-    </style>
+
+    <!--<link href="{{ url_for('static', filename='styles/bootstrap.min.css') }}" >-->
+    <!--<link href="{{ url_for('static', filename='styles/main.css') }}" >-->
+
+    <link rel="stylesheet" type="text/css" href="/static/styles/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/static/styles/main.css">
 </head>
 <body>
-<h1>CrawlerFlow Browser & Automation Engine</h1>
-<p class="sub-heading">Web Automation and user behaviour Simulations made easy with yaml configurations.</p>
-<form action="/render">
-    <input type="text" placeholder="url">
+<div class="container-fluid">
 
-</form>
+    <div class="row">
+        <div class="col-md-6">
+
+      <header>
+                <h1>Browser Automation Engine</h1>
+                <p class="sub-heading">Web Automation and user behaviour Simulations made easy with yaml
+                    configurations.</p>
+
+            </header>
+            <form action="#" class="form" id="form">
+
+                <div class="input-group mb-2">
+                    <input type="text" class="form-control" name="url" placeholder="URL">
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-primary" type="button" id="submit-button">Make Request</button>
+                    </div>
+                </div>
+
+                <div class="mb-2">
+                    <label for="">Headers</label>
+                    <textarea name="headers" class="form-control" id="" cols="30" rows="10"></textarea>
+                </div>
+
+
+                <div class="mb-2">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label for="">Timeout
+                                <small class="text-muted">in seconds</small>
+                            </label>
+                            <input type="text" name="timeout" value="30" class="form-control">
+                        </div>
+                        <div class="col-md-3">
+                            <label for="">Viewport
+                            </label>
+                            <input type="text" name="timeout" value="1280x720" class="form-control">
+                        </div>
+                        <div class="col-md-3">
+
+
+                            <div class="form-check">
+                                <label class="form-check-label">
+                                    <input type="checkbox" name="take_screenshot" class="form-check-input"> Take
+                                    Screenshot
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <!--<div>-->
+                <!--<h6>Browser Options</h6>-->
+                <!--<div class="form-check-inline">-->
+                <!--<label class="form-check-label">-->
+                <!--<input type="checkbox" class="form-check-input" value=""> Show Images-->
+                <!--</label>-->
+                <!--</div>-->
+                <!--<div class="form-check-inline">-->
+                <!--<label class="form-check-label">-->
+                <!--<input type="checkbox" class="form-check-input" value=""> Enable Cookies-->
+                <!--</label>-->
+                <!--</div>-->
+                <!--<div class="form-check-inline">-->
+                <!--<label class="form-check-label">-->
+                <!--<input type="checkbox" class="form-check-input" value=""> Load Scripts-->
+                <!--</label>-->
+                <!--</div>-->
+                <!--</div>-->
+
+            </form>
+        </div>
+        <div class="col-md-6">
+            <img src="" id="response-img" alt="" class="img-fluid">
+            <pre id="response-viewer">
+
+            </pre>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" src="/static/scripts/jquery.min.js"></script>
+<script type="text/javascript" src="/static/scripts/main.js"></script>
 </body>
 </html>

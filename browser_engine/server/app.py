@@ -5,12 +5,16 @@ from browser_engine.browsers.default import create_browser_request
 from browser_engine.settings import AUTH_TOKEN
 from flask import request, render_template
 
-app = Flask(__name__)
+app = Flask(__name__, static_url_path="/static")
 api = Api(app)
 
 
 @app.route('/')
 def hello():
+    token = request.args.get('token')
+    if token != AUTH_TOKEN:
+        return render_template('login-required.html')
+
     return render_template('render.html')
 
 
