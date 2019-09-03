@@ -17,12 +17,19 @@ class BrowserRequestBase(object):
                  browser_type="selenium",
                  timeout=30,
                  wait=0,
+                 headers=None,
                  browser_options=None):
         self.url = url
         self.timeout = timeout
         self.wait = wait
         self.http_method = http_method
         self.browser_type = browser_type
+        print("headers", headers)
+        if headers:
+            self.headers = {k.lower(): v for k, v in headers.items()}
+        else:
+            self.headers = {}
+
         self.browser_options = browser_options
 
     def set_request_start(self):
@@ -35,16 +42,6 @@ class BrowserRequestBase(object):
             "timeout": self.timeout,
             "wait": self.wait,
             "browser_type": self.browser_type,
+            "headers": self.headers,
             "browser_options": DefaultBrowserOptions().get_options(),
         }
-
-
-class DefaultBrowserRequest(BrowserRequestBase):
-
-    @staticmethod
-    def make_request():
-        html = None
-        status = None
-        screenshot = None
-        content_length = None
-        return html, status, screenshot, content_length, {}
