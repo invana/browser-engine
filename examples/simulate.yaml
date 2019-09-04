@@ -1,0 +1,25 @@
+task1:
+  cmd: refresh
+task2:
+  cmd: wait
+  options:
+    random : (0,1)
+task3:
+  cmd: click
+  options:
+    selector : ".more"
+    selector_type: xpath
+task4:
+  cmd: extract:
+  options:
+    extractors:
+    - extractor_type: MetaTagExtractor
+      extractor_id: meta_tags
+    - extractor_type: CustomContentExtractor
+      extractor_id: content
+      data_selectors:
+      - selector_id: title
+        selector: title
+        selector_type: css
+        selector_attribute: text
+        data_type: RawField
