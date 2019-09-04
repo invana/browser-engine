@@ -2,4 +2,4 @@ flask==1.1.1
 flask-restful==0.3.7
 uwsgi
 selenium==3.141.0
-pyyaml-5.1.2
+pyyaml==5.1.2
