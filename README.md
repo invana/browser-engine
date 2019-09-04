@@ -1,6 +1,6 @@
-# Browser Grid
+# Browser Engine
 
-Library to integrate browsers like selenium, splash with CrawlerFlow 
+Web Automation and User behaviour simulations made easy with YAML configurations.
 
 ## Install
 
