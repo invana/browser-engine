@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>CrawlerFlow Browser & Automation Engine</title>
+    {% include 'includes/meta.html' %}
+</head>
+<body>
+{% include 'includes/header.html' %}
+<div class="container-fluid">
+
+    <div class="row">
+        <div class="col-md-12">
+            <h1>Browser Engine</h1>
+
+            <p class="sub-heading">Web Automation and User behaviour simulations made easy with YAML configurations.</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">/render</h5>
+                    <p class="card-text">
+                        Renders a webpage in real browsers like Firefox, Chrome. More to be added soon.
+                    </p>
+                    <form class="form" action="/render.html" method="get">
+
+                        <div class="input-group mb-2">
+                            <input type="text" class="form-control form-control-sm" name="token"
+                                   placeholder="Auth token">
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-primary btn-sm" type="submit">
+                                    Proceed
+                                </button>
+                            </div>
+                        </div>
+                        <p class="text-muted small">Default token is "iamlazydeveloper"</p>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">/extract</h5>
+                    <p class="card-text">
+                        Extractors clean JSON data from HTML with YAML configurations.
+                    </p>
+                    <form class="form" method="get">
+
+                        <div class="input-group mb-2">
+                            <input type="text" disabled class="form-control form-control-sm" name="token"
+                                   placeholder="Auth token">
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-secondary btn-sm" type="button">
+                                    coming soon
+                                </button>
+                            </div>
+                        </div>
+                        <p class="text-muted small">Default token is "iamlazydeveloper"</p>
+                    </form>
+                    <!--<a href="#" class="card-link btn btn-secondary">coming soon</a>-->
+                    <!--<a href="#" class="card-link text-muted"><i class="fa fa-question-circle" aria-hidden="true"></i> help</a>-->
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">/simulate</h5>
+                    <p class="card-text">
+                        Renders webpage, simulate actions like click, hover and extracts with YAML configurations.
+                    </p>
+                    <form class="form" method="get">
+
+                        <div class="input-group mb-2">
+                            <input type="text" disabled class="form-control form-control-sm" name="token"
+                                   placeholder="Auth token">
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-secondary btn-sm" type="button">
+                                    coming soon
+                                </button>
+                            </div>
+                        </div>
+                        <p class="text-muted small">Default token is "iamlazydeveloper"</p>
+                    </form>
+                    <!--<a href="#" class="card-link btn btn-secondary">coming soon</a>-->
+                    <!--<a href="#" class="card-link text-muted"><i class="fa fa-question-circle" aria-hidden="true"></i> help</a>-->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% include 'includes/footer.html' %}
+
+</body>
+</html>

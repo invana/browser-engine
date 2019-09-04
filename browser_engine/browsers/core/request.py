@@ -8,23 +8,21 @@ class BrowserRequestBase(object):
 
 
     """
-    browser_type = "default"
     started_at = None
 
     def __init__(self,
                  url=None,
                  http_method=None,
-                 browser_type="selenium",
                  timeout=30,
+                 browser_type=None,
                  wait=0,
                  headers=None,
                  browser_options=None):
         self.url = url
         self.timeout = timeout
+        self.browser_type = browser_type
         self.wait = wait
         self.http_method = http_method
-        self.browser_type = browser_type
-        print("headers", headers)
         if headers:
             self.headers = {k.lower(): v for k, v in headers.items()}
         else:
@@ -41,7 +39,6 @@ class BrowserRequestBase(object):
             "http_method": self.http_method,
             "timeout": self.timeout,
             "wait": self.wait,
-            "browser_type": self.browser_type,
             "headers": self.headers,
-            "browser_options": DefaultBrowserOptions().get_options(),
+            "browser_options": self.browser_options.get_options(),
         }

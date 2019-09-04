@@ -1,33 +1,45 @@
 from browser_engine.browsers.core.options import DefaultBrowserOptions
 from browser_engine.browsers.core.request import BrowserRequestBase
-from browser_engine.settings import SELENIUM_HOST, BROWSER_TYPE
+from browser_engine.settings import SELENIUM_HOST
 from selenium import webdriver
-from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 from selenium.webdriver.common.proxy import Proxy, ProxyType
+from selenium.webdriver.chrome.options import Options
 
 
 class SeleniumBrowserRequestBase(BrowserRequestBase):
-    browser_type = "Selenium"
 
     def create_driver(self):
-        capabilities = webdriver.DesiredCapabilities.CHROME
+        selenium_browser_type = self.browser_type
+        if selenium_browser_type == "chrome":
+            capabilities = webdriver.DesiredCapabilities.CHROME
+        elif selenium_browser_type == "firefox":
+            capabilities = webdriver.DesiredCapabilities.FIREFOX
+        else:
+            raise NotImplementedError()
 
         proxy_address = self.headers.get("proxy")
         if proxy_address:
-            proxy = Proxy({
-                'proxyType': ProxyType.MANUAL,
-                'httpProxy': proxy_address,
-                'ftpProxy': proxy_address,
-                'sslProxy': proxy_address,
-                'noProxy': ''})
+            proxy = Proxy(
+                {
+                    'proxyType': ProxyType.MANUAL,
+                    'httpProxy': proxy_address,
+                    'ftpProxy': proxy_address,
+                    'sslProxy': proxy_address,
+                    'noProxy': ''
+                }
+            )
         else:
             proxy = None
-            # proxy.add_to_capabilities(capabilities)
-        # print ("Proxy", proxy)
+
+        options = Options()
+        options.add_argument('--no-sandbox')
+        options.add_argument('--disable-dev-shm-usage')
+
         driver = webdriver.Remote(
             command_executor='{}/wd/hub'.format(SELENIUM_HOST),
             desired_capabilities=capabilities,
-            proxy=proxy
+            proxy=proxy,
+            options=options
         )
 
         return driver
@@ -52,24 +64,30 @@ class SeleniumBrowserRequestBase(BrowserRequestBase):
             for cookie in cookies:
                 if cookie.get("name") and cookie.get("value"):
                     driver.add_cookie(
-                        {'name': cookie['name'], 'value': cookie['value'], 'domain': cookie.get('domain')})
+                        {
+                            'name': cookie['name'],
+                            'value': cookie['value'],
+                            # 'domain': cookie.get('domain')
+                        }
+                    )
 
     def close_browser(self, driver=None):
-        driver.close()
+        driver.quit()
 
     def make_request(self):
         self.set_request_start()
         driver = self.create_driver()
         self.update_viewport(driver=driver)
+        self.update_timeout(driver=driver)
         self.delete_cookies(driver=driver)
         self.get_page(driver=driver)
         self.update_headers(driver=driver)
         driver.refresh()
         html = driver.page_source
-        all_cookies = driver.get_cookies()
+        # all_cookies = driver.get_cookies()
 
         status_code = 200
-        if self.browser_options.enable_screenshot is False:
+        if self.browser_options.take_screenshot == False:
             screenshot = None
         else:
             screenshot = driver.get_screenshot_as_base64()
@@ -90,13 +108,15 @@ class SeleniumUnitHTMLBrowserRequest(SeleniumBrowserRequestBase):
 def create_browser_request(flask_request):
     url = flask_request.args.get('url')
     http_method = flask_request.args.get('http_method', 'get')
-    browser_type = flask_request.args.get('browser_type', 'chrome')
-    enable_screenshot = flask_request.args.get('enable_screenshot', 0)
+    take_screenshot = int(flask_request.args.get('take_screenshot', 0))
+    browser_type = flask_request.args.get('browser_type', "chrome")
     viewport = flask_request.args.get('viewport', "1280x720")
     enable_images = flask_request.args.get('enable_images', 0)
-    browser_options = DefaultBrowserOptions(enable_images=enable_images,
-                                            enable_screenshot=enable_screenshot,
-                                            viewport=viewport)
+    browser_options = DefaultBrowserOptions(
+        enable_images=enable_images,
+        take_screenshot=take_screenshot,
+        viewport=viewport
+    )
     headers = flask_request.get_json()
     browser_klass = SeleniumChromeBrowserRequest
     return browser_klass(url=url,

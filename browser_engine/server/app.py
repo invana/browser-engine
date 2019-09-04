@@ -12,10 +12,34 @@ api = Api(app)
 @app.route('/')
 def hello():
     token = request.args.get('token')
-    if token != AUTH_TOKEN:
-        return render_template('login-required.html')
+    return render_template('homepage.html')
 
-    return render_template('render.html')
+
+@app.route('/render.html')
+def render():
+    token = request.args.get('token')
+    if token != AUTH_TOKEN:
+        return {"message": "Invalid token"}, 403
+    context = {"token": token}
+    return render_template('render.html', **context)
+
+
+@app.route('/extract.html')
+def extract():
+    token = request.args.get('token')
+    if token != AUTH_TOKEN:
+        return {"message": "Invalid token"}, 403
+    context = {"token": token}
+    return render_template('extract.html', **context)
+
+
+@app.route('/simulate.html')
+def simulate():
+    token = request.args.get('token')
+    if token != AUTH_TOKEN:
+        return {"message": "Invalid token"}, 403
+    context = {"token": token}
+    return render_template('simulate.html', **context)
 
 
 class PingAPIView(Resource):
@@ -27,12 +51,6 @@ class PingAPIView(Resource):
 
 
 class RenderAPIView(Resource):
-    def get(self):
-        token = request.args.get('token')
-        if token != AUTH_TOKEN:
-            return {"message": "Invalid token"}, 403
-        browser_request = create_browser_request(request)
-        return DefaultBrowserResponse(request=browser_request, message="Alright! Rendered the url").get_response()
 
     def post(self):
         token = request.args.get('token')

@@ -1,25 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
     <title>CrawlerFlow Browser & Automation Engine</title>
+    {% include 'includes/meta.html' %}
 
-    <!--<link href="{{ url_for('static', filename='styles/bootstrap.min.css') }}" >-->
-    <!--<link href="{{ url_for('static', filename='styles/main.css') }}" >-->
-
-    <link rel="stylesheet" type="text/css" href="/static/styles/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="/static/styles/main.css">
 </head>
 <body>
+{% include 'includes/header.html' %}
+
 <div class="container-fluid">
 
     <div class="row">
         <div class="col-md-6">
 
-      <header>
-                <h1>Browser Automation Engine</h1>
-                <p class="sub-heading">Web Automation and user behaviour Simulations made easy with yaml
-                    configurations.</p>
+            <header>
+                <h1>/render API</h1>
+                <p class="sub-heading">Renders a webpage in real browsers like Firefox, Chrome. More to be added soon.</p>
 
             </header>
             <form action="#" class="form" id="form">
@@ -48,14 +44,14 @@
                         <div class="col-md-3">
                             <label for="">Viewport
                             </label>
-                            <input type="text" name="timeout" value="1280x720" class="form-control">
+                            <input type="text" name="viewport" value="1280x720" class="form-control">
                         </div>
                         <div class="col-md-3">
 
 
                             <div class="form-check">
                                 <label class="form-check-label">
-                                    <input type="checkbox" name="take_screenshot" class="form-check-input"> Take
+                                    <input type="checkbox" checked name="take_screenshot" class="form-check-input"> Take
                                     Screenshot
                                 </label>
                             </div>
@@ -83,8 +79,8 @@
                 <!--</div>-->
 
                 <!--<div class="mt-1">-->
-                    <!--<label>Tasks</label>-->
-                    <!--<textarea class="form-control" name="tasks" id="" cols="30" rows="10"></textarea>-->
+                <!--<label>Tasks</label>-->
+                <!--<textarea class="form-control" name="tasks" id="" cols="30" rows="10"></textarea>-->
                 <!--</div>-->
             </form>
         </div>
@@ -96,8 +92,7 @@
         </div>
     </div>
 </div>
+{% include 'includes/footer.html' %}
 
-<script type="text/javascript" src="/static/scripts/jquery.min.js"></script>
-<script type="text/javascript" src="/static/scripts/main.js"></script>
 </body>
 </html>

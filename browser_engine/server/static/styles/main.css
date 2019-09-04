@@ -17,6 +17,11 @@ h1 {
     color: #5c4ee5;
 }
 
+.btn-primary {
+    background-color: #5c4ee5 !important;
+    border-color: #5c4ee5 !important;
+}
+
 .btn-outline-primary:hover {
     background-color: #5c4ee5 !important;
 }
@@ -27,6 +32,9 @@ h1 {
 
 .sub-heading {
     color: #666666;
+    margin-top: 1rem;
+    margin-bottom: 1.5rem;
+    font-size: 1.2rem;
 }
 
 input {
@@ -61,4 +69,15 @@ textarea[name="headers"] {
     background: #e6e6e6;
     color: #2d2d2d;
     font-family: monospace;
+}
+
+@media (min-width: 992px) {
+    .navbar-expand-lg .navbar-nav .nav-link {
+        padding-right: 1rem;
+        padding-left: 1rem;
+    }
+}
+
+.btn-primary, .btn-secondary {
+    padding: 0.2rem 2rem;
 }
