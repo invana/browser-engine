@@ -34,6 +34,12 @@ class SeleniumBrowserRequestBase(BrowserRequestBase):
         options = Options()
         options.add_argument('--no-sandbox')
         options.add_argument('--disable-dev-shm-usage')
+        options.add_experimental_option('useAutomationExtension', False)
+        options.add_experimental_option("excludeSwitches", ["enable-automation"])
+
+        user_agent = self.headers.get("user-agent")
+        if user_agent:
+            options.add_argument("user-agent={}".format(user_agent))
 
         driver = webdriver.Remote(
             command_executor='{}/wd/hub'.format(SELENIUM_HOST),
@@ -71,7 +77,8 @@ class SeleniumBrowserRequestBase(BrowserRequestBase):
                         }
                     )
 
-    def close_browser(self, driver=None):
+    @staticmethod
+    def close_browser(driver=None):
         driver.quit()
 
     def make_request(self):
@@ -87,14 +94,13 @@ class SeleniumBrowserRequestBase(BrowserRequestBase):
         # all_cookies = driver.get_cookies()
 
         status_code = 200
-        if self.browser_options.take_screenshot == False:
-            screenshot = None
-        else:
-            screenshot = driver.get_screenshot_as_base64()
+        screen_shot = None
+        if self.browser_options.take_screenshot is True:
+            screen_shot = driver.get_screenshot_as_base64()
         content_length = len(html)
         all_cookies = driver.get_cookies()
         self.close_browser(driver=driver)
-        return html, status_code, screenshot, content_length, all_cookies
+        return html, status_code, screen_shot, content_length, all_cookies
 
 
 class SeleniumChromeBrowserRequest(SeleniumBrowserRequestBase):

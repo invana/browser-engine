@@ -60,6 +60,12 @@ class RenderAPIView(Resource):
         return DefaultBrowserResponse(request=browser_request, message="Alright! Rendered the url").get_response()
 
 
+@app.errorhandler(404)
+def page_not_found(e):
+    # note that we set the 404 status explicitly
+    return render_template('404.html'), 404
+
+
 # api.add_resource(HelloWorldAPIView, '/')
 api.add_resource(PingAPIView, '/ping')
 api.add_resource(RenderAPIView, '/render')
