@@ -17,7 +17,9 @@ setup(
         'flask-restful',
         'uwsgi',
         'selenium',
-        'pyyaml'
+        'pyyaml',
+        'git+https://github.com/crawlerflow/extraction-engine.git#egg=extraction_engine'
+
     ],
     entry_points={
         'console_scripts': ['browser-engine = browser_engine.server.app']
