@@ -10,16 +10,14 @@
 
 
             {% if token %}
-            <li class="nav-item">
-                <a class="nav-link" href="/log"><i class="fas fa-stream"></i> log</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/profiles"><i class="fas fa-globe"></i> Browser Profiles</a>
-            </li>
+
+            <!--<li class="nav-item">-->
+            <!--<a class="nav-link" href="/profiles"><i class="fas fa-globe"></i> Browser Profiles</a>-->
+            <!--</li>-->
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
                    aria-haspopup="true" aria-expanded="false">
-                   <i class="fas fa-terminal"></i> APIs
+                    <i class="fas fa-terminal"></i> APIs
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                     <a class="dropdown-item" href="/render.html?token={{token}}"> /render </a>
@@ -27,6 +25,12 @@
                     <!--<div class="dropdown-divider"></div>-->
                     <a class="dropdown-item" href="/simulate.html?token={{token}}"> /simulate</a>
                 </div>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/docs.html?token={{token}}"><i class="fas fa-life-ring"></i> Documentation</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/log"><i class="fas fa-stream"></i> log</a>
             </li>
             {% endif %}
             <li class="nav-item">

@@ -89,3 +89,10 @@ textarea[name="extractors"]:focus {
 .btn-primary, .btn-secondary {
     padding: 0.2rem 2rem;
 }
+
+.docs-input .input-group-text{
+    background: #4c4c4c;
+    border-radius: 0;
+    color: white;
+    border: none;
+}

@@ -24,6 +24,11 @@ def render():
     return render_template('render.html', **context)
 
 
+@app.route('/docs.html')
+def docs():
+    return render_template('docs.html', )
+
+
 @app.route('/extract.html')
 def extract():
     token = request.args.get('token')
@@ -50,17 +55,7 @@ class PingAPIView(Resource):
         return DefaultBrowserResponse().get_response()
 
 
-class RenderAPIView(Resource):
-
-    def post(self):
-        token = request.args.get('token')
-        if token != AUTH_TOKEN:
-            return {"message": "Invalid token"}, 403
-        browser_request = create_browser_request(request)
-        return DefaultBrowserResponse(request=browser_request, message="Alright! Rendered the url").get_response()
-
-
-class ExtractAPIView(Resource):
+class ExecuteAPIView(Resource):
 
     def post(self):
         token = request.args.get('token')
@@ -78,8 +73,7 @@ def page_not_found(e):
 
 # api.add_resource(HelloWorldAPIView, '/')
 api.add_resource(PingAPIView, '/ping')
-api.add_resource(RenderAPIView, '/render')
-api.add_resource(ExtractAPIView, '/extract')
+api.add_resource(ExecuteAPIView, '/execute')
 
 if __name__ == '__main__':
     app.run(debug=True)

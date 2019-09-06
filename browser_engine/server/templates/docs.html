@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Documentation</title>
+    {% include 'includes/meta.html' %}
+
+</head>
+<body>
+{% include 'includes/header.html' %}
+
+<style>
+    pre {
+        background: #424242;
+        padding: 10px;
+        color: #efefef;
+        margin-top: .5rem;
+    }
+</style>
+<div class="container-fluid">
+
+    <div class="row">
+        <div class="col-md-12">
+
+            <header>
+                <h1>Documentation</h1>
+                <p class="sub-heading">Notes on API Implementation</p>
+
+            </header>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="input-group mb-3 docs-input">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">POST</span>
+                        </div>
+                        <input type="text" value="/execute" readonly class="form-control">
+                    </div>
+                    <!--<p class="text-center">or</p>-->
+
+
+                    <!--<div class="input-group mb-3 docs-input">-->
+                        <!--<div class="input-group-prepend">-->
+                            <!--<span class="input-group-text">POST</span>-->
+                        <!--</div>-->
+                        <!--<input type="text" value="/extract" readonly class="form-control">-->
+                    <!--</div>-->
+                </div>
+                <div class="col-md-1">
+                </div>
+                <div class="col-md-5">
+
+                </div>
+            </div>
+
+
+        </div>
+        <div class="col-md-6">
+            <h6 class="mt-3">URL Parameters</h6>
+            <table class="table table-bordered table-striped">
+                <tr>
+                    <th>param</th>
+                    <th>Description</th>
+                </tr>
+                <tr>
+                    <td>url</td>
+                    <td>encoded url example:https://invanalabs.ai</td>
+                </tr>
+                <tr>
+                    <td>timeout</td>
+                    <td>in seconds. example:30</td>
+                </tr>
+                <tr>
+                    <td>token</td>
+                    <td>secret token. example:iamlazydeveloper</td>
+                </tr>
+                <tr>
+                    <td>take_screenshot</td>
+                    <td>take the screenshot. `1` for yes `0` for no. defaults to `0`</td>
+                </tr>
+            </table>
+        </div>
+        <div class="col-md-6">
+            <h6 class="mt-3">Payload</h6>
+            <table class="table table-bordered table-striped">
+                <tr>
+                    <th>key</th>
+                    <th>value</th>
+                </tr>
+                <tr>
+                    <td>headers</td>
+                    <td>headers in json format. Example:
+
+                        <pre>
+{
+  "Cookies": [
+    {
+      "name": "user.expires_at",
+      "value": "xxxxxx",
+      "domain": "www.example.com"
+    }
+  ],
+  "Proxy": null,
+  "Referer": null,
+  "User-Agent": "Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_13_1) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/75.0.3809.100 Safari\/517.36"
+}</pre>
+                    </td>
+                </tr>
+                <tr>
+                    <td>extracts</td>
+                    <td>Extracts in yaml configuration
+                        <pre>
+extractors:
+- extractor_type: MetaTagExtractor
+  extractor_id: meta_tags
+- extractor_type: CustomContentExtractor
+  extractor_id: content
+  data_selectors:
+  - selector_id: title
+    selector: title
+    selector_type: css
+    selector_attribute: text
+    data_type: RawField
+</pre>
+
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+{% include 'includes/footer.html' %}
+
+</body>
+</html>

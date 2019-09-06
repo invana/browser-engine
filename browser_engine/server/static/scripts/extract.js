@@ -71,7 +71,7 @@ $(document).ready(function () {
 
         $.ajax({
             type: 'POST',
-            url: "/render?url=" + url + "&timeout=" + timeout + "&viewport=" + viewport
+            url: "/execute?url=" + url + "&timeout=" + timeout + "&viewport=" + viewport
                 + "&token=" + token + "&take_screenshot=" + take_screenshot,
             data: JSON.stringify(body),
             contentType: "application/json",
