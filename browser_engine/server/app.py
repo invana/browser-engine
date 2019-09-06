@@ -60,6 +60,16 @@ class RenderAPIView(Resource):
         return DefaultBrowserResponse(request=browser_request, message="Alright! Rendered the url").get_response()
 
 
+class ExtractAPIView(Resource):
+
+    def post(self):
+        token = request.args.get('token')
+        if token != AUTH_TOKEN:
+            return {"message": "Invalid token"}, 403
+        browser_request = create_browser_request(request)
+        return DefaultBrowserResponse(request=browser_request, message="Alright! Rendered the url").get_response()
+
+
 @app.errorhandler(404)
 def page_not_found(e):
     # note that we set the 404 status explicitly
@@ -69,6 +79,7 @@ def page_not_found(e):
 # api.add_resource(HelloWorldAPIView, '/')
 api.add_resource(PingAPIView, '/ping')
 api.add_resource(RenderAPIView, '/render')
+api.add_resource(ExtractAPIView, '/extract')
 
 if __name__ == '__main__':
     app.run(debug=True)

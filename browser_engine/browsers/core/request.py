@@ -17,6 +17,7 @@ class BrowserRequestBase(object):
                  browser_type=None,
                  wait=0,
                  headers=None,
+                 extractors=None,
                  browser_options=None):
         self.url = url
         self.timeout = timeout
@@ -27,6 +28,7 @@ class BrowserRequestBase(object):
             self.headers = {k.lower(): v for k, v in headers.items()}
         else:
             self.headers = {}
+        self.extractors = extractors
 
         self.browser_options = browser_options
 

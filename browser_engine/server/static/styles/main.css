@@ -64,11 +64,19 @@ input[name="viewport"] {
     height: 1.5rem;
 }
 
-textarea[name="headers"] {
-    height: auto;
-    background: #e6e6e6;
-    color: #2d2d2d;
+textarea[name="headers"],
+textarea[name="headers"]:focus {
+    background: #353535;
+    color: #c1c1c1;
     font-family: monospace;
+    height: 20rem;
+}
+textarea[name="extractors"],
+textarea[name="extractors"]:focus {
+    background: #353535;
+    color: #c1c1c1;
+    font-family: monospace;
+    height: 20rem;
 }
 
 @media (min-width: 992px) {

@@ -14,7 +14,21 @@ $(document).ready(function () {
         "Referer": null,
         "Proxy": null
     };
+
+    var extractors_template = "extractors:\n" +
+        "- extractor_type: MetaTagExtractor\n" +
+        "  extractor_id: meta_tags\n" +
+        "- extractor_type: CustomContentExtractor\n" +
+        "  extractor_id: content\n" +
+        "  data_selectors:\n" +
+        "  - selector_id: title\n" +
+        "    selector: title\n" +
+        "    selector_type: css\n" +
+        "    selector_attribute: text\n" +
+        "    data_type: RawField";
+
     $('[name="headers"]').html(JSON.stringify(header_template, null, 4));
+    $('[name="extractors"]').html(extractors_template);
 
 
     var url_template = "https://invanalabs.ai";
@@ -34,6 +48,7 @@ $(document).ready(function () {
 
         var url = $("#form [name='url']").val();
         var headers = $("#form [name='headers']").val();
+        var extractors = $("#form [name='extractors']").val();
         var timeout = $("#form [name='timeout']").val();
         var viewport = $("#form [name='viewport']").val();
         var take_screenshot = $("#form [name='take_screenshot']").is(":checked");
@@ -47,12 +62,12 @@ $(document).ready(function () {
         let params = (new URL(document.location)).searchParams;
         let token = params.get("token");
         console.log("url", url);
-
         console.log("headers", headers, JSON.parse(headers));
         var body = {
-            "headers": JSON.parse(headers)
+            "headers": JSON.parse(headers),
+            "extractors": extractors
         };
-
+        console.log("bodybody", body);
 
         $.ajax({
             type: 'POST',
@@ -64,10 +79,8 @@ $(document).ready(function () {
         })
             .done(function (data) {
                 console.log(data);
-
                 data['response']['html'] = "< =truncated= >";
                 var screenshot = data['response']['screenshot'];
-                console.log("screeenshot", screenshot);
                 $("#response-viewer").html(JSON.stringify(data, null, 4));
                 $("#response-img").attr("src", "data:image/png;base64," + screenshot);
             })

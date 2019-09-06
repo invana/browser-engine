@@ -4,9 +4,11 @@ from browser_engine.settings import SELENIUM_HOST
 from selenium import webdriver
 from selenium.webdriver.common.proxy import Proxy, ProxyType
 from selenium.webdriver.chrome.options import Options
+import yaml
+from extraction_engine import ExtractionEngine
 
 
-class SeleniumBrowserRequestBase(BrowserRequestBase):
+class SeleniumBrowserRequest(BrowserRequestBase):
 
     def create_driver(self):
         selenium_browser_type = self.browser_type
@@ -50,8 +52,13 @@ class SeleniumBrowserRequestBase(BrowserRequestBase):
 
         return driver
 
-    def delete_cookies(self, driver=None):
+    @staticmethod
+    def delete_cookies(driver=None):
         driver.delete_all_cookies()
+
+    @staticmethod
+    def close_browser(driver=None):
+        driver.quit()
 
     def update_viewport(self, driver=None):
         if "x" in self.browser_options.viewport:
@@ -78,8 +85,13 @@ class SeleniumBrowserRequestBase(BrowserRequestBase):
                     )
 
     @staticmethod
-    def close_browser(driver=None):
-        driver.quit()
+    def extract_page_source(driver=None):
+        return driver.page_source
+
+    def run_extractors(self, html=None):
+        extraction_manifest = yaml.load(self.extractors, yaml.Loader)
+        engine = ExtractionEngine(html=html, extraction_manifest=extraction_manifest)
+        return engine.extract_data()
 
     def make_request(self):
         self.set_request_start()
@@ -88,9 +100,16 @@ class SeleniumBrowserRequestBase(BrowserRequestBase):
         self.update_timeout(driver=driver)
         self.delete_cookies(driver=driver)
         self.get_page(driver=driver)
-        self.update_headers(driver=driver)
-        driver.refresh()
-        html = driver.page_source
+        if self.headers:
+            self.update_headers(driver=driver)
+            driver.refresh()
+        html = self.extract_page_source(driver=driver)
+
+        if self.extractors:
+            extracted_data = self.run_extractors(html=html)
+        else:
+            extracted_data = None
+
         # all_cookies = driver.get_cookies()
 
         status_code = 200
@@ -100,15 +119,7 @@ class SeleniumBrowserRequestBase(BrowserRequestBase):
         content_length = len(html)
         all_cookies = driver.get_cookies()
         self.close_browser(driver=driver)
-        return html, status_code, screen_shot, content_length, all_cookies
-
-
-class SeleniumChromeBrowserRequest(SeleniumBrowserRequestBase):
-    pass
-
-
-class SeleniumUnitHTMLBrowserRequest(SeleniumBrowserRequestBase):
-    pass
+        return html, status_code, screen_shot, content_length, all_cookies, extracted_data
 
 
 def create_browser_request(flask_request):
@@ -123,10 +134,12 @@ def create_browser_request(flask_request):
         take_screenshot=take_screenshot,
         viewport=viewport
     )
-    headers = flask_request.get_json()
-    browser_klass = SeleniumChromeBrowserRequest
-    return browser_klass(url=url,
-                         http_method=http_method,
-                         browser_type=browser_type,
-                         headers=headers.get("headers", {}),
-                         browser_options=browser_options)
+    json_data = flask_request.get_json()
+    headers = json_data.get("headers", {})
+    extractors = json_data.get("extractors", None)
+    return SeleniumBrowserRequest(url=url,
+                                  http_method=http_method,
+                                  browser_type=browser_type,
+                                  headers=headers,
+                                  extractors=extractors,
+                                  browser_options=browser_options)
