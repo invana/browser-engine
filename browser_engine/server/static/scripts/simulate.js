@@ -17,12 +17,28 @@ $(document).ready(function () {
 
     var simulation_code = "" +
         "def simulate(driver=None):\n" +
+        "    import random\n" +
         "    driver.switch_to.default_content()\n" +
         "    driver.implicitly_wait(random.randint(0, 2))\n" +
         "    print ('Successfully waited for sometime')";
 
+
+
+    var extractors_template = "extractors:\n" +
+        "- extractor_type: MetaTagExtractor\n" +
+        "  extractor_id: meta_tags\n" +
+        "- extractor_type: CustomContentExtractor\n" +
+        "  extractor_id: content\n" +
+        "  data_selectors:\n" +
+        "  - selector_id: title\n" +
+        "    selector: title\n" +
+        "    selector_type: css\n" +
+        "    selector_attribute: text\n" +
+        "    data_type: RawField";
+
     $('[name="headers"]').html(JSON.stringify(header_template, null, 4));
     $('[name="simulation_code"]').html(simulation_code);
+    $('[name="extractors"]').html(extractors_template);
 
 
     var url_template = "https://invanalabs.ai";
@@ -42,6 +58,8 @@ $(document).ready(function () {
 
         var url = $("#form [name='url']").val();
         var headers = $("#form [name='headers']").val();
+        var extractors = $("#form [name='extractors']").val();
+
         var simulation_code = $("#form [name='simulation_code']").val();
         var timeout = $("#form [name='timeout']").val();
         var viewport = $("#form [name='viewport']").val();
@@ -59,6 +77,7 @@ $(document).ready(function () {
         console.log("headers", headers, JSON.parse(headers));
         var body = {
             "headers": JSON.parse(headers),
+            "extractors": extractors,
             "simulation_code": simulation_code
         };
         console.log("bodybody", body);
