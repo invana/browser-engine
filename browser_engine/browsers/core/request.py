@@ -37,12 +37,8 @@ class BrowserRequestBase(object):
         self.simulation_fn = None
 
     def create_simulation_fn(self, driver=None):
-        # simulation_code = "print ('Helo world')"
-        function_string = self.simulation_code
-        print(function_string)
-        # global simulate
         d = {}
-        exec(function_string.strip(), d)
+        exec(self.simulation_code.strip(), d)
         return d['simulate']
 
     def set_request_start(self):
