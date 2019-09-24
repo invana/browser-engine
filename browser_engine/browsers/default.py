@@ -100,9 +100,15 @@ class SeleniumBrowserRequest(BrowserRequestBase):
         self.update_timeout(driver=driver)
         self.delete_cookies(driver=driver)
         self.get_page(driver=driver)
+
         if self.headers:
             self.update_headers(driver=driver)
             driver.refresh()
+
+        if self.simulation_code:
+            simulate_fn = self.create_simulation_fn(driver=driver)
+            simulate_fn(driver=driver)
+
         html = self.extract_page_source(driver=driver)
 
         if self.extractors:
@@ -135,11 +141,16 @@ def create_browser_request(flask_request):
         viewport=viewport
     )
     json_data = flask_request.get_json()
+
     headers = json_data.get("headers", {})
+    simulation_code = json_data.get("simulation_code", None)
     extractors = json_data.get("extractors", None)
+
+    # print("simulation_fn", simulation_fn)
     return SeleniumBrowserRequest(url=url,
                                   http_method=http_method,
                                   browser_type=browser_type,
                                   headers=headers,
                                   extractors=extractors,
+                                  simulation_code=simulation_code,
                                   browser_options=browser_options)

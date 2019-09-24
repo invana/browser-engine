@@ -65,12 +65,9 @@ input[name="viewport"] {
 }
 
 textarea[name="headers"],
-textarea[name="headers"]:focus {
-    background: #353535;
-    color: #c1c1c1;
-    font-family: monospace;
-    height: 20rem;
-}
+textarea[name="headers"]:focus ,
+textarea[name="simulation_code"],
+textarea[name="simulation_code"]:focus,
 textarea[name="extractors"],
 textarea[name="extractors"]:focus {
     background: #353535;

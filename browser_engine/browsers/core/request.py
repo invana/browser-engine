@@ -18,6 +18,7 @@ class BrowserRequestBase(object):
                  wait=0,
                  headers=None,
                  extractors=None,
+                 simulation_code=None,
                  browser_options=None):
         self.url = url
         self.timeout = timeout
@@ -28,9 +29,21 @@ class BrowserRequestBase(object):
             self.headers = {k.lower(): v for k, v in headers.items()}
         else:
             self.headers = {}
-        self.extractors = extractors
 
+        self.extractors = extractors
+        self.simulation_code = simulation_code
         self.browser_options = browser_options
+
+        self.simulation_fn = None
+
+    def create_simulation_fn(self, driver=None):
+        # simulation_code = "print ('Helo world')"
+        function_string = self.simulation_code
+        print(function_string)
+        # global simulate
+        d = {}
+        exec(function_string.strip(), d)
+        return d['simulate']
 
     def set_request_start(self):
         self.started_at = datetime.now()
