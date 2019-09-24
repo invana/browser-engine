@@ -77,10 +77,9 @@
                     <td>take the screenshot. `1` for yes `0` for no. defaults to `0`</td>
                 </tr>
             </table>
-        </div>
-        <div class="col-md-6">
-            <h6 class="mt-3">Payload</h6>
-            <table class="table table-bordered table-striped">
+
+            <h6 class="mt-5">Payload</h6>
+            <table class="table table-bordered table-striped mb-5">
                 <tr>
                     <th>key</th>
                     <th>value</th>
@@ -119,6 +118,20 @@ extractors:
     selector_type: css
     selector_attribute: text
     data_type: RawField
+</pre>
+
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>simulation_code</td>
+                    <td>Python code with extract capabilities of selenium-python
+                        <pre>
+def simulate(driver=None):
+    import random
+    driver.switch_to.default_content()
+    driver.implicitly_wait(random.randint(0, 2))
+    print ('Successfully waited for sometime')
 </pre>
 
                     </td>
