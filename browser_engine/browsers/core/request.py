@@ -36,7 +36,9 @@ class BrowserRequestBase(object):
 
         self.simulation_fn = None
 
-    def create_simulation_fn(self, driver=None):
+        self.driver = self.create_driver()
+
+    def create_simulation_fn(self):
         d = {}
         exec(self.simulation_code.strip(), d)
         return d['simulate']

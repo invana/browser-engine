@@ -52,31 +52,29 @@ class SeleniumBrowserRequest(BrowserRequestBase):
 
         return driver
 
-    @staticmethod
-    def delete_cookies(driver=None):
-        driver.delete_all_cookies()
+    def delete_cookies(self):
+        self.driver.delete_all_cookies()
 
-    @staticmethod
-    def close_browser(driver=None):
-        driver.quit()
+    def close_browser(self):
+        self.driver.quit()
 
-    def update_viewport(self, driver=None):
+    def update_viewport(self):
         if "x" in self.browser_options.viewport:
             w, h = self.browser_options.viewport.split("x")
-            driver.set_window_size(w, h)
+            self.driver.set_window_size(w, h)
 
-    def update_timeout(self, driver=None):
-        driver.set_page_load_timeout(self.timeout)
+    def update_timeout(self):
+        self.driver.set_page_load_timeout(self.timeout)
 
-    def get_page(self, driver=None):
-        driver.get(self.url)
+    def get_page(self):
+        self.driver.get(self.url)
 
-    def update_headers(self, driver=None):
+    def update_headers(self, ):
         if self.headers:
             cookies = self.headers.get("cookies", {})
             for cookie in cookies:
                 if cookie.get("name") and cookie.get("value"):
-                    driver.add_cookie(
+                    self.driver.add_cookie(
                         {
                             'name': cookie['name'],
                             'value': cookie['value'],
@@ -84,9 +82,8 @@ class SeleniumBrowserRequest(BrowserRequestBase):
                         }
                     )
 
-    @staticmethod
-    def extract_page_source(driver=None):
-        return driver.page_source
+    def extract_page_source(self):
+        return self.driver.page_source
 
     def run_extractors(self, html=None):
         extraction_manifest = yaml.load(self.extractors, yaml.Loader)
@@ -95,36 +92,34 @@ class SeleniumBrowserRequest(BrowserRequestBase):
 
     def make_request(self):
         self.set_request_start()
-        driver = self.create_driver()
-        self.update_viewport(driver=driver)
-        self.update_timeout(driver=driver)
-        self.delete_cookies(driver=driver)
-        self.get_page(driver=driver)
+        self.update_viewport()
+        self.update_timeout()
+        self.delete_cookies()
+        self.get_page()
 
         if self.headers:
-            self.update_headers(driver=driver)
-            driver.refresh()
+            self.update_headers()
+            self.driver.refresh()
 
         if self.simulation_code:
-            simulate_fn = self.create_simulation_fn(driver=driver)
-            simulate_fn(driver=driver)
+            simulate_fn = self.create_simulation_fn()
+            simulate_fn()
 
-        html = self.extract_page_source(driver=driver)
+        html = self.extract_page_source()
 
         if self.extractors:
             extracted_data = self.run_extractors(html=html)
         else:
             extracted_data = None
 
-        # all_cookies = driver.get_cookies()
+        # all_cookies = self.driver.get_cookies()
 
         status_code = 200
         screen_shot = None
         if self.browser_options.take_screenshot is True:
-            screen_shot = driver.get_screenshot_as_base64()
+            screen_shot = self.driver.get_screenshot_as_base64()
         content_length = len(html)
-        all_cookies = driver.get_cookies()
-        self.close_browser(driver=driver)
+        all_cookies = self.driver.get_cookies()
         return html, status_code, screen_shot, content_length, all_cookies, extracted_data
 
 
@@ -135,6 +130,7 @@ def create_browser_request(flask_request):
     browser_type = flask_request.args.get('browser_type', "chrome")
     viewport = flask_request.args.get('viewport', "1280x720")
     enable_images = flask_request.args.get('enable_images', 0)
+    timeout = int(flask_request.args.get('timeout', 30))
     browser_options = DefaultBrowserOptions(
         enable_images=enable_images,
         take_screenshot=take_screenshot,
@@ -148,6 +144,7 @@ def create_browser_request(flask_request):
 
     # print("simulation_fn", simulation_fn)
     return SeleniumBrowserRequest(url=url,
+                                  timeout=timeout,
                                   http_method=http_method,
                                   browser_type=browser_type,
                                   headers=headers,

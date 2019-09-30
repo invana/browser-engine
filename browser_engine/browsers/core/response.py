@@ -1,4 +1,6 @@
 from .client import ClientDetail
+import selenium
+from selenium.common.exceptions import TimeoutException
 
 
 class BrowserResponseBase(object):
@@ -13,7 +15,20 @@ class BrowserResponseBase(object):
         self.client_details = client_details
 
     def get_response(self):
-        html, status_code, screenshot, content_length, all_cookies, extracted_data = self.request.make_request()
+        try:
+            html, status_code, screenshot, content_length, all_cookies, extracted_data = self.request.make_request()
+            error_message = None
+        except TimeoutException as e:
+            print(e)
+            html = None
+            status_code = 999
+            screenshot = None
+            content_length = 0
+            all_cookies = []  # TODO - get these cookies from driver directly.
+            extracted_data = {}
+            error_message = e.__str__()
+        self.request.close_browser()
+
         message = {
             "message": self.message,
             "client": ClientDetail(request=self.request).get_client_details(),
@@ -26,7 +41,8 @@ class BrowserResponseBase(object):
                 "extracted_data": extracted_data,
                 "screenshot": screenshot,
                 "content_length": content_length,
-                "cookies": all_cookies
+                "cookies": all_cookies,
+                "error_message": error_message
             }
 
         return message
