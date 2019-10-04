@@ -103,7 +103,7 @@ class SeleniumBrowserRequest(BrowserRequestBase):
 
         if self.simulation_code:
             simulate_fn = self.create_simulation_fn()
-            simulate_fn()
+            simulate_fn(self.driver)
 
         html = self.extract_page_source()
 
