@@ -25,8 +25,6 @@ pip install -e git+https://github.com/crawlerflow/browser-engine.git#egg=browser
 
 # starting the server 
 uwsgi --socket 0.0.0.0:5000 --protocol=http -w browser_engine.server.wsgi:application --processes 4 --threads 2
-
-
 ```
 
 
@@ -35,7 +33,9 @@ uwsgi --socket 0.0.0.0:5000 --protocol=http -w browser_engine.server.wsgi:applic
 ```bash
 
 # 1. start a selenium docker
-docker run --name selenium -d -p 4444:4444 --shm-size=1g selenium/standalone-chrome:3.141.59-titanium
+docker run --name selenium-cr -d -p 4444:4444 -v /dev/shm:/dev/shm selenium/standalone-chrome:3.141.59-titanium
+docker run --name selenium-ff -d -p 4445:4444 -v /dev/shm:/dev/shm selenium/standalone-firefox:3.141.59-vanadium
+# or use ` --shm-size 2g ` instead of `-v /dev/shm:/dev/shm` depending on what best suits for you.
 
 
 # 2. Deploying a browser engine container
