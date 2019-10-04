@@ -4,7 +4,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='browser-engine',
-    version='0.0.0',
+    version='0.0.1',
     description='Web Automation and User behaviour simulations made easy with YAML configurations.',
     author='Ravi Raja Merugu',
     author_email='ravi@invanalabs.ai',
