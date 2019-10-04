@@ -18,7 +18,7 @@ setup(
         'uwsgi',
         'selenium',
         'pyyaml',
-        'git+https://github.com/crawlerflow/extraction-engine.git#egg=extraction_engine'
+        'extraction-engine'
 
     ],
     entry_points={

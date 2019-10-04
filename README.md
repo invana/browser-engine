@@ -21,6 +21,8 @@ export SELENIUM_HOST=http://0.0.0.0:4444 # selenium host
 export AUTH_TOKEN=iamlazydeveloper
 
 # install browser engine via pip
+pip install browser-engine
+#or 
 pip install -e git+https://github.com/crawlerflow/browser-engine.git#egg=browser_engine
 
 # starting the server 

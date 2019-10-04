@@ -1,0 +1,6 @@
+flask
+flask-restful
+uwsgi
+selenium
+pyyaml
+extraction-engine
