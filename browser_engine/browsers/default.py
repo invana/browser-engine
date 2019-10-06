@@ -100,11 +100,15 @@ class SeleniumBrowserRequest(BrowserRequestBase):
         if self.headers:
             self.update_headers()
             self.driver.refresh()
-
+        is_simulation_success = False
         if self.simulation_code:
             simulate_fn = self.create_simulation_fn()
-            simulate_fn(self.driver)
-
+            if simulate_fn:
+                try:
+                    simulate_fn(self.driver)
+                    is_simulation_success = True
+                except Exception as e:
+                    print("Simulation failed with error", e)
         html = self.extract_page_source()
 
         if self.extractors:
@@ -120,7 +124,7 @@ class SeleniumBrowserRequest(BrowserRequestBase):
             screen_shot = self.driver.get_screenshot_as_base64()
         content_length = len(html)
         all_cookies = self.driver.get_cookies()
-        return html, status_code, screen_shot, content_length, all_cookies, extracted_data
+        return html, status_code, screen_shot, content_length, all_cookies, extracted_data, is_simulation_success
 
 
 def create_browser_request(flask_request):

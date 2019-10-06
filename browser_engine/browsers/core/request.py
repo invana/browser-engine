@@ -40,8 +40,12 @@ class BrowserRequestBase(object):
 
     def create_simulation_fn(self):
         d = {}
-        exec(self.simulation_code.strip(), d)
-        return d['simulate']
+        try:
+            exec(self.simulation_code.strip(), d)
+            return d['simulate']
+        except Exception as e:
+            print("Failed to create simulation function with error", e)
+            return None
 
     def set_request_start(self):
         self.started_at = datetime.now()
