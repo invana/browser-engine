@@ -4,7 +4,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='browser-engine',
-    version='0.0.1',
+    version='0.0.2',
     description='Web Automation and User behaviour simulations made easy with YAML configurations.',
     author='Ravi Raja Merugu',
     author_email='ravi@invanalabs.ai',
@@ -22,6 +22,9 @@ setup(
 
     ],
     entry_points={
-        'console_scripts': ['browser-engine = browser_engine.server.app']
+        'console_scripts': [
+            'browser-engine = browser_engine.server.app.run',
+            'browser-engine-wsgi = uwsgi --socket 0.0.0.0:5000 --protocol=http -w browser_engine.server.wsgi:application',
+                            ]
     },
 )
