@@ -4,8 +4,13 @@ from browser_engine.browsers.core.response import DefaultBrowserResponse
 from browser_engine.browsers.default import create_browser_request
 from browser_engine.settings import AUTH_TOKEN
 from flask import request, render_template
+import os
 
-app = Flask(__name__, static_url_path="/static")
+BASE_PATH = os.path.dirname(os.path.abspath(__file__))
+templates_folder = os.path.join(BASE_PATH, 'templates')
+static_folder = os.path.join(BASE_PATH, 'static')
+print("templates_folder==", templates_folder)
+app = Flask(__name__, static_url_path=static_folder, template_folder=templates_folder)
 api = Api(app)
 
 
@@ -76,4 +81,4 @@ api.add_resource(PingAPIView, '/ping')
 api.add_resource(ExecuteAPIView, '/execute')
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, host="0.0.0.0")
