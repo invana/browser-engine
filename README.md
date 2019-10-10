@@ -11,6 +11,10 @@ Web Automation and User behaviour simulations made easy with YAML configurations
 ## Install via pip
 
 ```bash
+pip install browser-engine
+```
+
+```bash
 
 ## run selenium host
 wget https://selenium-release.storage.googleapis.com/3.141/selenium-server-standalone-3.141.59.jar
