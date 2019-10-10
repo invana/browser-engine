@@ -2,3 +2,4 @@ __experiments/
 *.egg-info/
 dist/
 build/
+.eggs/
