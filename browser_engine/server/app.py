@@ -9,7 +9,6 @@ import os
 BASE_PATH = os.path.dirname(os.path.abspath(__file__))
 templates_folder = os.path.join(BASE_PATH, 'templates')
 static_folder = os.path.join(BASE_PATH, 'static')
-print("templates_folder==", templates_folder)
 app = Flask(__name__, static_url_path=static_folder, template_folder=templates_folder)
 api = Api(app)
 
