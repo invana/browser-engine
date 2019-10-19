@@ -140,7 +140,7 @@ def create_browser_request(flask_request):
         take_screenshot=take_screenshot,
         viewport=viewport
     )
-    json_data = flask_request.get_json()
+    json_data = flask_request.get_json() or {}
 
     headers = json_data.get("headers", {})
     simulation_code = json_data.get("simulation_code", None)
