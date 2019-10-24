@@ -23,8 +23,7 @@ $(document).ready(function () {
         "    print ('Successfully waited for sometime')";
 
 
-
-    var extractors_template = "extractors:\n" +
+    var extractors_template = "" +
         "- extractor_type: MetaTagExtractor\n" +
         "  extractor_id: meta_tags\n" +
         "- extractor_type: CustomContentExtractor\n" +
@@ -36,9 +35,19 @@ $(document).ready(function () {
         "    selector_attribute: text\n" +
         "    data_type: RawField";
 
+    var traversals_template = "" +
+        "- traversal_id: default_traversal\n" +
+        "  selector: \"a\"\n" +
+        "  selector_type: css\n" +
+        "  selector_attribute: href\n" +
+        "  data_type: ListStringField\n" +
+        "  max_requests: 500\n" +
+        "  next_spider_id: default_spider";
+
     $('[name="headers"]').html(JSON.stringify(header_template, null, 4));
     $('[name="simulation_code"]').html(simulation_code);
     $('[name="extractors"]').html(extractors_template);
+    $('[name="traversals"]').html(traversals_template);
 
 
     var url_template = "https://invanalabs.ai";
@@ -59,6 +68,7 @@ $(document).ready(function () {
         var url = $("#form [name='url']").val();
         var headers = $("#form [name='headers']").val();
         var extractors = $("#form [name='extractors']").val();
+        var traversals = $("#form [name='traversals']").val();
 
         var simulation_code = $("#form [name='simulation_code']").val();
         var timeout = $("#form [name='timeout']").val();
@@ -78,6 +88,7 @@ $(document).ready(function () {
         var body = {
             "headers": JSON.parse(headers),
             "extractors": extractors,
+            "traversals": traversals,
             "simulation_code": simulation_code
         };
         console.log("bodybody", body);

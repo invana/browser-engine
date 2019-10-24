@@ -15,7 +15,7 @@ $(document).ready(function () {
         "Proxy": null
     };
 
-    var extractors_template = "extractors:\n" +
+    var extractors_template = "" +
         "- extractor_type: MetaTagExtractor\n" +
         "  extractor_id: meta_tags\n" +
         "- extractor_type: CustomContentExtractor\n" +

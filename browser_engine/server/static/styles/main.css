@@ -68,6 +68,8 @@ textarea[name="headers"],
 textarea[name="headers"]:focus ,
 textarea[name="simulation_code"],
 textarea[name="simulation_code"]:focus,
+textarea[name="traversals"],
+textarea[name="traversals"]:focus,
 textarea[name="extractors"],
 textarea[name="extractors"]:focus {
     background: #353535;

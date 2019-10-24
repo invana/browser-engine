@@ -17,7 +17,7 @@ class BrowserResponseBase(object):
     def get_response(self):
         try:
             html, status_code, screenshot, content_length, all_cookies, \
-                extracted_data, is_simulation_success = self.request.make_request()
+            extracted_data, traversals_data, is_simulation_success = self.request.make_request()
             error_message = None
         except TimeoutException as e:
             print(e)
@@ -27,6 +27,7 @@ class BrowserResponseBase(object):
             content_length = 0
             all_cookies = []  # TODO - get these cookies from driver directly.
             extracted_data = {}
+            traversals_data = {}
             error_message = e.__str__()
             is_simulation_success = False
         self.request.close_browser()
@@ -41,6 +42,7 @@ class BrowserResponseBase(object):
                 "status_code": status_code,
                 "html": html,
                 "extracted_data": extracted_data,
+                "traversals_data": traversals_data,
                 "is_simulation_success": is_simulation_success,
                 "screenshot": screenshot,
                 "content_length": content_length,

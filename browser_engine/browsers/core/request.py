@@ -18,6 +18,7 @@ class BrowserRequestBase(object):
                  wait=0,
                  headers=None,
                  extractors=None,
+                 traversals=None,
                  simulation_code=None,
                  browser_options=None):
         self.url = url
@@ -31,6 +32,7 @@ class BrowserRequestBase(object):
             self.headers = {}
 
         self.extractors = extractors
+        self.traversals = traversals
         self.simulation_code = simulation_code
         self.browser_options = browser_options
 

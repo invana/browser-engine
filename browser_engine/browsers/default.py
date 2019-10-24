@@ -6,6 +6,9 @@ from selenium.webdriver.common.proxy import Proxy, ProxyType
 from selenium.webdriver.chrome.options import Options
 import yaml
 from extraction_engine import ExtractionEngine
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 class SeleniumBrowserRequest(BrowserRequestBase):
@@ -90,6 +93,33 @@ class SeleniumBrowserRequest(BrowserRequestBase):
         engine = ExtractionEngine(html=html, extraction_manifest=extraction_manifest)
         return engine.extract_data()
 
+    def run_traversal_extractors(self, html=None):
+        traversal_extraction_manifest = yaml.load(self.traversals, yaml.Loader)
+        print(traversal_extraction_manifest)
+
+        traversal_manifests = []
+        for traversal in traversal_extraction_manifest:
+            traversal['selector_id'] = traversal['traversal_id']
+            traversal_manifest = {
+                "extractor_id": traversal['traversal_id'],
+                "extractor_type": "CustomContentExtractor",
+                "data_selectors": [
+                    traversal
+                ]
+            }
+            traversal_manifests.append(traversal_manifest)
+        print("Cleaned", traversal_manifests)
+
+        engine = ExtractionEngine(html=html, extraction_manifest=traversal_manifests)
+        traversal_data_raw = engine.extract_data()
+
+        traversal_data = {}
+        if traversal_data_raw is not None:
+            for k, v in traversal_data_raw.items():
+                traversal_data.update(v)
+
+        return traversal_data
+
     def make_request(self):
         self.set_request_start()
         self.update_viewport()
@@ -116,6 +146,11 @@ class SeleniumBrowserRequest(BrowserRequestBase):
         else:
             extracted_data = None
 
+        if self.traversals:
+            traversals_data = self.run_traversal_extractors(html=html)
+        else:
+            traversals_data = None
+
         # all_cookies = self.driver.get_cookies()
 
         status_code = 200
@@ -124,7 +159,8 @@ class SeleniumBrowserRequest(BrowserRequestBase):
             screen_shot = self.driver.get_screenshot_as_base64()
         content_length = len(html)
         all_cookies = self.driver.get_cookies()
-        return html, status_code, screen_shot, content_length, all_cookies, extracted_data, is_simulation_success
+        return html, status_code, screen_shot, content_length, all_cookies, \
+               extracted_data, traversals_data, is_simulation_success
 
 
 def create_browser_request(flask_request):
@@ -141,10 +177,14 @@ def create_browser_request(flask_request):
         viewport=viewport
     )
     json_data = flask_request.get_json() or {}
+    # print(json_data)
 
     headers = json_data.get("headers", {})
     simulation_code = json_data.get("simulation_code", None)
     extractors = json_data.get("extractors", None)
+    traversals = json_data.get("traversals", None)
+    # print(extractors)
+    # print(traversals)
 
     # print("simulation_fn", simulation_fn)
     return SeleniumBrowserRequest(url=url,
@@ -153,5 +193,6 @@ def create_browser_request(flask_request):
                                   browser_type=browser_type,
                                   headers=headers,
                                   extractors=extractors,
+                                  traversals=traversals,
                                   simulation_code=simulation_code,
                                   browser_options=browser_options)
