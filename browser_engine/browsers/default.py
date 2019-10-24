@@ -95,8 +95,6 @@ class SeleniumBrowserRequest(BrowserRequestBase):
 
     def run_traversal_extractors(self, html=None):
         traversal_extraction_manifest = yaml.load(self.traversals, yaml.Loader)
-        print(traversal_extraction_manifest)
-
         traversal_manifests = []
         for traversal in traversal_extraction_manifest:
             traversal['selector_id'] = traversal['traversal_id']
@@ -108,8 +106,6 @@ class SeleniumBrowserRequest(BrowserRequestBase):
                 ]
             }
             traversal_manifests.append(traversal_manifest)
-        print("Cleaned", traversal_manifests)
-
         engine = ExtractionEngine(html=html, extraction_manifest=traversal_manifests)
         traversal_data_raw = engine.extract_data()
 
@@ -177,16 +173,10 @@ def create_browser_request(flask_request):
         viewport=viewport
     )
     json_data = flask_request.get_json() or {}
-    # print(json_data)
-
     headers = json_data.get("headers", {})
     simulation_code = json_data.get("simulation_code", None)
     extractors = json_data.get("extractors", None)
     traversals = json_data.get("traversals", None)
-    # print(extractors)
-    # print(traversals)
-
-    # print("simulation_fn", simulation_fn)
     return SeleniumBrowserRequest(url=url,
                                   timeout=timeout,
                                   http_method=http_method,
