@@ -174,12 +174,8 @@ def create_browser_request(flask_request):
     )
     json_data = flask_request.get_json() or {}
     headers = json_data.get("headers", None)
-    print(headers)
     if headers:
         headers = yaml.load(headers, yaml.Loader)
-
-    print("headers", headers)
-
     simulation_code = json_data.get("simulation_code", None)
     extractors = json_data.get("extractors", None)
     traversals = json_data.get("traversals", None)
