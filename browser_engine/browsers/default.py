@@ -166,7 +166,7 @@ def create_browser_request(flask_request):
     browser_type = flask_request.args.get('browser_type', "chrome")
     viewport = flask_request.args.get('viewport', "1280x720")
     enable_images = flask_request.args.get('enable_images', 0)
-    timeout = int(flask_request.args.get('timeout', 60))
+    timeout = int(flask_request.args.get('timeout', 180))
     browser_options = DefaultBrowserOptions(
         enable_images=enable_images,
         take_screenshot=take_screenshot,
