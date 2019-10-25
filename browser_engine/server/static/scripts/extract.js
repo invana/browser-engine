@@ -3,17 +3,15 @@ $(document).ready(function () {
     console.log("ready!");
 
 
-    var header_template = {
-        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3809.100 Safari/517.36",
-        "Cookies": [
-            {
-                "name": "user.expires_at",
-                "value": "xxxxxx",
-                "domain": "www.example.com"
-            }],
-        "Referer": null,
-        "Proxy": null
-    };
+    var header_template = "" +
+        "User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3809.100 Safari/517.36\n" +
+        "Cookies:\n" +
+        "- name: user.expires_at\n" +
+        "  value: xxxxxx\n" +
+        "  domain: www.example.com\n" +
+        "Referer: null\n" +
+        "Proxy: null\n";
+
 
     var extractors_template = "" +
         "- extractor_type: MetaTagExtractor\n" +
@@ -27,7 +25,7 @@ $(document).ready(function () {
         "    selector_attribute: text\n" +
         "    data_type: RawField";
 
-    $('[name="headers"]').html(JSON.stringify(header_template, null, 4));
+    $('[name="headers"]').html(header_template);
     $('[name="extractors"]').html(extractors_template);
 
 
@@ -62,12 +60,11 @@ $(document).ready(function () {
         let params = (new URL(document.location)).searchParams;
         let token = params.get("token");
         console.log("url", url);
-        console.log("headers", headers, JSON.parse(headers));
         var body = {
-            "headers": JSON.parse(headers),
+            "headers": headers,
             "extractors": extractors
         };
-        console.log("bodybody", body);
+        console.log("body", body);
 
         $.ajax({
             type: 'POST',

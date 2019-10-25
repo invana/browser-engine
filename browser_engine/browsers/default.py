@@ -173,7 +173,10 @@ def create_browser_request(flask_request):
         viewport=viewport
     )
     json_data = flask_request.get_json() or {}
-    headers = json_data.get("headers", {})
+    headers = json_data.get("headers", None)
+    if headers:
+        headers = yaml.load(headers, yaml.Loader)
+
     simulation_code = json_data.get("simulation_code", None)
     extractors = json_data.get("extractors", None)
     traversals = json_data.get("traversals", None)
