@@ -146,6 +146,26 @@ def simulate(driver=None):
 
                     </td>
                 </tr>
+                <tr>
+                    <td>form_data</td>
+                    <td>Form data to simulate a form submission.
+                        <pre>
+form_identifier:
+  selector: "form.login-form"
+  selector_type: "css"
+  form_number: 0
+submit_identifier:
+  selector: ".btn-submit"
+fields:
+  - field_selector: "userLoginId"
+    field_value: "hello@example.com"
+  - field_selector: "password"
+    field_value: "password"
+
+</pre>
+
+                    </td>
+                </tr>
             </table>
         </div>
     </div>
