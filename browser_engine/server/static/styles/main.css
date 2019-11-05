@@ -66,6 +66,8 @@ input[name="viewport"] {
 
 textarea[name="headers"],
 textarea[name="headers"]:focus ,
+textarea[name="form_data"],
+textarea[name="form_data"]:focus ,
 textarea[name="simulation_code"],
 textarea[name="simulation_code"]:focus,
 textarea[name="traversals"],

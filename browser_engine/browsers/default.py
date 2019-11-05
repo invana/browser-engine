@@ -85,6 +85,25 @@ class SeleniumBrowserRequest(BrowserRequestBase):
                         }
                     )
 
+    def get_element(self, selector):
+        selector_type = selector.get("selector_type", "css")
+        if selector_type == "css":
+            return self.driver.find_element_by_css_selector(selector.get("selector"))
+        elif selector_type == "name":
+            return self.driver.find_element_by_name(selector.get("selector"))
+        elif selector_type == "xpath":
+            return self.driver.find_element_by_xpath(selector.get("selector"))
+        else:
+            raise Exception("selector_type cannot be None. Possible options css or name or xpath ")
+
+    def simulate_form(self):
+        if self.form_data:
+            for selector in self.form_data['fields']:
+                el = self.get_element(selector)
+                el.send_keys(selector['field_value'])
+            submit_element = self.get_element(self.form_data['submit_identifier'])
+            submit_element.click()
+
     def extract_page_source(self):
         return self.driver.page_source
 
@@ -122,6 +141,7 @@ class SeleniumBrowserRequest(BrowserRequestBase):
         self.update_timeout()
         self.delete_cookies()
         self.get_page()
+        self.simulate_form()
 
         if self.headers:
             self.update_headers()
@@ -174,10 +194,14 @@ def create_browser_request(flask_request):
     )
     json_data = flask_request.get_json() or {}
     headers = json_data.get("headers", None)
-    print("====json_data", url, json_data)
+    form_data = json_data.get("form_data", None)
+    # print("====json_data", url, json_data)
     if headers:
         if type(headers) is not dict:
             headers = yaml.load(headers, yaml.Loader)
+    if form_data:
+        if type(form_data) is not dict:
+            form_data = yaml.load(form_data, yaml.Loader)
 
     simulation_code = json_data.get("simulation_code", None)
     extractors = json_data.get("extractors", None)
@@ -189,5 +213,6 @@ def create_browser_request(flask_request):
                                   headers=headers,
                                   extractors=extractors,
                                   traversals=traversals,
+                                  form_data=form_data,
                                   simulation_code=simulation_code,
                                   browser_options=browser_options)

@@ -51,6 +51,15 @@ def simulate():
     return render_template('simulate.html', **context)
 
 
+@app.route('/form.html')
+def form():
+    token = request.args.get('token')
+    if token != AUTH_TOKEN:
+        return {"message": "Invalid token"}, 403
+    context = {"token": token}
+    return render_template('form.html', **context)
+
+
 class PingAPIView(Resource):
     def get(self):
         token = request.args.get('token')

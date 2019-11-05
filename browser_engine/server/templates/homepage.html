@@ -89,6 +89,31 @@
                 </div>
             </div>
         </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">/form</h5>
+                    <p class="card-text">
+                         Submits a form data.
+                    </p>
+                    <form class="form" action="/form.html" method="get">
+
+                        <div class="input-group mb-2">
+                            <input type="text" class="form-control form-control-sm" name="token"
+                                   placeholder="Auth token">
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-secondary btn-sm" type="submit">
+                                    Proceed
+                                </button>
+                            </div>
+                        </div>
+                        <p class="text-muted small">Default token is "iamlazydeveloper"</p>
+                    </form>
+                    <!--<a href="#" class="card-link btn btn-secondary">coming soon</a>-->
+                    <!--<a href="#" class="card-link text-muted"><i class="fa fa-question-circle" aria-hidden="true"></i> help</a>-->
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 {% include 'includes/footer.html' %}
