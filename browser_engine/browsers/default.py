@@ -89,7 +89,6 @@ class SeleniumBrowserRequest(BrowserRequestBase):
 
         selector_type = selector.get("selector_type", "css")
         index_number = selector.get("index_number", 0)
-        print('selector.get("selector")', selector.get("selector"))
         try:
             if selector_type == "css":
                 return self.driver.find_element_by_css_selector(selector.get("selector"))
@@ -104,13 +103,11 @@ class SeleniumBrowserRequest(BrowserRequestBase):
 
     def simulate_form(self):
         if self.form_data:
-            # print("self.form_dataself.form_data", self.form_data)
             form_selector = self.form_data.get("form_identifier")
             if form_selector:
                 form_element = self.get_element(selector=form_selector, driver=self.driver)
             else:
                 form_element = None
-            print("form_element", form_element)
             for selector in self.form_data['fields']:
                 el = self.get_element(selector=selector, driver=form_element if form_element else self.driver)
                 # el = self.get_element(selector=selector, driver=self.driver)
@@ -121,7 +118,8 @@ class SeleniumBrowserRequest(BrowserRequestBase):
                                               driver=form_element if form_element else self.driver)
             # submit_element = self.get_element(selector=self.form_data['submit_identifier'],
             #                                   driver=self.driver)
-            submit_element.click()
+            if submit_element:
+                submit_element.click()
 
     def extract_page_source(self):
         return self.driver.page_source
@@ -214,7 +212,6 @@ def create_browser_request(flask_request):
     json_data = flask_request.get_json() or {}
     headers = json_data.get("headers", None)
     form_data = json_data.get("form_data", None)
-    print("====json_data", url, json_data)
     if headers:
         if type(headers) is not dict:
             headers = yaml.load(headers, yaml.Loader)
