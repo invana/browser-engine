@@ -85,23 +85,29 @@ class SeleniumBrowserRequest(BrowserRequestBase):
                         }
                     )
 
-    def get_element(self, selector):
+    @staticmethod
+    def get_element(selector=None, driver=None):
         selector_type = selector.get("selector_type", "css")
+        index_number = selector.get("index_number", 0)
         if selector_type == "css":
-            return self.driver.find_element_by_css_selector(selector.get("selector"))
+            return driver.find_elements_by_css_selector(selector.get("selector"))[index_number]
         elif selector_type == "name":
-            return self.driver.find_element_by_name(selector.get("selector"))
+            return driver.find_elements_by_name(selector.get("selector"))[index_number]
         elif selector_type == "xpath":
-            return self.driver.find_element_by_xpath(selector.get("selector"))
+            return driver.find_elements_by_xpath(selector.get("selector"))[index_number]
         else:
             raise Exception("selector_type cannot be None. Possible options css or name or xpath ")
 
     def simulate_form(self):
         if self.form_data:
+
+            form_selector = self.form_data.get("form_identifier")
+            form_element = self.get_element(selector=form_selector, driver=self.driver)
             for selector in self.form_data['fields']:
-                el = self.get_element(selector)
+                el = self.get_element(selector=selector, driver=form_element if form_element else self.driver)
                 el.send_keys(selector['field_value'])
-            submit_element = self.get_element(self.form_data['submit_identifier'])
+            submit_element = self.get_element(selector=self.form_data['submit_identifier'],
+                                              driver=form_element if form_element else self.driver)
             submit_element.click()
 
     def extract_page_source(self):
