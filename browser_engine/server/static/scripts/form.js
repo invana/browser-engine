@@ -16,13 +16,15 @@ $(document).ready(function () {
         "form_identifier:\n" +
         "  selector: \"form.login-form\"\n" +
         "  selector_type: \"css\"\n" +
-        "  form_number: 0\n" +
+        "  index_number: 0\n" +
         "submit_identifier:\n" +
         "  selector: \".btn-submit\"\n" +
         "fields:\n" +
-        "  - field_selector: \"userLoginId\"\n" +
+        "  - selector: \"userLoginId\"\n" +
+        "  - selector_type: \"name\"\n" +
         "    field_value: \"hello@example.com\"\n" +
-        "  - field_selector: \"password\"\n" +
+        "  - selector: \"password\"\n" +
+        "  - selector_type: \"name\"\n" +
         "    field_value: \"password\"\n";
 
     // var simulation_code = "" +

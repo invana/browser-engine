@@ -85,29 +85,42 @@ class SeleniumBrowserRequest(BrowserRequestBase):
                         }
                     )
 
-    @staticmethod
-    def get_element(selector=None, driver=None):
+    def get_element(self, selector=None, driver=None):
+
         selector_type = selector.get("selector_type", "css")
         index_number = selector.get("index_number", 0)
-        if selector_type == "css":
-            return driver.find_elements_by_css_selector(selector.get("selector"))[index_number]
-        elif selector_type == "name":
-            return driver.find_elements_by_name(selector.get("selector"))[index_number]
-        elif selector_type == "xpath":
-            return driver.find_elements_by_xpath(selector.get("selector"))[index_number]
-        else:
-            raise Exception("selector_type cannot be None. Possible options css or name or xpath ")
+        print('selector.get("selector")', selector.get("selector"))
+        try:
+            if selector_type == "css":
+                return self.driver.find_element_by_css_selector(selector.get("selector"))
+            elif selector_type == "name":
+                return self.driver.find_element_by_name(selector.get("selector"))
+            elif selector_type == "xpath":
+                return self.driver.find_element_by_xpath(selector.get("selector"))
+            else:
+                raise Exception("selector_type cannot be None. Possible options css or name or xpath ")
+        except Exception as e:
+            logger.error(e)
 
     def simulate_form(self):
         if self.form_data:
-
+            # print("self.form_dataself.form_data", self.form_data)
             form_selector = self.form_data.get("form_identifier")
-            form_element = self.get_element(selector=form_selector, driver=self.driver)
+            if form_selector:
+                form_element = self.get_element(selector=form_selector, driver=self.driver)
+            else:
+                form_element = None
+            print("form_element", form_element)
             for selector in self.form_data['fields']:
                 el = self.get_element(selector=selector, driver=form_element if form_element else self.driver)
-                el.send_keys(selector['field_value'])
+                # el = self.get_element(selector=selector, driver=self.driver)
+                if el:
+                    el.send_keys(selector['field_value'])
+
             submit_element = self.get_element(selector=self.form_data['submit_identifier'],
                                               driver=form_element if form_element else self.driver)
+            # submit_element = self.get_element(selector=self.form_data['submit_identifier'],
+            #                                   driver=self.driver)
             submit_element.click()
 
     def extract_page_source(self):
@@ -201,7 +214,7 @@ def create_browser_request(flask_request):
     json_data = flask_request.get_json() or {}
     headers = json_data.get("headers", None)
     form_data = json_data.get("form_data", None)
-    # print("====json_data", url, json_data)
+    print("====json_data", url, json_data)
     if headers:
         if type(headers) is not dict:
             headers = yaml.load(headers, yaml.Loader)

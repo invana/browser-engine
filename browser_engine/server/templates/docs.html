@@ -153,13 +153,15 @@ def simulate(driver=None):
 form_identifier:
   selector: "form.login-form"
   selector_type: "css"
-  form_number: 0
+  index_number: 0
 submit_identifier:
   selector: ".btn-submit"
 fields:
-  - field_selector: "userLoginId"
+  - selector: "userLoginId"
+    selector_type: "name"
     field_value: "hello@example.com"
-  - field_selector: "password"
+  - selector: "password"
+    selector_type: "name"
     field_value: "password"
 
 </pre>
