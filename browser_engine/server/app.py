@@ -75,7 +75,9 @@ class ExecuteAPIView(Resource):
         if token != AUTH_TOKEN:
             return {"message": "Invalid token"}, 403
         browser_request = create_browser_request(request)
-        return DefaultBrowserResponse(request=browser_request, message="Alright! Rendered the url").get_response()
+        data = DefaultBrowserResponse(request=browser_request, message="Alright! Rendered the url").get_response()
+        # print(data)
+        return data
 
 
 @app.errorhandler(404)

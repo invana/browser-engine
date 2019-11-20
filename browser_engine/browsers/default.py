@@ -7,6 +7,7 @@ from selenium.webdriver.chrome.options import Options
 import yaml
 from extraction_engine import ExtractionEngine
 import logging
+import time
 
 logger = logging.getLogger(__name__)
 
@@ -77,13 +78,12 @@ class SeleniumBrowserRequest(BrowserRequestBase):
             cookies = self.headers.get("cookies", {})
             for cookie in cookies:
                 if cookie.get("name") and cookie.get("value"):
+                    if "expiry" in cookie:
+                        del cookie['expiry']
                     self.driver.add_cookie(
-                        {
-                            'name': cookie['name'],
-                            'value': cookie['value'],
-                            # 'domain': cookie.get('domain')
-                        }
+                        cookie
                     )
+            self.driver.get(self.url)
 
     def get_element(self, selector=None, driver=None):
 
@@ -158,11 +158,13 @@ class SeleniumBrowserRequest(BrowserRequestBase):
         self.update_timeout()
         self.delete_cookies()
         self.get_page()
-        self.simulate_form()
 
         if self.headers:
             self.update_headers()
             self.driver.refresh()
+
+        self.simulate_form()
+
         is_simulation_success = False
         if self.simulation_code:
             simulate_fn = self.create_simulation_fn()
@@ -210,6 +212,7 @@ def create_browser_request(flask_request):
         viewport=viewport
     )
     json_data = flask_request.get_json() or {}
+    # print("===json_data", json_data)
     headers = json_data.get("headers", None)
     form_data = json_data.get("form_data", None)
     if headers:
