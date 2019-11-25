@@ -3,3 +3,4 @@ __experiments/
 dist/
 build/
 .eggs/
+tests/test_json_extraction2.py

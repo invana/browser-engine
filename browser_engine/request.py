@@ -7,6 +7,7 @@ from browser_engine.browser import WebBrowser
 from datetime import datetime
 import socket
 from selenium.common.exceptions import TimeoutException
+from .utils import convert_yaml_to_json, convert_json_to_yaml
 from .simulations import WebSimulationManager
 
 
@@ -40,6 +41,18 @@ class WebSimulationRequest:
                  headers=None,
                  browser_settings=None,
                  simulations=None):
+        """
+
+
+        :param url:
+        :param method:
+        :param headers: can be dict
+        :param browser_settings:
+        :param simulations:
+        """
+
+        if isinstance(headers, str):
+            headers = convert_yaml_to_json(headers)
         if headers:
             headers = {k.lower(): v for k, v in headers.items()}
         if method:

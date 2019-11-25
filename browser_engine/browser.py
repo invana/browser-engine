@@ -81,17 +81,23 @@ class WebBrowser:
     def get_page(self):
         self.driver.get(self.url)
 
+    def refresh_browser(self):
+        print("Refresh the browser")
+        self.driver.refresh()
+
     def update_headers(self, ):
         if self.headers:
+            self.clear_cookies()
             cookies = self.headers.get("cookies", {})
             for cookie in cookies:
                 if cookie.get("name") and cookie.get("value"):
                     if "expiry" in cookie:
                         del cookie['expiry']
+                    print ("Adding the cookie", cookie)
                     self.driver.add_cookie(
                         cookie
                     )
-            self.driver.get(self.url)
+            self.refresh_browser()
 
     def page_source(self):
         return self.driver.page_source
@@ -141,6 +147,7 @@ class WebBrowser:
         options = Options()
         options.add_argument('--no-sandbox')
         options.add_argument('--disable-dev-shm-usage')
+        options.add_argument("--start-maximized")
         options.add_experimental_option('useAutomationExtension', False)
         options.add_experimental_option("excludeSwitches", ["enable-automation"])
 
@@ -148,14 +155,12 @@ class WebBrowser:
         if user_agent:
             options.add_argument("user-agent={}".format(user_agent))
 
-        print(self.browser_settings.SELENIUM_HOST)
         driver = webdriver.Remote(
             command_executor='{}/wd/hub'.format(self.browser_settings.SELENIUM_HOST),
             desired_capabilities=capabilities,
             proxy=proxy,
             options=options
         )
-
         return driver
 
     def start(self):
@@ -166,4 +171,4 @@ class WebBrowser:
 
         if self.headers:
             self.update_headers()
-            self.driver.refresh()
+

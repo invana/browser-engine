@@ -4,6 +4,7 @@
 import yaml
 from extraction_engine import ExtractionEngine
 import uuid
+import extraction_engine
 import logging
 from datetime import datetime
 
@@ -110,8 +111,12 @@ class BrowserSimulation:
 
     """
 
-    def __init__(self, simulation=None, browser=None):
+    def __init__(self, simulation=None, browser=None, simulation_code_json=None):
         self.simulation = simulation
+
+        # self.simulation_code_json = None
+        import time
+        time.sleep(1)
         self.browser = browser
 
     @property
@@ -120,22 +125,22 @@ class BrowserSimulation:
 
     def run(self):
         simulation_code = self.simulation.get("simulation_code")
-        d = {}
+        print("======simulation_code", simulation_code)
+        global_fns = {"extraction_engine": extraction_engine}
+        # global_fns = {}
         result_data = {
             "data": None,
             "is_simulation_success": False
         }
-        simulate_fn = None
-        try:
-            exec(simulation_code.strip(), d)
-            simulate_fn = d['simulate']
-
-        except Exception as e:
-            print("Failed to create simulation function with error", e)
+        exec(simulation_code.strip(), global_fns)
+        print("=======d is ", global_fns.keys())
+        simulate_fn = global_fns['simulate']
+        driver = self.browser.driver
+        # setattr(driver, "simulation_code", simulation_code)
 
         if simulate_fn:
             try:
-                data = simulate_fn(self.browser)
+                data = simulate_fn(driver=driver)
                 result_data['data'] = data
                 result_data['is_simulation_success'] = True
             except Exception as e:
@@ -195,20 +200,22 @@ class WebSimulationManager:
         self.request = request
         self.browser = browser
 
-    def run_simulation(self, simulation_id=None, simulation=None, browser=None):
+    def run_simulation(self, simulation_id=None, simulation=None):
         logger.debug("Running the simulation for the simulation_id:{}".format(simulation_id))
+        print("Running the simulation for the simulation_id:{}".format(simulation_id))
         simulation_type = simulation.get("simulation_type")
+
         if simulation_type == "json_extractor":
-            sim = JsonExtractorSimulation(simulation=simulation, browser=browser)
+            sim = JsonExtractorSimulation(simulation=simulation, browser=self.browser, )
             return sim.run()
         elif simulation_type == "traversal_extractor":
-            sim = JsonExtractorSimulation(simulation=simulation, browser=browser)
+            sim = JsonExtractorSimulation(simulation=simulation, browser=self.browser)
             return sim.run()
         elif simulation_type == "browser_simulation":
-            sim = BrowserSimulation(simulation=simulation, browser=browser)
+            sim = BrowserSimulation(simulation=simulation, browser=self.browser)
             return sim.run()
         elif simulation_type == "form_submit":
-            sim = FormSubmitSimulation(simulation=simulation, browser=browser)
+            sim = FormSubmitSimulation(simulation=simulation, browser=self.browser)
             return sim.run()
         elif simulation_type == "get_html":
             return self.browser.page_source()
@@ -233,7 +240,6 @@ class WebSimulationManager:
                 result["result"] = self.run_simulation(
                     simulation_id=simulation_id,
                     simulation=simulation,
-                    browser=self.browser
                 )
                 result['error_message'] = None
                 result['is_simulation_success'] = True
