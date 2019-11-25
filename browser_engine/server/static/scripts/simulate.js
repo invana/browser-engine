@@ -20,17 +20,6 @@ $(document).ready(function () {
         "    print ('Successfully waited for sometime')";
 
 
-    var extractors_template = "" +
-        "- extractor_type: MetaTagExtractor\n" +
-        "  extractor_id: meta_tags\n" +
-        "- extractor_type: CustomContentExtractor\n" +
-        "  extractor_id: content\n" +
-        "  data_selectors:\n" +
-        "  - selector_id: title\n" +
-        "    selector: title\n" +
-        "    selector_type: css\n" +
-        "    selector_attribute: text\n" +
-        "    data_type: RawField";
 
     var traversals_template = "" +
         "- traversal_id: default_traversal\n" +
@@ -43,7 +32,6 @@ $(document).ready(function () {
 
     $('[name="headers"]').html(header_template);
     $('[name="simulation_code"]').html(simulation_code);
-    $('[name="extractors"]').html(extractors_template);
     $('[name="traversals"]').html(traversals_template);
 
 
@@ -64,8 +52,8 @@ $(document).ready(function () {
 
         var url = $("#form [name='url']").val();
         var headers = $("#form [name='headers']").val();
-        var extractors = $("#form [name='extractors']").val();
         var traversals = $("#form [name='traversals']").val();
+        var simulation_type = $("#form [name='simulation_type']").val();
 
         var simulation_code = $("#form [name='simulation_code']").val();
         var timeout = $("#form [name='timeout']").val();
@@ -83,9 +71,11 @@ $(document).ready(function () {
         console.log("url", url);
         var body = {
             "headers": headers,
-            "extractors": extractors,
-            "traversals": traversals,
-            "simulation_code": simulation_code
+            // "traversals": traversals,
+            "simulations": {
+                "simulation_type": simulation_type,
+                "simulation_code": simulation_code
+            }
         };
         console.log("bodybody", body);
 

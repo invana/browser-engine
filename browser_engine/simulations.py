@@ -111,7 +111,7 @@ class BrowserSimulation:
 
     """
 
-    def __init__(self, simulation=None, browser=None, simulation_code_json=None):
+    def __init__(self, simulation=None, browser=None):
         self.simulation = simulation
 
         # self.simulation_code_json = None
@@ -121,21 +121,23 @@ class BrowserSimulation:
 
     @property
     def simulation_id(self):
+        print ("simulation_od", self.simulation)
         return self.simulation.get("simulation_id")
 
     def run(self):
         simulation_code = self.simulation.get("simulation_code")
-        print("======simulation_code", simulation_code)
         global_fns = {"extraction_engine": extraction_engine}
         # global_fns = {}
         result_data = {
             "data": None,
+            "simulation_type": self.simulation.get("simulation_type"),
             "is_simulation_success": False
         }
         exec(simulation_code.strip(), global_fns)
         print("=======d is ", global_fns.keys())
         simulate_fn = global_fns['simulate']
         driver = self.browser.driver
+        print("simulate_fn", simulate_fn)
         # setattr(driver, "simulation_code", simulation_code)
 
         if simulate_fn:
@@ -145,6 +147,7 @@ class BrowserSimulation:
                 result_data['is_simulation_success'] = True
             except Exception as e:
                 print("Simulation failed with error", e)
+                result_data['error_message'] = e
         return result_data
 
 

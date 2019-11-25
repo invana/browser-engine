@@ -80,7 +80,11 @@ class WebSimulationRequest:
             },
         }
         try:
-            message["response"] = self.simulation_manager.run()
+            message["response"] = {
+                "simulations_result": self.simulation_manager.run(),
+                "cookies": self.browser.driver.get_cookies()
+            }
+
         except Exception as e:
             message["response"] = {
                 "__error_message": e.__str__()

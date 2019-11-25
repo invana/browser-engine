@@ -30,27 +30,6 @@
                     </div>
 
                     <div class="mb-2">
-                        <label>Simulation Code</label>
-                        <p class="text-muted small">Write selenium-python code assuming driver is available with
-                            variable driver.</p>
-                        <textarea name="simulation_code" class="form-control" cols="30" rows="10"></textarea>
-                    </div>
-                    <div class="mb-2">
-                        <label>Extractors</label>
-                        <textarea name="extractors" class="form-control" cols="30" rows="10"></textarea>
-                    </div>
-                    <div class="mb-2">
-                        <label>Traversals</label>
-                        <textarea name="traversals" class="form-control" cols="30" rows="10"></textarea>
-                    </div>
-
-                    <div class="mb-2">
-                        <label>Headers</label>
-                        <textarea name="headers" class="form-control" cols="30" rows="10"></textarea>
-                    </div>
-
-
-                    <div class="mb-2">
                         <div class="row">
                             <div class="col-md-3">
                                 <label for="">Timeout
@@ -69,14 +48,37 @@
                                 <div class="form-check">
                                     <label class="form-check-label">
                                         <input type="checkbox" checked name="take_screenshot" class="form-check-input">
-                                        Take
-                                        Screenshot
+                                        Take Screenshot
                                     </label>
                                 </div>
                             </div>
                         </div>
 
                     </div>
+                    <div class="mb-2">
+
+                        <label><strong>Simulation Code</strong></label>
+
+                        <select name="" name="simulation_type" id="simulation_type" class="form-control">
+                            <option value="browser-simulation">Browser Simulation</option>
+                            <option value="json-extraction">JSON Extraction</option>
+                        </select>
+                        <p class="text-muted small">Write selenium-python code assuming driver is available with
+                            variable driver.</p>
+                        <textarea name="simulation_code" class="form-control" cols="30" rows="10"></textarea>
+                    </div>
+
+                    <div class="mb-2">
+                        <label>Traversals</label>
+                        <textarea name="traversals" class="form-control" cols="30" rows="10"></textarea>
+                    </div>
+
+                    <div class="mb-2">
+                        <label>Headers</label>
+                        <textarea name="headers" class="form-control" cols="30" rows="10"></textarea>
+                    </div>
+
+
                     <!--<div>-->
                     <!--<h6>Browser Options</h6>-->
                     <!--<div class="form-check-inline">-->
