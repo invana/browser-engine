@@ -147,7 +147,7 @@ class BrowserSimulation:
                 result_data['is_simulation_success'] = True
             except Exception as e:
                 print("Simulation failed with error", e)
-                result_data['error_message'] = e
+                result_data['error_message'] = str(e)
         return result_data
 
 
@@ -204,8 +204,8 @@ class WebSimulationManager:
         self.browser = browser
 
     def run_simulation(self, simulation_id=None, simulation=None):
-        logger.debug("Running the simulation for the simulation_id:{}".format(simulation_id))
-        print("Running the simulation for the simulation_id:{}".format(simulation_id))
+        # logger.debug("Running the simulation for the simulation_id:{}".format(simulation_id))
+        print("Running the simulation for the simulation_id:{}".format(simulation_id), simulation)
         simulation_type = simulation.get("simulation_type")
 
         if simulation_type == "json_extractor":

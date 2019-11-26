@@ -73,8 +73,10 @@ $(document).ready(function () {
             "headers": headers,
             // "traversals": traversals,
             "simulations": {
-                "simulation_type": simulation_type,
-                "simulation_code": simulation_code
+                "default_simulation":{
+            "simulation_type": simulation_type,
+            "simulation_code": simulation_code
+                }
             }
         };
         console.log("bodybody", body);
