@@ -73,6 +73,7 @@ class WebBrowser:
     def update_viewport(self):
         if "x" in self.browser_settings.viewport:
             w, h = self.browser_settings.viewport.split("x")
+            # self.driver.set_window_position(0, 0)
             self.driver.set_window_size(w, h)
 
     def update_timeout(self):
@@ -93,7 +94,7 @@ class WebBrowser:
                 if cookie.get("name") and cookie.get("value"):
                     if "expiry" in cookie:
                         del cookie['expiry']
-                    print ("Adding the cookie", cookie)
+                    print("Adding the cookie", cookie)
                     self.driver.add_cookie(
                         cookie
                     )
@@ -149,6 +150,11 @@ class WebBrowser:
         options.add_argument('--disable-dev-shm-usage')
         options.add_argument("--start-fullscreen")
 
+        """
+        # optional arguments 
+        # options.add_argument("--window-position=0,0")
+        # options.add_argument('--headless')
+        """
         options.add_experimental_option('useAutomationExtension', False)
         options.add_experimental_option("excludeSwitches", ["enable-automation"])
 
@@ -172,4 +178,3 @@ class WebBrowser:
 
         if self.headers:
             self.update_headers()
-

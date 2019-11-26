@@ -94,7 +94,6 @@ class ExecuteAPIView(Resource):
         json_data = flask_request.get_json() or {}
         headers = json_data.get("headers", None)
         simulations = json_data.get("simulations", {})
-
         if headers:
             if type(headers) is not dict:
                 headers = yaml.load(headers, yaml.Loader)
