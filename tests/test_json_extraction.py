@@ -1,6 +1,6 @@
 from browser_engine import WebSimulationRequest
 
-url = "https://www.netflix.com/title/81011159"
+url = "https://www.netflix.com/title/70153404?so=su"
 default_extraction_manifest = """
 - extractor_type: MetaTagExtractor
   extractor_id: meta_tags
@@ -8,8 +8,14 @@ default_extraction_manifest = """
 
 click_episodes = """
 def simulate(driver=None):
+    print(driver)
+    print(driver.current_url)
+    import time
+    time.sleep(4)
+    #driver.implicitly_wait(5)
+    print(driver.page_source)
     driver.find_element_by_id('tab-Episodes').click()
-    driver.implicitly_wait(3)
+    time.sleep(4)
     print('Successfully clicked the episodes')
 """
 episodes_extraction_manifest = """
@@ -71,7 +77,8 @@ response = request.run()
 print(response)
 print(response.keys())
 print(response['response'].keys())
-
+print("=============")
 for k, simulation in response['response'].items():
     print(k, simulation['error_message'])
-    print(k, simulation['result'])
+    # print(k,  simulation['result'])
+    print(k, simulation['elapsed_time_ms'], simulation['result'])
