@@ -97,7 +97,18 @@ $(document).ready(function () {
         })
             .done(function (data) {
                 console.log(data);
-                data['response']['html'] = "< =truncated= >";
+
+
+                var simulation_results = data['response']['simulation_results'];
+                if (simulation_results) {
+                    Object.keys(simulation_results).forEach(function (key) {
+                        if (simulation_results[key]['html']) {
+                            simulation_results[key]['html'] = "< =truncated in this view.= >";
+                        }
+                    });
+                }
+
+                // data['response']['html'] = "< =truncated= >";
                 var screenshot = data['response']['screenshot'];
                 $("#response-viewer").html(JSON.stringify(data, null, 4));
                 $("#response-img").attr("src", "data:image/png;base64," + screenshot);

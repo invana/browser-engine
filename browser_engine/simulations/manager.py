@@ -3,6 +3,7 @@ from .types.simulator import BrowserSimulation
 from .types.submitter import FormSubmitSimulation
 from datetime import datetime
 import logging
+from browser_engine.utils import get_elapsed_time
 
 logger = logging.getLogger(__name__)
 
@@ -37,13 +38,6 @@ class WebSimulationManager:
         else:
             raise NotImplementedError("Simulation with simulation_type={} not implemented!!".format(simulation_type))
 
-    @staticmethod
-    def get_elaspsed_time(start_time=None, end_time=None):
-
-        dt = end_time - start_time
-        dt_ms = dt.total_seconds() * 1000  # milliseconds
-        return "%.2f ms" % dt_ms
-
     def run(self):
         all_simulations_result = {}
         job_start_time = datetime.now()
@@ -56,6 +50,7 @@ class WebSimulationManager:
                     simulation_id=simulation_id,
                     simulation=simulation,
                 )
+                result['html'] = self.browser.page_source()
                 result['screenshot'] = self.browser.get_screenshot() if self.browser.browser_settings.take_screenshot \
                                                                         is True else None
                 result['error_message'] = None
@@ -63,18 +58,19 @@ class WebSimulationManager:
                 simulation_end_time = datetime.now()
                 result['simulation_start_time'] = simulation_start_time.__str__()
                 result['simulation_end_time'] = simulation_end_time.__str__()
-                result['simulation_elapsed_time_ms'] = self.get_elaspsed_time(start_time=simulation_start_time,
-                                                                              end_time=simulation_end_time)
+                result['simulation_elapsed_time_ms'] = get_elapsed_time(start_time=simulation_start_time,
+                                                                        end_time=simulation_end_time)
             except Exception as e:
                 result['result'] = None
                 result['screenshot'] = None
+                result['html'] = None
                 result['error_message'] = e.__str__()
                 result['is_simulation_success'] = False
                 simulation_end_time = datetime.now()
                 result['simulation_start_time'] = simulation_start_time.__str__()
                 result['simulation_end_time'] = simulation_end_time.__str__()
-                result['simulation_elapsed_time_ms'] = self.get_elaspsed_time(start_time=simulation_start_time,
-                                                                              end_time=simulation_end_time)
+                result['simulation_elapsed_time_ms'] = get_elapsed_time(start_time=simulation_start_time,
+                                                                        end_time=simulation_end_time)
 
             result['cookies'] = self.browser.driver.get_cookies()
             all_simulations_result[simulation_id] = result

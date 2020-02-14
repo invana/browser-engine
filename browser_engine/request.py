@@ -4,6 +4,7 @@ import socket
 from .utils import convert_yaml_to_json, convert_json_to_yaml
 from .simulations.manager import WebSimulationManager
 from selenium.common.exceptions import TimeoutException
+from browser_engine.utils import get_elapsed_time
 
 
 class ClientDetail(object):
@@ -69,6 +70,7 @@ class WebSimulationRequest:
         self.simulation_manager = WebSimulationManager(request=self, browser=self.browser, simulations=simulations)
 
     def run(self):
+        request_start_time = datetime.now()
 
         message = {
             "message": "Ok",
@@ -79,16 +81,24 @@ class WebSimulationRequest:
                 "headers": self.headers,
                 "browser_settings": self.browser.browser_settings.get_settings()
             },
+            "response": {}
         }
         try:
-            message["response"] = self.simulation_manager.run()
+            message["response"]['simulation_results'] = self.simulation_manager.run()
 
         except Exception as e:
             message["response"] = {
-                "simulations_result": None,
-                "cookies": [],
+                "simulation_results": None,
                 "__error_message": e.__str__()
             }
+        request_end_time = datetime.now()
+        message['response']['client'] = {
+            'job_start_time': request_start_time.__str__(),
+            'job_end_time': request_end_time.__str__(),
+            'job_elapsed_time_ms': get_elapsed_time(start_time=request_start_time,
+                                                           end_time=request_end_time)
+        }
+
         self.browser.close_browser()
 
         return message
