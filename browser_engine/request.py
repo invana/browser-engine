@@ -1,14 +1,9 @@
-"""
-
-
-
-"""
 from browser_engine.browser import WebBrowser
 from datetime import datetime
 import socket
-from selenium.common.exceptions import TimeoutException
 from .utils import convert_yaml_to_json, convert_json_to_yaml
-from .simulations import WebSimulationManager
+from .simulations.manager import WebSimulationManager
+from selenium.common.exceptions import TimeoutException
 
 
 class ClientDetail(object):
@@ -26,11 +21,15 @@ class ClientDetail(object):
 
     def get_client_details(self):
         return {
-            "hostname": socket.gethostname(),
-            "ip_address": socket.gethostbyname(socket.gethostname()),
+            # "hostname": socket.gethostname(),
+            # "ip_address": socket.gethostbyname(socket.gethostname()),
             "browser_type": self.browser.browser_settings.browser_type,
             "elasped_time_ms": self.get_elaspsed_time()
         }
+
+
+class RequestPayloadValidator:
+    pass
 
 
 class WebSimulationRequest:
@@ -61,10 +60,12 @@ class WebSimulationRequest:
         self.method = method
         self.headers = headers
         self.simulations = simulations or []
-        self.browser = WebBrowser(url=url, method=method, headers=headers, browser_settings=browser_settings,
+        self.browser = WebBrowser(url=url,
+                                  method=method,
+                                  headers=headers,
+                                  browser_settings=browser_settings,
                                   request=self)
         self.browser.start()
-        print("Browser started ")
         self.simulation_manager = WebSimulationManager(request=self, browser=self.browser, simulations=simulations)
 
     def run(self):
@@ -80,13 +81,12 @@ class WebSimulationRequest:
             },
         }
         try:
-            message["response"] = {
-                "simulations_result": self.simulation_manager.run(),
-                "cookies": self.browser.driver.get_cookies()
-            }
+            message["response"] = self.simulation_manager.run()
 
         except Exception as e:
             message["response"] = {
+                "simulations_result": None,
+                "cookies": [],
                 "__error_message": e.__str__()
             }
         self.browser.close_browser()

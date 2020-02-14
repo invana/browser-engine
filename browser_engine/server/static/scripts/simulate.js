@@ -20,7 +20,6 @@ $(document).ready(function () {
         "    print ('Successfully waited for sometime')";
 
 
-
     var traversals_template = "" +
         "- traversal_id: default_traversal\n" +
         "  selector: \"a\"\n" +
@@ -45,25 +44,32 @@ $(document).ready(function () {
 
     }
 
-    $("#submit-button").click(function () {
+    $(".header-form").submit(function (e) {
+
+
+        e.preventDefault();
 
 
         simulate_loading();
 
-        var url = $("#form [name='url']").val();
-        var headers = $("#form [name='headers']").val();
-        var traversals = $("#form [name='traversals']").val();
-        var simulation_type = $("#form [name='simulation_type']").val();
+        var url = $(".header-form [name='url']").val();
 
-        var simulation_code = $("#form [name='simulation_code']").val();
-        var timeout = $("#form [name='timeout']").val();
-        var viewport = $("#form [name='viewport']").val();
-        var take_screenshot = $("#form [name='take_screenshot']").is(":checked");
+        // options here
+        var timeout = $(".header-form [name='timeout']").val();
+        var viewport = $(".header-form [name='viewport']").val();
+        var take_screenshot = $(".header-form [name='take_screenshot']").is(":checked");
+
         if (take_screenshot === true) {
             take_screenshot = 1
         } else {
             take_screenshot = 0;
         }
+
+        // payload here
+        var headers = $("#form [name='headers']").val();
+        var traversals = $("#form [name='traversals']").val();
+        var simulation_type = $("#form [name='simulation_type']").val();
+        var simulation_code = $("#form [name='simulation_code']").val();
 
 
         let params = (new URL(document.location)).searchParams;
@@ -73,9 +79,9 @@ $(document).ready(function () {
             "headers": headers,
             // "traversals": traversals,
             "simulations": {
-                "default_simulation":{
-            "simulation_type": simulation_type,
-            "simulation_code": simulation_code
+                "default_simulation": {
+                    "simulation_type": simulation_type,
+                    "simulation_code": simulation_code
                 }
             }
         };

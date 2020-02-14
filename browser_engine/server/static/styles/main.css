@@ -7,9 +7,14 @@ h1 {
     color: #000000;
     padding-bottom: 0;
     /* line-height: 1rem; */
-    font-size: 2.0rem;
-    margin-top: 2rem;
+    font-size: 3.0rem;
+    margin-top: 10rem;
     font-weight: bold;
+}
+
+ul li {
+    font-size: 1.2rem;
+    color: #656565;
 }
 
 .btn-outline-primary {
@@ -65,9 +70,9 @@ input[name="viewport"] {
 }
 
 textarea[name="headers"],
-textarea[name="headers"]:focus ,
+textarea[name="headers"]:focus,
 textarea[name="form_data"],
-textarea[name="form_data"]:focus ,
+textarea[name="form_data"]:focus,
 textarea[name="simulation_code"],
 textarea[name="simulation_code"]:focus,
 textarea[name="traversals"],
@@ -91,9 +96,13 @@ textarea[name="extractors"]:focus {
     padding: 0.2rem 2rem;
 }
 
-.docs-input .input-group-text{
+.docs-input .input-group-text {
     background: #4c4c4c;
     border-radius: 0;
     color: white;
     border: none;
+}
+
+.features-list {
+    padding-left: 20px;
 }
