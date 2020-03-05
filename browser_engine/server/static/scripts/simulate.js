@@ -12,7 +12,7 @@ $(document).ready(function () {
         "Referer: null\n" +
         "Proxy: null\n";
 
-    var python_task_code = "" +
+    var browser_simulation_template = "" +
         "def simulate(driver=None):\n" +
         "    import random\n" +
         "    driver.switch_to.default_content()\n" +
@@ -29,7 +29,7 @@ $(document).ready(function () {
         "  max_requests: 500\n" +
         "  next_spider_id: default_spider";
 
-    var extraction_template = "- extractor_type: MetaTagExtractor\n" +
+    var json_extraction_template = "- extractor_type: MetaTagExtractor\n" +
         "  extractor_id: meta_tags\n" +
         "- extractor_type: CustomContentExtractor\n" +
         "  extractor_id: content\n" +
@@ -59,6 +59,9 @@ $(document).ready(function () {
 
     $(".add-new-task").click(function () {
         var task_length = $(".task-section").length;
+
+        var new_task_type = $("#new-task-type").val();
+        console.log("===new_task_type", new_task_type);
         var task_id = "task-" + task_length;
         var div_template = $("<div class=\"mb-2 task-section\" data-task-id='" + task_id + "' >\n" +
             "    <button class=\"btn btn-danger remove-task\" data-task-id='" + task_id + "' type=\"button\">- remove</button>\n" +
@@ -75,6 +78,22 @@ $(document).ready(function () {
             "<p><a class=\"load-task-template\" data-task-id='" + task_id + "' href=\"javascript:void(0);\">load template</a></p>" +
             "</div>");
 
+        div_template.find(".task_type").val(new_task_type);
+        div_template.find('.task_code').show();
+        div_template.find('.load-task-template').show();
+
+        if (new_task_type === "get_html" || new_task_type === "get_screenshot") {
+            div_template.find('.task_code').hide();
+            div_template.find('.load-task-template').hide();
+        }
+        if (new_task_type === "json_extractor") {
+            div_template.find(".task_code").text(json_extraction_template)
+        } else if (new_task_type === "browser_simulation") {
+            div_template.find(".task_code").text(browser_simulation_template);
+        }
+        div_template.find(".remove-task").click(function () {
+            div_template.remove();
+        });
 
         // assign event listener
         div_template.find(".load-task-template").click(function () {
@@ -82,9 +101,9 @@ $(document).ready(function () {
             var task_type = $(".task_type[data-task-id=" + task_id + "]").val();
             var template = "WARNING: TEMPLATE NOT AVAILABLE FOR THIS TASK_TYPE";
             if (task_type === "browser_simulation") {
-                template = python_task_code
+                template = browser_simulation_template
             } else if (task_type === "json_extractor") {
-                template = extraction_template
+                template = json_extraction_template
             } else if (task_type === "get_html") {
                 template = "# This doesn't need any task_code"
             } else if (task_type === "get_screenshot") {
@@ -92,6 +111,14 @@ $(document).ready(function () {
             }
             $('.task_code[data-task-id="' + task_id + '"]').html(template);
 
+        });
+
+        div_template.find('.task_type').change(function (e) {
+            console.log("=====e", e);
+            div_template.find('.task_code').show();
+            if (e.target.value === "get_html" || e.target.value === "get_screenshot") {
+                div_template.find('.task_code').hide();
+            }
         });
 
 

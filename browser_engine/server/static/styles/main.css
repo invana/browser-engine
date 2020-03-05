@@ -11,7 +11,12 @@ h1 {
     margin-top: 10rem;
     font-weight: bold;
 }
-
+.nav-link.active{
+    color: #5c4ee6 !important;
+}
+.nav-tabs .nav-link{
+    color: #4c4c4c;
+}
 ul li {
     font-size: 1.2rem;
     color: #656565;
