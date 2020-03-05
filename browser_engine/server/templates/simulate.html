@@ -6,95 +6,63 @@
 </head>
 <body>
 {% include 'includes/header.html' %}
+<style>
+    .remove-task {
+        border-radius: 2px !important;
+        padding: 5px !important;
+        line-height: 5px;
+        float: right;
+        /*position: absolute;*/
+        right: 28px;
+        top: 56px;
+    }
 
+    .task-section {
+        border: 1px solid #efefef;
+        padding: 10px;
+        margin-top: 10px;
+        background: whitesmoke;
+    }
+</style>
 <div class="container-fluid">
 
     <div class="row">
         <div class="col-md-6">
+            <form action="#" class="form" id="form">
 
+                <ul class="nav nav-tabs" id="myTab" role="tablist">
 
-            <header>
+                    <li class="nav-item">
+                        <a class="nav-link active" id="tasks-list-tab" data-toggle="tab" href="#tasks-list" role="tab"
+                           aria-controls="tasks-list" aria-selected="true">Tasks</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link " id="init-headers-tab" data-toggle="tab" href="#init-headers" role="tab"
+                           aria-controls="init-headers" aria-selected="false">Init Headers</a>
+                    </li>
+                </ul>
+                <div class="tab-content" id="tasks-content">
 
-                <form action="#" class="form" id="form">
+                    <div class="tab-pane fade  show active" id="tasks-list" role="tabpanel"
+                         aria-labelledby="tasks-list-tab">
 
+                        <div id="task-list-content"></div>
 
-                    <!--<div class="mb-2">-->
-                        <!--<div class="row">-->
-                            <!--<div class="col-md-3">-->
-                                <!--<label for="">Timeout-->
-                                    <!--<small class="text-muted">in seconds</small>-->
-                                <!--</label>-->
-                                <!--<input type="text" name="timeout" value="180" class="form-control">-->
-                            <!--</div>-->
-                            <!--<div class="col-md-3">-->
-                                <!--<label for="">Viewport-->
-                                <!--</label>-->
-                                <!--<input type="text" name="viewport" value="1280x720" class="form-control">-->
-                            <!--</div>-->
-                            <!--<div class="col-md-3">-->
-
-
-                                <!--<div class="form-check">-->
-                                    <!--<label class="form-check-label">-->
-                                        <!--<input type="checkbox" checked name="take_screenshot" class="form-check-input">-->
-                                        <!--Take Screenshot-->
-                                    <!--</label>-->
-                                <!--</div>-->
-                            <!--</div>-->
-                        <!--</div>-->
-
-                    <!--</div>-->
-                    <div class="mb-2">
-
-                        <label><strong>Simulation Code</strong></label>
-
-                        <select name="simulation_type" id="simulation_type" class="form-control">
-                            <option value="browser_simulation">Browser Simulation</option>
-                            <option value="json_extractor">JSON Extraction</option>
-                            <option value="get_html">HTML Extractor</option>
-                        </select>
-                        <p class="text-muted small">Write selenium-python code assuming driver is available with
-                            variable driver.</p>
-                        <textarea name="simulation_code" class="form-control" cols="30" rows="10"></textarea>
+                        <div class="mb-2">
+                            <button class="btn btn-primary add-new-task mt-3" type="button">+ Add Task</button>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="init-headers" role="tabpanel" aria-labelledby="init-headers-tab">
+                        <div class="mb-2 mt-2">
+                            <label><strong>Init Headers</strong></label>
+                            <textarea name="init_headers" class="form-control" cols="30" rows="10"></textarea>
+                            <p><a id="load-init-headers" href="javascript:void(0);">load template</a></p>
+                        </div>
                     </div>
 
-                    <div class="mb-2">
-                        <label>Traversals</label>
-                        <textarea name="traversals" class="form-control" cols="30" rows="10"></textarea>
-                    </div>
+                </div>
+            </form>
 
-                    <div class="mb-2">
-                        <label>Headers</label>
-                        <textarea name="headers" class="form-control" cols="30" rows="10"></textarea>
-                    </div>
-
-
-                    <!--<div>-->
-                    <!--<h6>Browser Options</h6>-->
-                    <!--<div class="form-check-inline">-->
-                    <!--<label class="form-check-label">-->
-                    <!--<input type="checkbox" class="form-check-input" value=""> Show Images-->
-                    <!--</label>-->
-                    <!--</div>-->
-                    <!--<div class="form-check-inline">-->
-                    <!--<label class="form-check-label">-->
-                    <!--<input type="checkbox" class="form-check-input" value=""> Enable Cookies-->
-                    <!--</label>-->
-                    <!--</div>-->
-                    <!--<div class="form-check-inline">-->
-                    <!--<label class="form-check-label">-->
-                    <!--<input type="checkbox" class="form-check-input" value=""> Load Scripts-->
-                    <!--</label>-->
-                    <!--</div>-->
-                    <!--</div>-->
-
-                    <!--<div class="mt-1">-->
-                    <!--<label>Tasks</label>-->
-                    <!--<textarea class="form-control" name="tasks" id="" cols="30" rows="10"></textarea>-->
-                    <!--</div>-->
-                </form>
-
-            </header>
 
         </div>
         <div class="col-md-6">

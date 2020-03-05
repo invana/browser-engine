@@ -7,10 +7,10 @@ logger = logging.getLogger(__name__)
 class FormSubmitSimulation:
     """
 
-    simulation = {
-           "simulation_id": "step_1",
-            "simulation_type": "form_submit",
-            "simulation_code": "def simulate(driver=None):
+    task = {
+           "task_id": "step_1",
+            "task_type": "form_submit",
+            "task_code": "def simulate(driver=None):
     import random
     driver.switch_to.default_content()
     driver.implicitly_wait(random.randint(0, 2))
@@ -19,17 +19,17 @@ class FormSubmitSimulation:
 
     """
 
-    def __init__(self, simulation=None, browser=None):
-        self.simulation = simulation
+    def __init__(self, task=None, browser=None):
+        self.task = task
         self.browser = browser
 
     @property
-    def simulation_id(self):
-        return self.simulation.get("simulation_id")
+    def task_id(self):
+        return self.task.get("task_id")
 
     def run(self):
-        simulation_code = self.simulation.get("simulation_code")
-        form_manifest = yaml.load(simulation_code, yaml.Loader)
+        task_code = self.task.get("task_code")
+        form_manifest = yaml.load(task_code, yaml.Loader)
 
         form_selector = form_manifest.get("form_identifier")
         if form_selector:

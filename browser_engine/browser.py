@@ -84,7 +84,6 @@ class WebBrowser:
         self.driver.get(self.url)
 
     def refresh_browser(self):
-        print("Refresh the browser")
         self.driver.refresh()
 
     def update_headers(self, ):

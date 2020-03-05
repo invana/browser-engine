@@ -55,6 +55,7 @@ class ExecuteAPIView(Resource):
         kwargs = {}
         kwargs['url'] = flask_request.args.get('url')
         kwargs['method'] = flask_request.args.get('http_method', 'get')
+        kwargs['debug'] = flask_request.args.get('debug_mode', 0)
 
         take_screenshot = int(flask_request.args.get('take_screenshot', default=0))
         viewport = flask_request.args.get('viewport', default="1280x720")
@@ -71,13 +72,13 @@ class ExecuteAPIView(Resource):
         logger.debug("Browser settings is {}".format(browser_settings))
         kwargs['browser_settings'] = browser_settings
         json_data = flask_request.get_json() or {}
-        headers = json_data.get("headers", None)
-        simulations = json_data.get("simulations", {})
-        if headers:
-            if type(headers) is not dict:
-                headers = yaml.load(headers, yaml.Loader)
-        kwargs['headers'] = headers
-        kwargs['simulations'] = simulations
+        init_headers = json_data.get("init_headers", None)
+        tasks = json_data.get("tasks", {})
+        if init_headers:
+            if type(init_headers) is not dict:
+                headers = yaml.load(init_headers, yaml.Loader)
+        kwargs['init_headers'] = init_headers
+        kwargs['tasks'] = tasks
         return kwargs
 
     def post(self):

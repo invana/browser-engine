@@ -69,12 +69,12 @@ input[name="viewport"] {
     height: 1.5rem;
 }
 
-textarea[name="headers"],
-textarea[name="headers"]:focus,
+textarea[name="init_headers"],
+textarea[name="init_headers"]:focus,
 textarea[name="form_data"],
 textarea[name="form_data"]:focus,
-textarea[name="simulation_code"],
-textarea[name="simulation_code"]:focus,
+textarea[name="task_code"],
+textarea[name="task_code"]:focus,
 textarea[name="traversals"],
 textarea[name="traversals"]:focus,
 textarea[name="extractors"],

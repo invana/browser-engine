@@ -29,7 +29,7 @@ $(document).ready(function () {
     $('[name="extractors"]').html(extractors_template);
 
 
-    var url_template = "https://invanalabs.ai";
+    var url_template = "http://invana.io";
     $('[name="url"]').val(url_template);
 
 

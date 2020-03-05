@@ -1,4 +1,5 @@
-from .types.extractor import JsonExtractorSimulation, TraversalExtractorSimulation
+from .types.extractor import JsonExtractorSimulation, TraversalExtractorSimulation,\
+    HTMLExtractor, ScreenshotExtractor
 from .types.simulator import BrowserSimulation
 from .types.submitter import FormSubmitSimulation
 from datetime import datetime
@@ -10,68 +11,70 @@ logger = logging.getLogger(__name__)
 
 class WebSimulationManager:
 
-    def __init__(self, simulations=None, request=None, browser=None):
-        self.simulations = simulations or {}
+    def __init__(self, tasks=None, request=None, browser=None, debug=None):
+        self.tasks = tasks or {}
         self.request = request
         self.browser = browser
+        self.debug = debug
 
-    def run_simulation(self, simulation_id=None, simulation=None):
-        logger.debug("Running the simulation for the simulation_id:{}".format(simulation_id), simulation)
-        simulation_type = simulation.get("simulation_type")
-
-        if simulation_type == "json_extractor":
-            sim = JsonExtractorSimulation(simulation=simulation, browser=self.browser, )
+    def run_simulation(self, task_id=None, task=None):
+        logger.debug("Running the task for the task_id:{} with payload {}".format(task_id, task))
+        task_type = task.get("task_type")
+        if task_type == "json_extractor":
+            sim = JsonExtractorSimulation(task=task, browser=self.browser)
             return sim.run()
-        elif simulation_type == "traversal_extractor":
-            sim = TraversalExtractorSimulation(simulation=simulation, browser=self.browser)
+        elif task_type == "traversal_extractor":
+            sim = TraversalExtractorSimulation(task=task, browser=self.browser)
             return sim.run()
-        elif simulation_type == "browser_simulation":
-            sim = BrowserSimulation(simulation=simulation, browser=self.browser)
+        elif task_type == "browser_simulation":
+            sim = BrowserSimulation(task=task, browser=self.browser)
             return sim.run()
-        elif simulation_type == "form_submit":
-            sim = FormSubmitSimulation(simulation=simulation, browser=self.browser)
+        elif task_type == "form_submit":
+            sim = FormSubmitSimulation(task=task, browser=self.browser)
             return sim.run()
-        elif simulation_type == "get_html":
-            return self.browser.page_source()
-        elif simulation_type == "get_screenshot":
-            return self.browser.get_screenshot()
+        elif task_type == "get_html":
+            return HTMLExtractor(task=task, browser=self.browser).run()
+        elif task_type == "get_screenshot":
+            return ScreenshotExtractor(task=task, browser=self.browser).run()
         else:
-            raise NotImplementedError("Simulation with simulation_type={} not implemented!!".format(simulation_type))
+            raise NotImplementedError("task with task_type={} not implemented!!".format(task_type))
 
     def run(self):
         all_simulations_result = {}
-        job_start_time = datetime.now()
 
-        for simulation_id, simulation in self.simulations.items():
+        for task_id, task in self.tasks.items():
             result = {}
-            simulation_start_time = datetime.now()
+            task_start_time = datetime.now()
             try:
                 result = self.run_simulation(
-                    simulation_id=simulation_id,
-                    simulation=simulation,
+                    task_id=task_id,
+                    task=task,
                 )
-                result['html'] = self.browser.page_source()
-                result['screenshot'] = self.browser.get_screenshot() if self.browser.browser_settings.take_screenshot \
-                                                                        is True else None
+                if self.debug == 1:
+                    result['html'] = self.browser.page_source()
+                    result['screenshot'] = self.browser.get_screenshot() if \
+                        self.browser.browser_settings.take_screenshot \
+                        is True else None
                 result['error_message'] = None
-                result['is_simulation_success'] = True
-                simulation_end_time = datetime.now()
-                result['simulation_start_time'] = simulation_start_time.__str__()
-                result['simulation_end_time'] = simulation_end_time.__str__()
-                result['simulation_elapsed_time_ms'] = get_elapsed_time(start_time=simulation_start_time,
-                                                                        end_time=simulation_end_time)
+                result['is_task_success'] = True
+                task_end_time = datetime.now()
+                result['task_start_time'] = task_start_time.__str__()
+                result['task_end_time'] = task_end_time.__str__()
+                result['task_elapsed_time_ms'] = get_elapsed_time(start_time=task_start_time,
+                                                                  end_time=task_end_time)
             except Exception as e:
                 result['result'] = None
-                result['screenshot'] = None
-                result['html'] = None
+                if self.debug == 1:
+                    result['screenshot'] = None
+                    result['html'] = None
                 result['error_message'] = e.__str__()
-                result['is_simulation_success'] = False
-                simulation_end_time = datetime.now()
-                result['simulation_start_time'] = simulation_start_time.__str__()
-                result['simulation_end_time'] = simulation_end_time.__str__()
-                result['simulation_elapsed_time_ms'] = get_elapsed_time(start_time=simulation_start_time,
-                                                                        end_time=simulation_end_time)
+                result['is_task_success'] = False
+                task_end_time = datetime.now()
+                result['task_start_time'] = task_start_time.__str__()
+                result['task_end_time'] = task_end_time.__str__()
+                result['task_elapsed_time_ms'] = get_elapsed_time(start_time=task_start_time,
+                                                                  end_time=task_end_time)
 
             result['cookies'] = self.browser.driver.get_cookies()
-            all_simulations_result[simulation_id] = result
+            all_simulations_result[task_id] = result
         return all_simulations_result

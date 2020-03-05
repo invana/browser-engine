@@ -38,36 +38,38 @@ class WebSimulationRequest:
 
     def __init__(self, url=None,
                  method="GET",
-                 headers=None,
+                 init_headers=None,
                  browser_settings=None,
-                 simulations=None):
+                 tasks=None,
+                 debug=None):
         """
 
 
         :param url:
         :param method:
-        :param headers: can be dict
+        :param init_headers: can be dict
         :param browser_settings:
-        :param simulations:
+        :param tasks:
         """
 
-        if isinstance(headers, str):
-            headers = convert_yaml_to_json(headers)
-        if headers:
-            headers = {k.lower(): v for k, v in headers.items()}
+        if isinstance(init_headers, str):
+            init_headers = convert_yaml_to_json(init_headers)
+        if init_headers:
+            init_headers = {k.lower(): v for k, v in init_headers.items()}
         if method:
             method = method.upper()
         self.url = url
         self.method = method
-        self.headers = headers
-        self.simulations = simulations or []
+        self.init_headers = init_headers
+        self.tasks = tasks or []
+        self.debug = debug
         self.browser = WebBrowser(url=url,
                                   method=method,
-                                  headers=headers,
+                                  headers=init_headers,
                                   browser_settings=browser_settings,
                                   request=self)
         self.browser.start()
-        self.simulation_manager = WebSimulationManager(request=self, browser=self.browser, simulations=simulations)
+        self.task_manager = WebSimulationManager(request=self, browser=self.browser, tasks=tasks, debug=debug)
 
     def run(self):
         request_start_time = datetime.now()
@@ -78,17 +80,16 @@ class WebSimulationRequest:
             "request": {
                 "url": self.url,
                 "method": self.method,
-                "headers": self.headers,
+                "init_headers": self.init_headers,
                 "browser_settings": self.browser.browser_settings.get_settings()
             },
             "response": {}
         }
         try:
-            message["response"]['simulation_results'] = self.simulation_manager.run()
-
+            message["response"]['task_results'] = self.task_manager.run()
         except Exception as e:
             message["response"] = {
-                "simulation_results": None,
+                "task_results": None,
                 "__error_message": e.__str__()
             }
         request_end_time = datetime.now()

@@ -10,9 +10,9 @@ class BrowserSimulation:
     """
 
     simulation = {
-           "simulation_id": "step_1",
-            "simulation_type": "browser_simulation",
-            "simulation_code": "def simulate(driver=None):
+           "task_id": "step_1",
+            "task_type": "browser_simulation",
+            "task_code": "def simulate(driver=None):
     import random
     driver.switch_to.default_content()
     driver.implicitly_wait(random.randint(0, 2))
@@ -21,39 +21,38 @@ class BrowserSimulation:
 
     """
 
-    def __init__(self, simulation=None, browser=None):
-        self.simulation = simulation
+    def __init__(self, task=None, browser=None):
+        self.task = task
 
-        # self.simulation_code_json = None
+        # self.task_code_json = None
         import time
-        time.sleep(1)
+        time.sleep(1) # TODO - check and remove why we need this.
         self.browser = browser
 
     @property
-    def simulation_id(self):
-        print("simulation_od", self.simulation)
-        return self.simulation.get("simulation_id")
+    def task_id(self):
+        return self.task.get("task_id")
 
     def run(self):
-        simulation_code = self.simulation.get("simulation_code")
+        task_code = self.task.get("task_code")
         global_fns = {"extraction_engine": extraction_engine}
         # global_fns = {}
         result_data = {
             "data": None,
-            "simulation_type": self.simulation.get("simulation_type"),
-            "is_simulation_success": False
+            "task_type": self.task.get("task_type"),
+            "is_task_success": False
         }
-        exec(simulation_code.strip(), global_fns)
+        exec(task_code.strip(), global_fns)
         simulate_fn = global_fns['simulate']
         driver = self.browser.driver
-        # setattr(driver, "simulation_code", simulation_code)
+        # setattr(driver, "task_code", task_code)
 
         if simulate_fn:
             try:
                 data = simulate_fn(driver=driver)
                 result_data['data'] = data
-                result_data['is_simulation_success'] = True
+                result_data['is_task_success'] = True
             except Exception as e:
-                print("Simulation failed with error", e)
+                print("task failed with error", e)
                 result_data['error_message'] = str(e)
         return result_data
