@@ -1,14 +1,10 @@
-"""
-
-
-
-"""
 from browser_engine.browser import WebBrowser
 from datetime import datetime
 import socket
-from selenium.common.exceptions import TimeoutException
 from .utils import convert_yaml_to_json, convert_json_to_yaml
-from .simulations import WebSimulationManager
+from .simulations.manager import WebSimulationManager
+from selenium.common.exceptions import TimeoutException
+from browser_engine.utils import get_elapsed_time
 
 
 class ClientDetail(object):
@@ -26,11 +22,15 @@ class ClientDetail(object):
 
     def get_client_details(self):
         return {
-            "hostname": socket.gethostname(),
-            "ip_address": socket.gethostbyname(socket.gethostname()),
+            # "hostname": socket.gethostname(),
+            # "ip_address": socket.gethostbyname(socket.gethostname()),
             "browser_type": self.browser.browser_settings.browser_type,
             "elasped_time_ms": self.get_elaspsed_time()
         }
+
+
+class RequestPayloadValidator:
+    pass
 
 
 class WebSimulationRequest:
@@ -38,36 +38,41 @@ class WebSimulationRequest:
 
     def __init__(self, url=None,
                  method="GET",
-                 headers=None,
+                 init_headers=None,
                  browser_settings=None,
-                 simulations=None):
+                 tasks=None,
+                 debug=None):
         """
 
 
         :param url:
         :param method:
-        :param headers: can be dict
+        :param init_headers: can be dict
         :param browser_settings:
-        :param simulations:
+        :param tasks:
         """
 
-        if isinstance(headers, str):
-            headers = convert_yaml_to_json(headers)
-        if headers:
-            headers = {k.lower(): v for k, v in headers.items()}
+        if isinstance(init_headers, str):
+            init_headers = convert_yaml_to_json(init_headers)
+        if init_headers:
+            init_headers = {k.lower(): v for k, v in init_headers.items()}
         if method:
             method = method.upper()
         self.url = url
         self.method = method
-        self.headers = headers
-        self.simulations = simulations or []
-        self.browser = WebBrowser(url=url, method=method, headers=headers, browser_settings=browser_settings,
+        self.init_headers = init_headers
+        self.tasks = tasks or []
+        self.debug = debug
+        self.browser = WebBrowser(url=url,
+                                  method=method,
+                                  headers=init_headers,
+                                  browser_settings=browser_settings,
                                   request=self)
         self.browser.start()
-        print("Browser started ")
-        self.simulation_manager = WebSimulationManager(request=self, browser=self.browser, simulations=simulations)
+        self.task_manager = WebSimulationManager(request=self, browser=self.browser, tasks=tasks, debug=debug)
 
     def run(self):
+        request_start_time = datetime.now()
 
         message = {
             "message": "Ok",
@@ -75,20 +80,26 @@ class WebSimulationRequest:
             "request": {
                 "url": self.url,
                 "method": self.method,
-                "headers": self.headers,
+                "init_headers": self.init_headers,
                 "browser_settings": self.browser.browser_settings.get_settings()
             },
+            "response": {}
         }
         try:
-            message["response"] = {
-                "simulations_result": self.simulation_manager.run(),
-                "cookies": self.browser.driver.get_cookies()
-            }
-
+            message["response"]['task_results'] = self.task_manager.run()
         except Exception as e:
             message["response"] = {
+                "task_results": None,
                 "__error_message": e.__str__()
             }
+        request_end_time = datetime.now()
+        message['response']['client'] = {
+            'job_start_time': request_start_time.__str__(),
+            'job_end_time': request_end_time.__str__(),
+            'job_elapsed_time_ms': get_elapsed_time(start_time=request_start_time,
+                                                           end_time=request_end_time)
+        }
+
         self.browser.close_browser()
 
         return message

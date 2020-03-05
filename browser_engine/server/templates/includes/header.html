@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-lg navbar-light bg-light  fixed-top  shadow">
     <a class="navbar-brand" href="/"><strong>Browser Engine</strong></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -6,39 +6,87 @@
     </button>
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link" target="_blank" href="https://github.com/crawlerflow/browser-engine">
+                    <i class="fab fa-github"></i></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/docs.html?token={{token}}">
+                    <i class="fas fa-life-ring"></i>
+                </a>
+            </li>
+        </ul>
+
+
+        {% if token %}
+        <form class="header-form" action="." style="width: 100%">
+
+            <div class="input-group">
+                <input type="text" class="form-control" name="url" placeholder="URL">
+
+                <input type="text" name="timeout" value="180">
+                <input type="text" name="viewport" value="1280x720">
+                <input type="checkbox" name="take_screenshot" checked>
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" type="button" id="more-options">more options
+                    </button>
+                    <button class="btn btn-outline-primary" type="submit" id="submit-button">Run Simulation
+                    </button>
+                </div>
+            </div>
+        </form>
+        {% else %}
+
+        <form class="form" action="." style="width: 100%" method="get">
+
+            <div class="input-group">
+                <input type="text" class="form-control " name="token"
+                       placeholder="Enter Authorisation token here. Default is: iamlazydeveloper">
+                <div class="input-group-append">
+                    <button class="btn btn-outline-primary " type="submit">
+                        Authenticate
+                    </button>
+                </div>
+            </div>
+            <!--<p class="text-muted small">Default token is "iamlazydeveloper"</p>-->
+        </form>
+
+        {% endif %}
+
         <ul class="navbar-nav ml-auto">
 
 
             {% if token %}
 
-            <!--<li class="nav-item">-->
-            <!--<a class="nav-link" href="/profiles"><i class="fas fa-globe"></i> Browser Profiles</a>-->
-            <!--</li>-->
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
-                   aria-haspopup="true" aria-expanded="false">
-                    <i class="fas fa-terminal"></i> APIs
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="/render.html?token={{token}}"> /render </a>
-                    <a class="dropdown-item" href="/extract.html?token={{token}}"> /extract</a>
-                    <!--<div class="dropdown-divider"></div>-->
-                    <a class="dropdown-item" href="/simulate.html?token={{token}}"> /simulate</a>
-                    <a class="dropdown-item" href="/form.html?token={{token}}"> /form</a>
-                </div>
-            </li>
             <li class="nav-item">
-                <a class="nav-link" href="/docs.html?token={{token}}"><i class="fas fa-life-ring"></i> Documentation</a>
+
+
             </li>
-            <!--<li class="nav-item">-->
-                <!--<a class="nav-link" href="/log"><i class="fas fa-stream"></i> log</a>-->
+            <!--<li class="nav-item dropdown">-->
+            <!--<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"-->
+            <!--aria-haspopup="true" aria-expanded="false">-->
+            <!--<i class="fas fa-terminal"></i> APIs-->
+            <!--</a>-->
+            <!--<div class="dropdown-menu" aria-labelledby="navbarDropdown">-->
+            <!--<a class="dropdown-item" href="/render.html?token={{token}}"> /render </a>-->
+            <!--<a class="dropdown-item" href="/extract.html?token={{token}}"> /extract</a>-->
+            <!--&lt;!&ndash;<div class="dropdown-divider"></div>&ndash;&gt;-->
+            <!--<a class="dropdown-item" href="/simulate.html?token={{token}}"> /simulate</a>-->
+            <!--<a class="dropdown-item" href="/form.html?token={{token}}"> /form</a>-->
+            <!--</div>-->
             <!--</li>-->
+            <!--<li class="nav-item">-->
+            <!--<a class="nav-link" href="/docs.html?token={{token}}"><i class="fas fa-life-ring"></i> Documentation</a>-->
+            <!--</li>-->
+            <!--<li class="nav-item">-->
+            <!--<a class="nav-link" href="/log"><i class="fas fa-stream"></i> log</a>-->
+            <!--</li>-->
+
             {% endif %}
-            <li class="nav-item">
-                <a class="nav-link" target="_blank" href="https://github.com/crawlerflow/browser-engine">
-                    <i class="fab fa-github"></i> GitHub</a>
-            </li>
+
         </ul>
 
     </div>
 </nav>
+<div class="" style="margin-bottom: 65px;"></div>

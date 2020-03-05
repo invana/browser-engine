@@ -27,7 +27,7 @@ $(document).ready(function () {
         "  - selector_type: \"name\"\n" +
         "    field_value: \"password\"\n";
 
-    // var simulation_code = "" +
+    // var task_code = "" +
     //     "def simulate(driver=None):\n" +
     //     "    import random\n" +
     //     "    driver.switch_to.default_content()\n" +
@@ -58,12 +58,12 @@ $(document).ready(function () {
 
     $('[name="headers"]').html(header_template);
     $('[name="form_data"]').html(form_data);
-    // $('[name="simulation_code"]').html(simulation_code);
+    // $('[name="task_code"]').html(task_code);
     // $('[name="extractors"]').html(extractors_template);
     // $('[name="traversals"]').html(traversals_template);
 
 
-    var url_template = "https://invanalabs.ai";
+    var url_template = "http://invana.io";
     $('[name="url"]').val(url_template);
 
 
@@ -84,7 +84,7 @@ $(document).ready(function () {
         var extractors = null;
         var traversals = null;
 
-        var simulation_code = null;
+        var task_code = null;
         var timeout = $("#form [name='timeout']").val();
         var viewport = $("#form [name='viewport']").val();
         var take_screenshot = $("#form [name='take_screenshot']").is(":checked");
@@ -102,7 +102,7 @@ $(document).ready(function () {
             "headers": headers,
             "extractors": extractors,
             "traversals": traversals,
-            "simulation_code": simulation_code,
+            "task_code": task_code,
             "form_data": editor_form_data
 
         };

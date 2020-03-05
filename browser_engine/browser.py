@@ -7,6 +7,7 @@ from selenium.webdriver.common.proxy import Proxy, ProxyType
 from selenium.webdriver.chrome.options import Options
 import logging
 import yaml
+from browser_engine.default_settings import BROWSER_TYPE
 from datetime import datetime
 
 logger = logging.getLogger(__name__)
@@ -34,7 +35,7 @@ class DefaultBrowserSettings(object):
     def __init__(self, options=None):
         if options is not None:
             for k, v in options.items():
-                setattr(self, k.upper(), v)
+                setattr(self, k, v)
 
     def get_settings(self):
         settings = {}
@@ -83,7 +84,6 @@ class WebBrowser:
         self.driver.get(self.url)
 
     def refresh_browser(self):
-        print("Refresh the browser")
         self.driver.refresh()
 
     def update_headers(self, ):
@@ -94,7 +94,7 @@ class WebBrowser:
                 if cookie.get("name") and cookie.get("value"):
                     if "expiry" in cookie:
                         del cookie['expiry']
-                    print("Adding the cookie", cookie)
+                    logger.debug("Adding the cookie", cookie)
                     self.driver.add_cookie(
                         cookie
                     )
@@ -124,9 +124,10 @@ class WebBrowser:
             logger.error(e)
 
     def create_driver(self):
-        if self.browser_settings.browser_type == "CHROME":
+
+        if BROWSER_TYPE.lower() == "chrome":
             capabilities = webdriver.DesiredCapabilities.CHROME
-        elif self.browser_settings.browser_type == "FIREFOX":
+        elif BROWSER_TYPE.lower() == "firefox":
             capabilities = webdriver.DesiredCapabilities.FIREFOX
         else:
             raise NotImplementedError()

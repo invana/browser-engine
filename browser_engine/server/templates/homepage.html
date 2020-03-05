@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Crawler Flow Browser & Automation Engine</title>
     {% include 'includes/meta.html' %}
 </head>
 <body>
@@ -9,111 +8,32 @@
 <div class="container-fluid">
 
     <div class="row">
-        <div class="col-md-12">
-            <h1>Browser Engine</h1>
 
-            <p class="sub-heading">Web Automation and User behaviour simulations made easy with YAML configurations.</p>
-        </div>
     </div>
     <div class="row">
-        <div class="col-md-4">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">/render</h5>
-                    <p class="card-text">
-                        Renders a webpage in real browsers like Firefox, Chrome. More to be added soon.
-                    </p>
-                    <form class="form" action="/render.html" method="get">
-
-                        <div class="input-group mb-2">
-                            <input type="text" class="form-control form-control-sm" name="token"
-                                   placeholder="Auth token">
-                            <div class="input-group-append">
-                                <button class="btn btn-outline-primary btn-sm" type="submit">
-                                    Proceed
-                                </button>
-                            </div>
-                        </div>
-                        <p class="text-muted small">Default token is "iamlazydeveloper"</p>
-                    </form>
-                </div>
-            </div>
+        <div class="col-md-1">
         </div>
-        <div class="col-md-4">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">/extract</h5>
-                    <p class="card-text">
-                        Extractors clean JSON data from HTML with YAML configurations.
-                    </p>
-                    <form class="form" action="/extract.html" method="get">
+        <div class="col-md-6">
+            <!--<h4 class="font-weight-bold ml-5">Major Features</h4>-->
 
-                        <div class="input-group mb-2">
-                            <input type="text" class="form-control form-control-sm" name="token"
-                                   placeholder="Auth token">
-                            <div class="input-group-append">
-                                <button class="btn btn-outline-primary btn-sm" type="submit">
-                                    Proceed
-                                </button>
-                            </div>
-                        </div>
-                        <p class="text-muted small">Default token is "iamlazydeveloper"</p>
-                    </form>
-                    <!--<a href="#" class="card-link btn btn-secondary">coming soon</a>-->
-                    <!--<a href="#" class="card-link text-muted"><i class="fa fa-question-circle" aria-hidden="true"></i> help</a>-->
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">/simulate</h5>
-                    <p class="card-text">
-                        Renders webpage, simulate actions like click, hover and extracts with YAML configurations.
-                    </p>
-                    <form class="form" action="/simulate.html" method="get">
+            <h1>Browser Engine</h1>
 
-                        <div class="input-group mb-2">
-                            <input type="text" class="form-control form-control-sm" name="token"
-                                   placeholder="Auth token">
-                            <div class="input-group-append">
-                                <button class="btn btn-outline-secondary btn-sm" type="submit">
-                                    Proceed
-                                </button>
-                            </div>
-                        </div>
-                        <p class="text-muted small">Default token is "iamlazydeveloper"</p>
-                    </form>
-                    <!--<a href="#" class="card-link btn btn-secondary">coming soon</a>-->
-                    <!--<a href="#" class="card-link text-muted"><i class="fa fa-question-circle" aria-hidden="true"></i> help</a>-->
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">/form</h5>
-                    <p class="card-text">
-                         Submits a form data.
-                    </p>
-                    <form class="form" action="/form.html" method="get">
+            <p class="sub-heading">Web Browser Automation and User behaviour simulations made simple.</p>
 
-                        <div class="input-group mb-2">
-                            <input type="text" class="form-control form-control-sm" name="token"
-                                   placeholder="Auth token">
-                            <div class="input-group-append">
-                                <button class="btn btn-outline-secondary btn-sm" type="submit">
-                                    Proceed
-                                </button>
-                            </div>
-                        </div>
-                        <p class="text-muted small">Default token is "iamlazydeveloper"</p>
-                    </form>
-                    <!--<a href="#" class="card-link btn btn-secondary">coming soon</a>-->
-                    <!--<a href="#" class="card-link text-muted"><i class="fa fa-question-circle" aria-hidden="true"></i> help</a>-->
-                </div>
-            </div>
+            <ul class="features-list">
+                <li>Renders WebPage</li>
+                <li>Auto-full and Submit forms</li>
+                <li>Simulate actions like click, hover on web elements</li>
+                <li>Take Screenshot of UI components</li>
+                <li>Extract structured data like headings, anchors, meta, JSON+LD.</li>
+                <li>Extract custom data using YAML configurations.</li>
+            </ul>
+            <p class="small">Built with love by
+                <a target="_blank" href="http://invanalabs.ai">Invana Labs</a>
+            </p>
+
         </div>
+
     </div>
 </div>
 {% include 'includes/footer.html' %}

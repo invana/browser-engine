@@ -20,7 +20,7 @@ $(document).ready(function () {
     $('[name="headers"]').html(header_template);
 
 
-    var url_template = "https://invanalabs.ai";
+    var url_template = "http://invana.io";
     $('[name="url"]').val(url_template);
 
 

@@ -64,12 +64,12 @@ episodes_extraction_manifest = """
 request = WebSimulationRequest(url=url,
                                # browser_settings={"selenium_host": "http://192.168.0.10:4444"},
                                simulations={
-                                   "meta_data": {"simulation_type": "json_extractor",
-                                                 "simulation_code": default_extraction_manifest},
-                                   "click_episodes": {"simulation_type": "browser_simulation",
-                                                      "simulation_code": click_episodes},
-                                   "episodes_data": {"simulation_type": "json_extractor",
-                                                     "simulation_code": episodes_extraction_manifest},
+                                   "meta_data": {"task_type": "json_extractor",
+                                                 "task_code": default_extraction_manifest},
+                                   "click_episodes": {"task_type": "browser_simulation",
+                                                      "task_code": click_episodes},
+                                   "episodes_data": {"task_type": "json_extractor",
+                                                     "task_code": episodes_extraction_manifest},
 
                                })
 response = request.run()
