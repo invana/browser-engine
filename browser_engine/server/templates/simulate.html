@@ -38,7 +38,7 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link " id="init-headers-tab" data-toggle="tab" href="#init-headers" role="tab"
-                           aria-controls="init-headers" aria-selected="false">Init Headers</a>
+                           aria-controls="init-headers" aria-selected="false">Initial Headers</a>
                     </li>
                 </ul>
                 <div class="tab-content" id="tasks-content">
@@ -51,10 +51,11 @@
                         <div class="mb-2">
                             <div class="input-group mb-3 mt-3">
                                 <select name="new_task_type" id="new-task-type" class="form-control">
-                                    <option value="browser_simulation">Browser Simulation</option>
-                                    <option value="json_extractor">JSON Extraction</option>
                                     <option value="get_html">HTML Extractor</option>
                                     <option value="get_screenshot">Screenshot</option>
+                                    <option value="browser_simulation">Browser Simulation</option>
+                                    <option value="json_extractor">JSON Extraction</option>
+
                                 </select>
                                 <div class="input-group-append">
                                     <button class="btn btn-primary add-new-task btn-sm" type="button">+ Add Task</button>
@@ -64,7 +65,7 @@
                     </div>
                     <div class="tab-pane fade" id="init-headers" role="tabpanel" aria-labelledby="init-headers-tab">
                         <div class="mb-2 mt-2">
-                            <label><strong>Init Headers</strong></label>
+                            <label><strong>Initial Headers</strong></label>
                             <textarea name="init_headers" class="form-control" cols="30" rows="10"></textarea>
                             <p><a id="load-init-headers" href="javascript:void(0);">load template</a></p>
                         </div>

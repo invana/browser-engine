@@ -140,72 +140,63 @@ $(document).ready(function () {
         // options here
         var timeout = $(".header-form [name='timeout']").val();
         var viewport = $(".header-form [name='viewport']").val();
-        var take_screenshot = $(".header-form [name='take_screenshot']").is(":checked");
 
-        if (take_screenshot === true) {
-            take_screenshot = 1
-        } else {
-            take_screenshot = 0;
-        }
 
         // payload here
         var init_headers = $("#form [name='init_headers']").val();
 
         var tasks = {};
         console.log("$(\".task-section\")", $(".task-section"))
-        $(".task-section").each(function (task) {
 
-            console.log("task", task)
-            var task_id = $(this).data("task-id");
-            tasks[task_id] = {
-                "task_type": $(this).find('[name= "task_type"]').val(),
-                "task_code": $(this).find('[name= "task_code"]').val(),
-            }
-
-        });
-
-
-        let params = (new URL(document.location)).searchParams;
-        let token = params.get("token");
-        console.log("url", url);
-        var body = {
-            "init_headers": init_headers,
-            // "traversals": traversals,
-            "tasks": tasks
-        };
-        console.log("bodybody", body);
-
-        $.ajax({
-            type: 'POST',
-            url: "/execute?url=" + url + "&timeout=" + timeout + "&viewport=" + viewport
-                + "&token=" + token + "&take_screenshot=" + take_screenshot,
-            data: JSON.stringify(body),
-            contentType: "application/json",
-            dataType: 'json'
-        })
-            .done(function (data) {
-                console.log(data);
-
-
-                var task_results = data['response']['task_results'];
-                if (task_results) {
-                    Object.keys(task_results).forEach(function (key) {
-                        if (task_results[key]['html']) {
-                            task_results[key]['html'] = "< =truncated in this view.= >";
-                        }
-                    });
+        if ($(".task-section").length === 0) {
+            alert("Add atleast on task ");
+        } else {
+            $(".task-section").each(function (task) {
+                var task_id = $(this).data("task-id");
+                tasks[task_id] = {
+                    "task_type": $(this).find('[name= "task_type"]').val(),
+                    "task_code": $(this).find('[name= "task_code"]').val(),
                 }
-
-                // data['response']['html'] = "< =truncated= >";
-                var screenshot = data['response']['screenshot'];
-                $("#response-viewer").html(JSON.stringify(data, null, 4));
-                $("#response-img").attr("src", "data:image/png;base64," + screenshot);
-            })
-            .fail(function (error) {
-                console.error(error);
-            })
-            .always(function () {
-                // called after done or fail
             });
+
+
+            let params = (new URL(document.location)).searchParams;
+            let token = params.get("token");
+            console.log("url", url);
+            var body = {
+                "init_headers": init_headers,
+                "tasks": tasks
+            };
+            console.log("bodybody", body);
+            $.ajax({
+                type: 'POST',
+                url: "/execute?url=" + url + "&timeout=" + timeout + "&viewport=" + viewport
+                    + "&token=" + token ,
+                data: JSON.stringify(body),
+                contentType: "application/json",
+                dataType: 'json'
+            })
+                .done(function (data) {
+                    console.log(data);
+                    var task_results = data['response']['task_results'];
+                    if (task_results) {
+                        Object.keys(task_results).forEach(function (key) {
+                            if (task_results[key]['html']) {
+                                task_results[key]['html'] = "< =truncated in this view.= >";
+                            }
+                        });
+                    }
+                    // data['response']['html'] = "< =truncated= >";
+                    var screenshot = data['response']['screenshot'];
+                    $("#response-viewer").html(JSON.stringify(data, null, 4));
+                    $("#response-img").attr("src", "data:image/png;base64," + screenshot);
+                })
+                .fail(function (error) {
+                    console.error(error);
+                })
+                .always(function () {
+                    // called after done or fail
+                });
+        }
     })
 });
