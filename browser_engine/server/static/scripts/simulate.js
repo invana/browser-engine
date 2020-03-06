@@ -138,8 +138,8 @@ $(document).ready(function () {
         var url = $(".header-form [name='url']").val();
 
         // options here
-        var timeout = $(".header-form [name='timeout']").val();
-        var viewport = $(".header-form [name='viewport']").val();
+        var timeout = $("[name='timeout']").val();
+        var viewport = $("[name='viewport']").val();
 
         // payload here
         var init_headers = $("#form [name='init_headers']").val();
@@ -174,6 +174,7 @@ $(document).ready(function () {
                 .done(function (data) {
                     console.log(data);
                     var task_results = data['response']['task_results'];
+                    $("#response-container").show();
                     $("#response-viewer").html("");
                     if (task_results) {
                         Object.keys(task_results).forEach(function (key) {
