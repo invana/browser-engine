@@ -87,12 +87,7 @@ $(document).ready(function () {
         var task_code = null;
         var timeout = $("#form [name='timeout']").val();
         var viewport = $("#form [name='viewport']").val();
-        var take_screenshot = $("#form [name='take_screenshot']").is(":checked");
-        if (take_screenshot === true) {
-            take_screenshot = 1
-        } else {
-            take_screenshot = 0;
-        }
+
 
 
         let params = (new URL(document.location)).searchParams;
@@ -111,7 +106,7 @@ $(document).ready(function () {
         $.ajax({
             type: 'POST',
             url: "/execute?url=" + url + "&timeout=" + timeout + "&viewport=" + viewport
-                + "&token=" + token + "&take_screenshot=" + take_screenshot,
+                + "&token=" + token  ,
             data: JSON.stringify(body),
             contentType: "application/json",
             dataType: 'json'

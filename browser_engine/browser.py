@@ -19,13 +19,11 @@ class DefaultBrowserSettings(object):
     options = {
         "enable_images" : false,
         "enable_adblocker": false,
-        "take_screenshot": false,
         "viewport": "1280x720",
         "timeout": 180
     }
     """
     viewport = "12680x720"
-    take_screenshot = False
     enable_adblocker = False
     enable_images = False
     timeout = 180

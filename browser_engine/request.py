@@ -81,7 +81,8 @@ class WebSimulationRequest:
                 "url": self.url,
                 "method": self.method,
                 "init_headers": self.init_headers,
-                "browser_settings": self.browser.browser_settings.get_settings()
+                "browser_settings": self.browser.browser_settings.get_settings(),
+                "tasks": self.tasks
             },
             "response": {}
         }

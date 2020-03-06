@@ -141,13 +141,10 @@ $(document).ready(function () {
         var timeout = $(".header-form [name='timeout']").val();
         var viewport = $(".header-form [name='viewport']").val();
 
-
         // payload here
         var init_headers = $("#form [name='init_headers']").val();
 
         var tasks = {};
-        console.log("$(\".task-section\")", $(".task-section"))
-
         if ($(".task-section").length === 0) {
             alert("Add atleast on task ");
         } else {
@@ -158,7 +155,6 @@ $(document).ready(function () {
                     "task_code": $(this).find('[name= "task_code"]').val(),
                 }
             });
-
 
             let params = (new URL(document.location)).searchParams;
             let token = params.get("token");
@@ -171,7 +167,7 @@ $(document).ready(function () {
             $.ajax({
                 type: 'POST',
                 url: "/execute?url=" + url + "&timeout=" + timeout + "&viewport=" + viewport
-                    + "&token=" + token ,
+                    + "&token=" + token,
                 data: JSON.stringify(body),
                 contentType: "application/json",
                 dataType: 'json'

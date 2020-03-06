@@ -57,14 +57,12 @@ class ExecuteAPIView(Resource):
         kwargs['method'] = flask_request.args.get('http_method', 'get')
         kwargs['debug'] = flask_request.args.get('debug_mode', 0)
 
-        take_screenshot = int(flask_request.args.get('take_screenshot', default=0))
         viewport = flask_request.args.get('viewport', default="1280x720")
         enable_images = flask_request.args.get('enable_images', default=0)
         timeout = int(flask_request.args.get('timeout', default=180))
         browser_type = flask_request.args.get('browser_type', default="chrome")
         browser_settings = {
             "enable_images": False if enable_images is 0 else True,
-            "take_screenshot": False if take_screenshot is 0 else True,
             "viewport": viewport,
             "timeout": timeout,
             "browser_type": browser_type
@@ -76,7 +74,7 @@ class ExecuteAPIView(Resource):
         tasks = json_data.get("tasks", {})
         if init_headers:
             if type(init_headers) is not dict:
-                headers = yaml.load(init_headers, yaml.Loader)
+                init_headers = yaml.load(init_headers, yaml.Loader)
         kwargs['init_headers'] = init_headers
         kwargs['tasks'] = tasks
         return kwargs
