@@ -1,2 +1,53 @@
+<ul class="nav nav-tabs" id="myTab" role="tablist">
+    <li class="nav-item">
+        <a class="nav-link active" id="result-response-tab" data-toggle="tab"
+           href="#result-response" role="tab" aria-controls="result-response"
+           aria-selected="true">Response</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link " id="result-request-tab" data-toggle="tab" href="#result-request" role="tab"
+           aria-controls="result-request" aria-selected="false">Requests</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link " id="result-browser-settings-tab" data-toggle="tab" href="#result-browser-settings"
+           role="tab"
+           aria-controls="result-browser-settings" aria-selected="false">Browser Settings</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link " id="response-raw-tab" data-toggle="tab" href="#response-raw"
+           role="tab"
+           aria-controls="response-raw" aria-selected="false">Browser Settings</a>
+    </li>
+</ul>
+<div class="tab-content">
+
+    <div class="tab-pane fade  show active" id="result-response" role="tabpanel"
+         aria-labelledby="result-response-tab">
+        <div class="mb-2 mt-2">
+            <pre id="response-viewer"></pre>
+        </div>
+
+    </div>
+    <div class="tab-pane fade" id="result-request" role="tabpanel" aria-labelledby="result-request-tab">
+        <div class="mb-2 mt-2">
+            <pre id="request-viewer"></pre>
+
+        </div>
+    </div>
+    <div class="tab-pane fade" id="result-browser-settings" role="tabpanel"
+         aria-labelledby="result-browser-settings-tab">
+        <div class="mb-2 mt-2">
+            <pre id="browser-settings-viewer"></pre>
+
+        </div>
+    </div>
+    <div class="tab-pane fade" id="response-raw" role="tabpanel"
+         aria-labelledby="response-raw-tab">
+        <div class="mb-2 mt-2">
+            <pre id="response-raw-viewer"></pre>
+
+        </div>
+    </div>
+
+</div>
 <img src="" id="response-img" alt="" class="img-fluid">
-<pre id="response-viewer"></pre>

@@ -54,7 +54,7 @@ $(document).ready(function () {
     $("#load-init-headers").click(function () {
         $('[name="init_headers"]').html(header_init_template);
 
-    })
+    });
 
 
     $(".add-new-task").click(function () {
@@ -62,7 +62,7 @@ $(document).ready(function () {
 
         var new_task_type = $("#new-task-type").val();
         console.log("===new_task_type", new_task_type);
-        var task_id = "task-" + task_length;
+        var task_id = "task-" + (parseInt(task_length) + 1);
         var div_template = $("<div class=\"mb-2 task-section\" data-task-id='" + task_id + "' >\n" +
             "    <button class=\"btn btn-danger remove-task\" data-task-id='" + task_id + "' type=\"button\">- remove</button>\n" +
             "    <div class=\"clearfix\"></div>\n" +
@@ -163,7 +163,6 @@ $(document).ready(function () {
                 "init_headers": init_headers,
                 "tasks": tasks
             };
-            console.log("bodybody", body);
             $.ajax({
                 type: 'POST',
                 url: "/execute?url=" + url + "&timeout=" + timeout + "&viewport=" + viewport
@@ -175,17 +174,45 @@ $(document).ready(function () {
                 .done(function (data) {
                     console.log(data);
                     var task_results = data['response']['task_results'];
+                    $("#response-viewer").html("");
                     if (task_results) {
                         Object.keys(task_results).forEach(function (key) {
-                            if (task_results[key]['html']) {
-                                task_results[key]['html'] = "< =truncated in this view.= >";
+                            var task = task_results[key];
+                            console.log("r=====>>>> <<<<======>>> ", task, key);
+
+
+                            var card_html = $("<div class='card mb-3' id='task-response-" + key + "'>" +
+                                "<div class='card-header' >Task Id: <strong>" + key +
+                                "</strong> (" + task.task_type + ")" +
+                                "</strong> (" + ((task.is_task_success === true) ? "success" : "failed") + ")" +
+                                "</strong> ( took " + task.task_elapsed_time_ms + ")" +
+                                "</div>" +
+                                "<div class='card-body' ></div>" +
+                                "</div>");
+
+                            if (task.task_type === "get_screenshot") {
+                                var image = $("<img class='img-fluid' />").attr("src", "data:image/png;base64," + task['data']);
+                                console.log("======image", image)
+                                card_html.find(".card-body").html(image);
+                            } else if (task.task_type === "get_html") {
+                                card_html.find(".card-body").text(task['data']);
+
                             }
+
+                            $("#response-viewer").append(card_html);
+
                         });
                     }
+
+                    $("#response-raw-viewer").text(JSON.stringify(data, null, 4));
+
                     // data['response']['html'] = "< =truncated= >";
                     var screenshot = data['response']['screenshot'];
-                    $("#response-viewer").html(JSON.stringify(data, null, 4));
-                    $("#response-img").attr("src", "data:image/png;base64," + screenshot);
+                    // $("#response-viewer").html(JSON.stringify(data, null, 4));
+
+
+                    $("#request-viewer").text(JSON.stringify(data['request'], null, 4));
+                    $("#browser-settings-viewer").text(JSON.stringify(data['request']['browser_settings'], null, 4));
                 })
                 .fail(function (error) {
                     console.error(error);
