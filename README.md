@@ -2,9 +2,12 @@
 
 Web Automation and User behaviour simulations made easy with YAML configurations.
 
+![Architecture](browser_engine/server/static/images/architecture.png)
+
+
 ## Requirements
 
-- Python 3.6
+- Python 3.6 or above
 - Selenium webdriver
 
 
@@ -12,6 +15,10 @@ Web Automation and User behaviour simulations made easy with YAML configurations
 
 ```bash
 pip install browser-engine
+
+or 
+
+pip install git+https://github.com/invanalabs/browser-engine.git#egg=browser_engine
 ```
 
 ```bash
@@ -52,12 +59,9 @@ docker run  --name browser-engine -d -p 5000:5000 browser-engine
 
 ## Screenshots
 
-##### Homepage 
+ 
 ![Screenshot](docs/screenshot.png)
 
-##### Render API
-![Screenshot](docs/render-screenshot.png)
-
-
+ 
 
  
