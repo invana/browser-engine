@@ -36,6 +36,11 @@ def restful_api():
     return render_template('docs/restful-api.html', )
 
 
+@app.route('/docs/core-concepts.html')
+def core_concepts_docs():
+    return render_template('docs/core-concepts.html', )
+
+
 @app.route('/docs/python-api.html')
 def python_api():
     return render_template('docs/python-api.html', )

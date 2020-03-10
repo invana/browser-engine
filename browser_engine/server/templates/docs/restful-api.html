@@ -51,25 +51,17 @@
                 </tr>
                 <tr>
                     <td>timeout</td>
-                    <td>in seconds. example:180</td>
+                    <td>in seconds. default:180</td>
+                </tr>
+                <tr>
+                    <td>viewport</td>
+                    <td>browser viewport. default:1280x720</td>
                 </tr>
                 <tr>
                     <td>token</td>
                     <td>secret token. example:iamlazydeveloper</td>
                 </tr>
-                <tr>
-                    <td>tasks</td>
-                    <td>tasks as dictionary. example:  {
-        "task-1": {
-            "task_type": "get_screenshot",
-            "task_code": ""
-        },
-        "task-2": {
-            "task_type": "get_html",
-            "task_code": ""
-        }
-    }</td>
-                </tr>
+
 
             </table>
 
@@ -83,7 +75,7 @@
                     <td>init_headers</td>
                     <td>init Headers in yaml format. Example:
 
-<pre>
+                        <pre>
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3809.100 Safari/517.36
 Cookies:
 - name: user.expires_at
@@ -98,7 +90,7 @@ Proxy: null
                     <td>tasks</td>
                     <td>tasks in json format. Example:
 
-<pre>
+                        <pre>
 {
         "task-1": {
             "task_type": "get_screenshot",
@@ -135,29 +127,29 @@ Proxy: null
                     </td>
                 </tr>
 
-<!-- -->
-<!--                <tr>-->
-<!--                    <td>form_data</td>-->
-<!--                    <td>Form data to simulate a form submission.-->
-<!--                        <pre>-->
-<!--form_identifier:-->
-<!--  selector: "form.login-form"-->
-<!--  selector_type: "css"-->
-<!--  index_number: 0-->
-<!--submit_identifier:-->
-<!--  selector: ".btn-submit"-->
-<!--fields:-->
-<!--  - selector: "userLoginId"-->
-<!--    selector_type: "name"-->
-<!--    field_value: "hello@example.com"-->
-<!--  - selector: "password"-->
-<!--    selector_type: "name"-->
-<!--    field_value: "password"-->
+                <!-- -->
+                <!--                <tr>-->
+                <!--                    <td>form_data</td>-->
+                <!--                    <td>Form data to simulate a form submission.-->
+                <!--                        <pre>-->
+                <!--form_identifier:-->
+                <!--  selector: "form.login-form"-->
+                <!--  selector_type: "css"-->
+                <!--  index_number: 0-->
+                <!--submit_identifier:-->
+                <!--  selector: ".btn-submit"-->
+                <!--fields:-->
+                <!--  - selector: "userLoginId"-->
+                <!--    selector_type: "name"-->
+                <!--    field_value: "hello@example.com"-->
+                <!--  - selector: "password"-->
+                <!--    selector_type: "name"-->
+                <!--    field_value: "password"-->
 
-<!--</pre>-->
+                <!--</pre>-->
 
-<!--                    </td>-->
-<!--                </tr>-->
+                <!--                    </td>-->
+                <!--                </tr>-->
             </table>
         </div>
     </div>

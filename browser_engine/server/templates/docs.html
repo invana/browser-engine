@@ -6,6 +6,11 @@
 
 </head>
 <body>
+<style>
+    a p {
+        color: #1b1e21 !important;
+    }
+</style>
 {% include 'includes/simple-header.html' %}
 
 <div class="container-fluid">
@@ -19,14 +24,24 @@
             </header>
 
             <div class="row">
-                <div class="col-md-2">
-
+                <div class="col-md-4">
+                    <a href="/docs/core-concepts.html">
+                        <div class="card mt-4">
+                            <div class="card-body">
+                                <h3>Introduction</h3>
+                                <p>core concepts, setup, architecture &
+                                    how to extend.</p>
+                            </div>
+                        </div>
+                    </a>
                 </div>
                 <div class="col-md-4">
                     <a href="/docs/restful-api.html">
                         <div class="card mt-4">
                             <div class="card-body">
                                 <h3>Restful API</h3>
+                                <p>RESTful integration implementation.</p>
+
                             </div>
                         </div>
                     </a>
@@ -36,6 +51,7 @@
                         <div class="card mt-4">
                             <div class="card-body">
                                 <h3>Python API</h3>
+                                <p>Python integrations implementation.</p>
                             </div>
                         </div>
                     </a>

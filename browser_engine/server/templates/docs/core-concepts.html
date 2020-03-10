@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Introduction Documentation</title>
+    {% include 'includes/meta.html' %}
+</head>
+<body>
+{% include 'includes/simple-header.html' %}
+
+<div class="container-fluid">
+
+    <div class="row">
+        <div class="col-md-12">
+
+            <header>
+                <h1>Introduction</h1>
+                <p class="sub-heading">Introduction to core concepts, setup, architecture &
+                    how to extend.</p>
+            </header>
+        </div>
+        <div class="col-md-12">
+            <h4>Setup Server</h4>
+            <pre>
+export SELENIUM_HOST=http://127.0.0.1:4444 # this is selenium server.
+export BROWSER_TYPE=chrome
+export AUTH_TOKEN=iamlazydeveloper
+
+# running with uwsgi
+uwsgi --socket 0.0.0.0:5000 --protocol=http -w browser_engine.server.wsgi:application --processes 4 --threads 2
+
+# or
+
+# running as simple python server
+python -m  browser_engine.server.app run
+            </pre>
+        </div>
+
+        <div class="col-md-12">
+            <h4>Terminology</h4>
+
+            <table class="table table-bordered table-striped">
+                <tr>
+                    <th width="200">term</th>
+                    <th>Description</th>
+                </tr>
+                <tr>
+                    <td>WebBrowser</td>
+                    <td>Web Browser can be simple python http client, selenium htmlunit, selenium chrome, selenium firefox or splash.</td>
+                </tr>
+                <tr>
+                    <td>WebRequest</td>
+                    <td>Request to run a web simulation</td>
+                </tr>
+
+                <tr>
+                    <td>WebResponse</td>
+                    <td>Response from web simulation</td>
+                </tr>
+                <tr>
+                    <td>Task</td>
+                    <td>Task to run on top of the browser ie., get screenshot, get page source, extract json, submit form,
+                    run pythonic simulation with selenium driver.</td>
+                </tr>
+
+
+            </table>
+
+
+        </div>
+    </div>
+
+
+</div>
+{% include 'includes/footer.html' %}
+
+</body>
+</html>
