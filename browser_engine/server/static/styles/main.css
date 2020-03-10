@@ -8,7 +8,7 @@ h1 {
     padding-bottom: 0;
     /* line-height: 1rem; */
     font-size: 3.0rem;
-    margin-top: 10rem;
+    margin-top: 6rem;
     font-weight: bold;
 }
 
@@ -118,4 +118,11 @@ textarea[name="extractors"]:focus {
 
 .features-list {
     padding-left: 20px;
+}
+
+pre {
+    /*background: #424242;*/
+    padding: 10px;
+    /*color: #efefef;*/
+    margin-top: .5rem;
 }

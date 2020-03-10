@@ -69,10 +69,10 @@ $(document).ready(function () {
             "    <div class=\"clearfix\"></div>\n" +
             // "    <label><strong>Task Type</strong></label>\n" +
             "    <select name=\"task_type\" data-task-id='" + task_id + "' class=\"form-control task_type mb-2 mt-2\">\n" +
+            "        <option value=\"get_screenshot\" selected>get screenshot</option>\n" +
             "        <option value=\"browser_simulation\">Browser Simulation</option>\n" +
             "        <option value=\"json_extractor\">JSON Extraction</option>\n" +
-            "        <option value=\"get_html\">HTML Extractor</option>\n" +
-            "        <option value=\"get_screenshot\">Screenshot</option>\n" +
+            "        <option value=\"get_html\">get page source </option>\n" +
             "    </select>\n" +
             // "    <label><strong>Task Code</strong></label>\n" +
             "    <textarea name=\"task_code\" data-task-id='" + task_id + "' class=\"form-control task_code \" cols=\"30\" rows=\"10\"></textarea>\n" +

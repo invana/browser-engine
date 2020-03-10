@@ -31,6 +31,16 @@ def docs():
     return render_template('docs.html', )
 
 
+@app.route('/docs/restful-api.html')
+def restful_api():
+    return render_template('docs/restful-api.html', )
+
+
+@app.route('/docs/python-api.html')
+def python_api():
+    return render_template('docs/python-api.html', )
+
+
 @app.route('/simulate.html')
 def simulate():
     token = request.args.get('token')
@@ -58,14 +68,12 @@ class ExecuteAPIView(Resource):
         kwargs['debug'] = flask_request.args.get('debug_mode', 0)
 
         viewport = flask_request.args.get('viewport', default="1280x720")
-        enable_images = flask_request.args.get('enable_images', default=0)
+        load_images = flask_request.args.get('load_images', default=0)
         timeout = int(flask_request.args.get('timeout', default=180))
-        browser_type = flask_request.args.get('browser_type', default="chrome")
         browser_settings = {
-            "enable_images": False if enable_images is 0 else True,
+            "load_images": False if load_images is 0 else True,
             "viewport": viewport,
-            "timeout": timeout,
-            "browser_type": browser_type
+            "timeout": timeout
         }
         logger.debug("Browser settings is {}".format(browser_settings))
         kwargs['browser_settings'] = browser_settings

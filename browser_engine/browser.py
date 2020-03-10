@@ -17,7 +17,7 @@ class DefaultBrowserSettings(object):
     """
 
     options = {
-        "enable_images" : false,
+        "load_images" : false,
         "enable_adblocker": false,
         "viewport": "1280x720",
         "timeout": 180
@@ -25,7 +25,7 @@ class DefaultBrowserSettings(object):
     """
     viewport = "12680x720"
     enable_adblocker = False
-    enable_images = False
+    load_images = False
     timeout = 180
     browser_type = "CHROME"
     SELENIUM_HOST = DEFAULT_SELENIUM_HOST

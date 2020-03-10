@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>RESTful API Documentation</title>
+    {% include 'includes/meta.html' %}
+</head>
+<body>
+{% include 'includes/simple-header.html' %}
+
+<div class="container-fluid">
+
+    <div class="row">
+        <div class="col-md-12">
+
+            <header>
+                <h1>RESTful API Documentation</h1>
+                <p class="sub-heading">Notes on API Implementation</p>
+
+            </header>
+
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="input-group mb-3 docs-input">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">POST</span>
+                        </div>
+                        <input type="text" value="/execute" readonly class="form-control">
+                    </div>
+
+                </div>
+                <div class="col-md-1">
+                </div>
+                <div class="col-md-5">
+
+                </div>
+            </div>
+
+
+        </div>
+        <div class="col-md-12">
+            <h6 class="mt-3">URL Parameters</h6>
+            <table class="table table-bordered table-striped">
+                <tr>
+                    <th>param</th>
+                    <th>Description</th>
+                </tr>
+                <tr>
+                    <td>url</td>
+                    <td>encoded url example:http://invana.io</td>
+                </tr>
+                <tr>
+                    <td>timeout</td>
+                    <td>in seconds. example:180</td>
+                </tr>
+                <tr>
+                    <td>token</td>
+                    <td>secret token. example:iamlazydeveloper</td>
+                </tr>
+                <tr>
+                    <td>tasks</td>
+                    <td>tasks as dictionary. example:  {
+        "task-1": {
+            "task_type": "get_screenshot",
+            "task_code": ""
+        },
+        "task-2": {
+            "task_type": "get_html",
+            "task_code": ""
+        }
+    }</td>
+                </tr>
+
+            </table>
+
+            <h6 class="mt-5">Payload</h6>
+            <table class="table table-bordered table-striped mb-5">
+                <tr>
+                    <th>key</th>
+                    <th>value</th>
+                </tr>
+                <tr>
+                    <td>init_headers</td>
+                    <td>init Headers in yaml format. Example:
+
+<pre>
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3809.100 Safari/517.36
+Cookies:
+- name: user.expires_at
+  value: xxxxxx
+  domain: www.example.com
+Referer: null
+Proxy: null
+</pre>
+                    </td>
+                </tr>
+                <tr>
+                    <td>tasks</td>
+                    <td>tasks in json format. Example:
+
+<pre>
+{
+        "task-1": {
+            "task_type": "get_screenshot",
+            "task_code": ""
+        },
+        "task-2": {
+            "task_type": "get_html",
+            "task_code": ""
+        },
+        "task-3": {
+            "task_type": "json_extractor",
+            "task_code": "- extractor_type: MetaTagExtractor
+  extractor_id: meta_tags
+- extractor_type: CustomContentExtractor
+  extractor_id: content
+  data_selectors:
+  - selector_id: title
+    selector: title
+    selector_type: css
+    selector_attribute: text
+    data_type: RawField
+"
+        },
+        "task-4": {
+            "task_type": "browser_simulation",
+            "task_code": "def simulate(driver=None):
+    import random
+    driver.switch_to.default_content()
+    driver.implicitly_wait(random.randint(0, 2))
+    print ('Successfully waited for sometime')"
+        }
+    }
+</pre>
+                    </td>
+                </tr>
+
+<!-- -->
+<!--                <tr>-->
+<!--                    <td>form_data</td>-->
+<!--                    <td>Form data to simulate a form submission.-->
+<!--                        <pre>-->
+<!--form_identifier:-->
+<!--  selector: "form.login-form"-->
+<!--  selector_type: "css"-->
+<!--  index_number: 0-->
+<!--submit_identifier:-->
+<!--  selector: ".btn-submit"-->
+<!--fields:-->
+<!--  - selector: "userLoginId"-->
+<!--    selector_type: "name"-->
+<!--    field_value: "hello@example.com"-->
+<!--  - selector: "password"-->
+<!--    selector_type: "name"-->
+<!--    field_value: "password"-->
+
+<!--</pre>-->
+
+<!--                    </td>-->
+<!--                </tr>-->
+            </table>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <h5>Converting cookies string into dictionary or yaml.</h5>
+            <pre>
+from browser_engine.utils import get_cookies_dict_list_from_string, convert_json_to_yaml
+
+cookie_string = "memclid=9235; nfvdid=BQFmAAEBEA0nZkKWaz0OULAVLBkLg1RgsxYtr0CbTa43Pe9qr%2Fd9gIH98p4OCZuOCPGk8GkuBWo7ccSgx1JS8POHJ%2FMBzANkiRGFcgxv7GOSghBXvDwPOLkFgddDK5AHv; clSharedContext=706154e2--4vaf-ab53-6e4b8dc547ef; pas=%7B%22supplementals%22%3A%7B%22muted%22%3Atrue%7D%7D; SecureNetflixId=x%3D2%%.%26dt%; NetflixId=ct%3DBQAasOAAEBEac_vbRrnJoyNv---WcDrFJTeNyPla2sv7ol_aJAXMlpitur---Ax12BoW6rcnreRGEGlq-Hc7ZLfrC6sV7tt--a3vjp5doKVmmZ-VYXLjj2ccKFN6GjQIPoaFznO8dK2lVo1CxtyzafL0j5zZunRFZBPDFwwg5KCN8oUKiaTXXe3r4bN6wqR3--..%26bt%3Ddbl%26ch%.%26v%3D2%26mac%3DAQEAEAABABRa5_eZ31mik5DZ_BWN8skU0ZfjLNrBoljE.; playerPerfMetrics=%7B%22uiValue%22%a3A%7B%%22%3A985%2C%22throughputNiqr%22%3A3.19237681023315789%7D%2C%22mostRecentValue%22%3A%7B%22throughput%22%3A98335%2C%22throughputNiqr%22%3A3.19237683210215789%7D%7D; profilesNewSession=0; lhpuuidh-browse-Z5UIWCZ=IN%3AEN-IN%3A2c88dce0-a21d-44fa-a479-87878ac17dca_ROOT; lhpuuidh-browse-Z5UIWCZARJGMWSWTOPU-T=15745883643"
+a = get_cookies_dict_list_from_string(cookie_string, domain="netflix.com")
+print(a)
+yaml_str = convert_json_to_yaml(a)
+print(yaml_str)
+
+                    </pre>
+        </div>
+    </div>
+</div>
+{% include 'includes/footer.html' %}
+
+</body>
+</html>
