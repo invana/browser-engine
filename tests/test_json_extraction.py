@@ -63,7 +63,7 @@ episodes_extraction_manifest = """
 
 request = WebSimulationRequest(url=url,
                                # browser_settings={"selenium_host": "http://192.168.0.10:4444"},
-                               simulations={
+                               tasks={
                                    "meta_data": {"task_type": "json_extractor",
                                                  "task_code": default_extraction_manifest},
                                    "click_episodes": {"task_type": "browser_simulation",
@@ -74,11 +74,6 @@ request = WebSimulationRequest(url=url,
                                })
 response = request.run()
 
-print(response)
-print(response.keys())
-print(response['response'].keys())
 print("=============")
-for k, simulation in response['response'].items():
-    print(k, simulation['error_message'])
-    # print(k,  simulation['result'])
-    print(k, simulation['elapsed_time_ms'], simulation['result'])
+for k, task_result in response['response'].items():
+    print(k, task_result)

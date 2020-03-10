@@ -123,10 +123,14 @@ class WebBrowser:
 
     def create_driver(self):
 
-        if BROWSER_TYPE.lower() == "chrome":
+        if BROWSER_TYPE.lower() == "selenium-chrome":
             capabilities = webdriver.DesiredCapabilities.CHROME
-        elif BROWSER_TYPE.lower() == "firefox":
+        elif BROWSER_TYPE.lower() == "selenium-firefox":
             capabilities = webdriver.DesiredCapabilities.FIREFOX
+        elif BROWSER_TYPE.lower() == "selenium-htmlunit":
+            capabilities = webdriver.DesiredCapabilities.HTMLUNIT
+        elif BROWSER_TYPE.lower() == "selenium-htmlunitwithjs":
+            capabilities = webdriver.DesiredCapabilities.HTMLUNITWITHJS
         else:
             raise NotImplementedError()
 

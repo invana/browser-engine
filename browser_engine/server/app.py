@@ -21,6 +21,8 @@ def hello():
     token = request.args.get('token')
     if token is None:
         return render_template('homepage.html')
+    elif token != AUTH_TOKEN:
+        return {"message": "Invalid token, use the token "}, 403
     else:
         context = {"token": token}
         return render_template('simulate.html', **context)
@@ -44,15 +46,6 @@ def core_concepts_docs():
 @app.route('/docs/python-api.html')
 def python_api():
     return render_template('docs/python-api.html', )
-
-
-@app.route('/simulate.html')
-def simulate():
-    token = request.args.get('token')
-    if token != AUTH_TOKEN:
-        return {"message": "Invalid token"}, 403
-    context = {"token": token}
-    return render_template('simulate.html', **context)
 
 
 class PingAPIView(Resource):
