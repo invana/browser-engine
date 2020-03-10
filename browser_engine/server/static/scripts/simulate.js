@@ -64,7 +64,8 @@ $(document).ready(function () {
         console.log("===new_task_type", new_task_type);
         var task_id = "task-" + (parseInt(task_length) + 1);
         var div_template = $("<div class=\"mb-2 task-section\" data-task-id='" + task_id + "' >\n" +
-            "    <button class=\"btn btn-danger remove-task\" data-task-id='" + task_id + "' type=\"button\">- remove</button>\n" +
+            "    <span class='ml-1'><strong>"+task_id+"</strong></span>\n" +
+            "    <a class=\" remove-task\" data-task-id='" + task_id + "' >remove</a>\n" +
             "    <div class=\"clearfix\"></div>\n" +
             // "    <label><strong>Task Type</strong></label>\n" +
             "    <select name=\"task_type\" data-task-id='" + task_id + "' class=\"form-control task_type mb-2 mt-2\">\n" +
