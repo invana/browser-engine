@@ -34,7 +34,7 @@ export AUTH_TOKEN=iamlazydeveloper
 # install browser engine via pip
 pip install browser-engine
 #or 
-pip install -e git+https://github.com/crawlerflow/browser-engine.git#egg=browser_engine
+pip install -e git+https://github.com/invanalabs/browser-engine.git#egg=browser_engine
 
 # starting the server 
 uwsgi --socket 0.0.0.0:5000 --protocol=http -w browser_engine.server.wsgi:application --processes 4 --threads 2
@@ -52,7 +52,7 @@ docker run --name selenium-ff -d -p 4445:4444 -v /dev/shm:/dev/shm selenium/stan
 
 
 # 2. Deploying a browser engine container
-git clone git@github.com:crawlerflow/browser-engine.git
+git clone git@github.com:invanalabs/browser-engine.git
 docker build -t browser-engine --build-arg selenium_host="http://xxx.xx.xx.xx:4444" --build-arg auth_token="iamlazydeveloper" -f Dockerfile .
 docker run  --name browser-engine -d -p 5000:5000 browser-engine 
 ```

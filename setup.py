@@ -8,7 +8,7 @@ setup(
     description='Web Automation and User behaviour simulations made easy with YAML configurations.',
     author='Ravi Raja Merugu',
     author_email='ravi@invanalabs.ai',
-    url='https://github.com/crawlerflow/browser-engine',
+    url='https://github.com/invanalabs/browser-engine',
     packages=find_packages(
         exclude=("dist", "docs", "examples", "tests", "__experiments"),
     ),
