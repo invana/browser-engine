@@ -1,4 +1,25 @@
 import yaml
+import web_parsers
+from web_parsers.manifest import WebParserManifest
+from web_parsers.utils.url import get_domain
+
+
+def convert_manifest_json_to_object(extractor_manifest=None, url=None):
+    domain = get_domain(url)
+    manifest = WebParserManifest(
+        title="Browser Engine Manifest",
+        domain=domain,
+        version="alpha",
+        test_urls=[url, ],
+        parser_type="html",
+        owner={
+            "title": "Browser Engine Default",
+            "ownership_type": "Individual",
+            "website_url": "https://github.com/invanalabs/browser-engine"
+        },
+        extractors=extractor_manifest
+    )
+    return manifest
 
 
 def convert_json_to_yaml(data):

@@ -1,8 +1,7 @@
 import yaml
-from extraction_engine import ExtractionEngine
-import uuid
-import extraction_engine
+from web_parsers import HTMLParser
 import logging
+from browser_engine.utils import convert_manifest_json_to_object
 
 logger = logging.getLogger(__name__)
 
@@ -30,7 +29,6 @@ class ScreenshotExtractor:
             print("task failed with error", e)
             result_data['error_message'] = str(e)
         return result_data
-
 
 
 class HTMLExtractor:
@@ -89,8 +87,22 @@ class JsonExtractorSimulation:
     def run(self):
         task_code = self.task.get("task_code")
         extraction_manifest = yaml.load(task_code, yaml.Loader)
-        engine = ExtractionEngine(html=self.browser.page_source(), extraction_manifest=extraction_manifest)
-        return engine.extract_data()
+        manifest = convert_manifest_json_to_object(url="http://localhost", extractor_manifest=extraction_manifest)
+        engine = HTMLParser(string_data=self.browser.page_source(), url="http://localhost",
+                            extractor_manifest=manifest)
+
+        result_data = {
+            "data": None,
+            "task_type": self.task.get("task_type"),
+            "is_task_success": False
+        }
+        try:
+            result_data['data'] = engine.run_extractors()
+            result_data['is_task_success'] = True
+        except Exception as e:
+            print("task failed with error", e)
+            result_data['error_message'] = str(e)
+        return result_data
 
 
 class TraversalExtractorSimulation:
@@ -132,8 +144,11 @@ class TraversalExtractorSimulation:
                 ]
             }
             traversal_manifests.append(traversal_manifest)
-        engine = ExtractionEngine(html=self.browser.page_source(), extraction_manifest=traversal_manifests)
-        traversal_data_raw = engine.extract_data()
+
+        manifest = convert_manifest_json_to_object(url="http://localhost", extractor_manifest=traversal_manifests)
+        engine = HTMLParser(string_data=self.browser.page_source(), url="http://localhost",
+                            extractor_manifest=manifest)
+        traversal_data_raw = engine.run_extractors()
 
         traversal_data = {}
         if traversal_data_raw is not None:

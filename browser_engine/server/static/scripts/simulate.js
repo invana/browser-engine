@@ -1,4 +1,3 @@
-// A $( document ).ready() block.
 $(document).ready(function () {
     console.log("ready!");
 
@@ -20,25 +19,17 @@ $(document).ready(function () {
         "    print ('Successfully waited for sometime')";
 
 
-    var traversals_template = "" +
-        "- traversal_id: default_traversal\n" +
-        "  selector: \"a\"\n" +
-        "  selector_type: css\n" +
-        "  selector_attribute: href\n" +
-        "  data_type: ListStringField\n" +
-        "  max_requests: 500\n" +
-        "  next_spider_id: default_spider";
-
     var json_extraction_template = "- extractor_type: MetaTagExtractor\n" +
         "  extractor_id: meta_tags\n" +
-        "- extractor_type: CustomContentExtractor\n" +
+        "- extractor_type: CustomDataExtractor\n" +
         "  extractor_id: content\n" +
-        "  data_selectors:\n" +
-        "  - selector_id: title\n" +
-        "    selector: title\n" +
-        "    selector_type: css\n" +
-        "    selector_attribute: text\n" +
-        "    data_type: RawField\n";
+        "  extractor_fields:\n" +
+        "  - field_id: title\n" +
+        "    element_query:\n" +
+        "      type: css\n" +
+        "      value: title\n" +
+        "    data_attribute: text\n" +
+        "    data_type: RawField";
 
 
     var url_template = "http://invana.io";
@@ -64,7 +55,7 @@ $(document).ready(function () {
         console.log("===new_task_type", new_task_type);
         var task_id = "task-" + (parseInt(task_length) + 1);
         var div_template = $("<div class=\"mb-2 task-section\" data-task-id='" + task_id + "' >\n" +
-            "    <span class='ml-1'><strong>"+task_id+"</strong></span>\n" +
+            "    <span class='ml-1'><strong>" + task_id + "</strong></span>\n" +
             "    <a class=\" remove-task\" data-task-id='" + task_id + "' >remove</a>\n" +
             "    <div class=\"clearfix\"></div>\n" +
             // "    <label><strong>Task Type</strong></label>\n" +
@@ -194,12 +185,13 @@ $(document).ready(function () {
 
                             if (task.task_type === "get_screenshot") {
                                 var image = $("<img class='img-fluid' />").attr("src", "data:image/png;base64," + task['data']);
-                                console.log("======image", image)
                                 card_html.find(".card-body").html(image);
                             } else if (task.task_type === "get_html") {
                                 card_html.find(".card-body").text(task['data']);
-
+                            } else if (task.task_type === "json_extractor") {
+                                card_html.find(".card-body").text(JSON.stringify(task.data, null, 4));
                             }
+
 
                             $("#response-viewer").append(card_html);
 

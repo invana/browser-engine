@@ -4,7 +4,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='browser-engine',
-    version='0.0.15',
+    version='0.0.16',
     description='Web Automation and User behaviour simulations made easy with YAML configurations.',
     author='Ravi Raja Merugu',
     author_email='ravi@invanalabs.ai',
@@ -13,7 +13,6 @@ setup(
         exclude=("dist", "docs", "examples", "tests", "__experiments"),
     ),
     setup_requires=['setuptools_scm'],
-
     # package_data={
     #     'browser_engine.server': [
     #         'static/**/*.js',
@@ -29,15 +28,14 @@ setup(
     install_requires=[
         'flask',
         'flask-restful',
-        # 'uwsgi',
         'selenium',
         'pyyaml',
-        'extraction-engine'
+        'git+https://github.com/invanalabs/web-parsers.git#egg=web_parsers'
 
     ],
     entry_points={
         'console_scripts': [
-            # 'browser-engine = browser_engine.server.app.run',
+            'browser-engine-start = browser_engine.server.app.run',
         ]
     },
 )

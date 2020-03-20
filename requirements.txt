@@ -1,6 +1,6 @@
 selenium==3.141.0
 pyyaml==5.1.2
-extraction-engine==0.0.2
+git+https://github.com/invanalabs/web-parsers.git#egg=web_parsers
 requests
 flask==1.1.1
 flask-restful==0.3.7

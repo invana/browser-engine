@@ -1,7 +1,4 @@
-import yaml
-from extraction_engine import ExtractionEngine
-import uuid
-import extraction_engine
+import web_parsers
 import logging
 logger = logging.getLogger(__name__)
 
@@ -35,7 +32,7 @@ class BrowserSimulation:
 
     def run(self):
         task_code = self.task.get("task_code")
-        global_fns = {"extraction_engine": extraction_engine}
+        global_fns = {"web_parsers": web_parsers}
         # global_fns = {}
         result_data = {
             "data": None,
