@@ -1,4 +1,6 @@
 from browser_engine.default_settings import DEFAULT_USER_AGENT
+from .settings import DefaultBrowserSettings
+from datetime import datetime
 
 
 class BrowserBase:
@@ -7,33 +9,36 @@ class BrowserBase:
     Usage:
 
         browser = URLLibBrowser()
-        browser.request(url="https://invana.io", method="get")
+        browser.load_page(url="https://invana.io", method="get")
         page = browser.read()
     """
 
     request_object = None
 
-    def __init__(self, user_agent=None, proxy_ip=None, extra_headers=None
-                 ):
+    def __init__(self, user_agent=None, proxy_ip=None, headers=None, browser_settings=None):
         self.user_agent = user_agent or DEFAULT_USER_AGENT
         self.proxy_ip = proxy_ip
-        self.extra_headers = extra_headers or {}
+        self.headers = headers or {}
+        self.started_at = datetime.now()
+        self.browser_settings = DefaultBrowserSettings(options=browser_settings)
+
+    def construct_headers(self):
+        # TODO - add proxy here
+        # TODO - add user agent here
+        return self.headers
+
+    def _request(self, method=None, url=None, data=None, headers=None):
+        raise NotImplementedError()
+
+    def load_page(self, method="get", url=None, data=None):
+        headers = self.construct_headers()
+        self.request_object = self._request(method=method.upper(), url=url, data=data, headers=headers)
 
     def start_browser(self):
         raise NotImplementedError()
 
     def stop_browser(self):
         raise NotImplementedError()
-
-    def construct_headers(self):
-        return self.extra_headers
-
-    def _request(self, method=None, url=None, data=None, headers=None):
-        raise NotImplementedError()
-
-    def request(self, method="get", url=None, data=None):
-        headers = self.construct_headers()
-        self.request_object = self._request(method=method.upper(), url=url, data=data, headers=headers)
 
     def get_screenshot(self):
         raise NotImplementedError()
@@ -42,6 +47,9 @@ class BrowserBase:
         raise NotImplementedError()
 
     def page_source(self):
+        raise NotImplementedError()
+
+    def get_cookies():
         raise NotImplementedError()
 
     def __repr__(self):

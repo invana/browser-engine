@@ -9,7 +9,7 @@ class BrowserSimulation:
     simulation = {
            "task_id": "step_1",
             "task_type": "browser_simulation",
-            "task_code": "def simulate(driver=None):
+            "task_code": "def simulate(request_object=None):
     import random
     driver.switch_to.default_content()
     driver.implicitly_wait(random.randint(0, 2))
@@ -41,12 +41,11 @@ class BrowserSimulation:
         }
         exec(task_code.strip(), global_fns)
         simulate_fn = global_fns['simulate']
-        driver = self.browser.driver
-        # setattr(driver, "task_code", task_code)
+        request_object = self.browser.request_object
 
         if simulate_fn:
             try:
-                data = simulate_fn(driver=driver)
+                data = simulate_fn(request_object=request_object)
                 result_data['data'] = data
                 result_data['is_task_success'] = True
             except Exception as e:

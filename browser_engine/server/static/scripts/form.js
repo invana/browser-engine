@@ -28,7 +28,7 @@ $(document).ready(function () {
         "    field_value: \"password\"\n";
 
     // var task_code = "" +
-    //     "def simulate(driver=None):\n" +
+    //     "def simulate(request_object=None):\n" +
     //     "    import random\n" +
     //     "    driver.switch_to.default_content()\n" +
     //     "    driver.implicitly_wait(random.randint(0, 2))\n" +

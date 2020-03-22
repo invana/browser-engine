@@ -3,25 +3,18 @@ from selenium.webdriver.common.proxy import Proxy, ProxyType
 from selenium.webdriver.chrome.options import Options
 import logging
 from browser_engine.default_settings import DEFAULT_BROWSER_TYPE
-from datetime import datetime
-from .settings import DefaultBrowserSettings
 from .base import BrowserBase
+
 logger = logging.getLogger(__name__)
 
 
-class SeleniumBrowser:
+class SeleniumBrowser(BrowserBase):
 
-    def __init__(self, headers=None, browser_settings=None):
-        """
+    def __init__(self, user_agent=None, proxy_ip=None, headers=None, browser_settings=None):
+        super(SeleniumBrowser, self).__init__(user_agent=user_agent, proxy_ip=proxy_ip, headers=headers,
+                                              browser_settings=browser_settings)
 
-        :param headers:
-        :param browser_settings:
-        """
-
-        self.headers = headers or {}
-        self.browser_settings = DefaultBrowserSettings(options=browser_settings)
         self.driver = self.create_driver()
-        self.started_at = datetime.now()
 
     def get_request(self):
         return {
@@ -35,7 +28,10 @@ class SeleniumBrowser:
     def clear_cookies(self):
         self.driver.delete_all_cookies()
 
-    def close_browser(self):
+    def get_cookies(self):
+        return self.driver.get_cookies()
+
+    def stop_browser(self):
         self.driver.quit()
 
     def update_viewport(self):
@@ -47,7 +43,7 @@ class SeleniumBrowser:
     def update_timeout(self):
         self.driver.set_page_load_timeout(self.browser_settings.timeout)
 
-    def load_page(self, url=None):
+    def load_page(self, method="get", url=None, data=None):
         self.driver.get(url)
 
     def refresh_browser(self):
@@ -142,7 +138,7 @@ class SeleniumBrowser:
         )
         return driver
 
-    def start(self):
+    def start_browser(self):
         self.update_viewport()
         self.update_timeout()
         self.clear_cookies()

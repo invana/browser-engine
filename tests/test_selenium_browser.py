@@ -7,62 +7,63 @@ default_extraction_manifest = """
 """
 
 click_episodes = """
-def simulate(driver=None):
-    print(driver)
-    print(driver.current_url)
+def simulate(request_object=None):
+    print(request_object)
+    print(request_object.current_url)
     import time
     time.sleep(4)
-    #driver.implicitly_wait(5)
-    print(driver.page_source)
-    driver.find_element_by_id('tab-Episodes').click()
+    #request_object.implicitly_wait(5)
+    print(request_object.page_source)
+    request_object.find_element_by_id('tab-Episodes').click()
     time.sleep(4)
     print('Successfully clicked the episodes')
 """
 episodes_extraction_manifest = """
 - extractor_type: CustomContentExtractor
   extractor_id: episodes
-  data_selectors:
-  - selector_id: episodes
-    selector: ".episodeLockup"
-    selector_type: css
-    selector_attribute: element
+  extractor_fields:
+  - field_id: episodes
+    element_query:
+      type: css
+      value: ".episodeLockup"
+    data_attribute: element
     data_type: ListDictField
     child_selectors:
-    - selector_id: title
-      selector: ".episodeTitle .ellipsized"
-      selector_type: css
-      selector_attribute: text 
+    - field_id: title
+      element_query:
+        value: ".episodeTitle .ellipsized"
+      data_attribute: text 
       data_type: StringField
-    - selector_id: duration
-      selector: ".episodeTitle .duration"
-      selector_type: css
-      selector_attribute: text
+    - field_id: duration
+      element_query: 
+        value: ".episodeTitle .duration"
+      data_attribute: text
       data_type: StringField
-    - selector_id: duration
-      selector: ".episodeTitle .duration"
-      selector_type: css
-      selector_attribute: text
+    - field_id: duration
+      element_query:
+        value: ".episodeTitle .duration"
+      data_attribute: text
       data_type: StringField
-    - selector_id: description
-      selector: ".episodeSynopsis"
-      selector_type: css
-      selector_attribute: text
+    - field_id: description
+      element_query:
+        value: ".episodeSynopsis"
+      data_attribute: text
       data_type: StringField
-    - selector_id: url
-      selector: ".playLink"
-      selector_type: css
-      selector_attribute: text
+    - field_id: url
+      element_query:
+        value: ".playLink"
+      data_attribute: text
       data_type: StringField
-    - selector_id: image
-      selector: ".episodeArt"
-      selector_type: css
-      selector_attribute: src
+    - field_id: image
+      element_query:
+        value: ".episodeArt"
+      data_attribute: src
       data_type: StringField
     
 """
-from browser_engine.browsers.selenium import SeleniumBrowser
+from browser_engine.browsers import SeleniumBrowser, URLLibBrowser
 
-browser = SeleniumBrowser(
+browser = URLLibBrowser(
     headers=None,
     browser_settings={
         "load_images": False,
@@ -70,7 +71,7 @@ browser = SeleniumBrowser(
         "timeout": 180
     },
 )
-browser.start()
+browser.start_browser()
 
 request = WebSimulationRequest(
     url=url,

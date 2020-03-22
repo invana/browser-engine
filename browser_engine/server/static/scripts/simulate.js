@@ -12,10 +12,10 @@ $(document).ready(function () {
         "Proxy: null\n";
 
     var browser_simulation_template = "" +
-        "def simulate(driver=None):\n" +
+        "def simulate(request_object=None):\n" +
         "    import random\n" +
-        "    driver.switch_to.default_content()\n" +
-        "    driver.implicitly_wait(random.randint(0, 2))\n" +
+        "    request_object.switch_to.default_content()\n" +
+        "    request_object.implicitly_wait(random.randint(0, 2))\n" +
         "    print ('Successfully waited for sometime')";
 
 

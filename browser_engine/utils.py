@@ -1,6 +1,7 @@
 import yaml
 from web_parsers.manifest import WebParserManifest
 from web_parsers.utils.url import get_domain
+from importlib import import_module
 
 
 def convert_manifest_json_to_object(extractor_manifest=None, url=None):

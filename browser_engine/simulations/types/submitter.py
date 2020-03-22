@@ -10,7 +10,7 @@ class FormSubmitSimulation:
     task = {
            "task_id": "step_1",
             "task_type": "form_submit",
-            "task_code": "def simulate(driver=None):
+            "task_code": "def simulate(request_object=None):
     import random
     driver.switch_to.default_content()
     driver.implicitly_wait(random.randint(0, 2))

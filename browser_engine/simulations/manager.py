@@ -63,6 +63,7 @@ class WebSimulationManager:
                 result['task_elapsed_time_ms'] = get_elapsed_time(start_time=task_start_time,
                                                                   end_time=task_end_time)
             except Exception as e:
+                print("Failed to run the simulation with error {}".format(e))
                 result['result'] = None
                 if self.debug == 1:
                     result['screenshot'] = None
@@ -75,6 +76,6 @@ class WebSimulationManager:
                 result['task_elapsed_time_ms'] = get_elapsed_time(start_time=task_start_time,
                                                                   end_time=task_end_time)
 
-            result['cookies'] = self.request.browser.driver.get_cookies()
+            result['cookies'] = self.request.browser.get_cookies()
             all_simulations_result[task_id] = result
         return all_simulations_result

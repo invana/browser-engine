@@ -7,8 +7,10 @@ from browser_engine.browsers.selenium import SeleniumBrowser
 import yaml
 import os
 import logging
+from importlib import import_module
 
 logger = logging.getLogger(__name__)
+browsers_classes = import_module(f'browser_engine.browsers')
 
 BASE_PATH = os.path.dirname(os.path.abspath(__file__))
 templates_folder = os.path.join(BASE_PATH, 'templates')
@@ -77,6 +79,9 @@ class ExecuteAPIView(Resource):
         logger.debug("Browser settings is {}".format(browser_settings))
         kwargs['browser_settings'] = browser_settings
         json_data = flask_request.get_json() or {}
+
+        browser_cls = json_data.get("browser_cls")
+        kwargs['browser_cls'] = browser_cls
         init_headers = json_data.get("init_headers", None)
         tasks = json_data.get("tasks", {})
         if init_headers:
@@ -91,12 +96,23 @@ class ExecuteAPIView(Resource):
         if token != AUTH_TOKEN:
             return {"message": "Invalid token"}, 403
         kwargs = self.create_browser_request(request)
+        browser_cls_path = kwargs['browser_cls'] or "browser_engine.browsers.URLLibBrowser"
+        del kwargs['browser_cls']
 
-        browser = SeleniumBrowser(
+        try:
+            browser_cls = getattr(browsers_classes, browser_cls_path)
+        except AttributeError as e:
+            logger.error("Failed to import the browser:{browser_cls_path} with error {error}".format(
+                browser_cls_path=browser_cls_path,
+                error=e
+            ))
+            browser_cls = None
+        browser = browser_cls(
             headers=kwargs['init_headers'],
             browser_settings=kwargs['browser_settings'],
         )
         browser.start()
+
         return WebSimulationRequest(**kwargs, browser=browser).run()
 
 

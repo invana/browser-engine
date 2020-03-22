@@ -24,8 +24,13 @@ class URLLibBrowser(BrowserBase):
             logger.error("Unable to open\n\n%s\n\ndue to the error\n\n%s\n\n" % (url, e))
             return None
 
-    def read(self):
-        print("request_object", self.request_object)
+    def start_browser(self):
+        pass
+
+    def stop_browser(self):
+        pass
+
+    def page_source(self):
         if self.request_object:
             return self.request_object.read().decode("utf-8")
         return None
@@ -33,8 +38,8 @@ class URLLibBrowser(BrowserBase):
     def get_screenshot(self):
         return None
 
-    def start_browser(self):
+    def get_cookies(self):
         return None
 
-    def stop_browser(self):
-        return None
+    def refresh(self):
+        pass

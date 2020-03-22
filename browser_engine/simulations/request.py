@@ -39,7 +39,7 @@ class WebSimulationRequest:
                  init_headers=None,
                  browser=None,
                  tasks=None,
-                 debug=None):
+                 debug=None,):
         """
 
 
@@ -95,5 +95,5 @@ class WebSimulationRequest:
                                                     end_time=request_end_time)
         }
 
-        self.browser.close_browser()
+        self.browser.stop_browser()
         return message
