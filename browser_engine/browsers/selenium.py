@@ -19,7 +19,7 @@ class DefaultBrowserSettings(object):
         "timeout": 180
     }
     """
-    viewport = "12680x720"
+    viewport = "1280x720"
     enable_adblocker = False
     load_images = False
     timeout = 180

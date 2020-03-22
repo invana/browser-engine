@@ -41,7 +41,10 @@ class BrowserBase:
     def get_screenshot(self):
         raise NotImplementedError()
 
-    def read(self):
+    def refresh(self):
+        raise NotImplementedError()
+
+    def page_source(self):
         raise NotImplementedError()
 
     def __repr__(self):
