@@ -1,7 +1,17 @@
 import yaml
 from web_parsers.manifest import WebParserManifest
 from web_parsers.utils.url import get_domain
-from importlib import import_module
+import importlib
+
+
+def import_klass(cls_string):
+    module_name, class_name = cls_string.rsplit(".", 1)
+    module = importlib.import_module(module_name)
+    cls = getattr(module, class_name)
+    if cls is not None:
+        return cls
+    else:
+        raise Exception("Unable to import class {}".format(cls))
 
 
 def convert_manifest_json_to_object(extractor_manifest=None, url=None):

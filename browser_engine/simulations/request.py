@@ -65,9 +65,7 @@ class WebSimulationRequest:
 
     def run(self):
         request_start_time = datetime.now()
-        print("self.url",self.url)
         self.browser.load_page(url=self.url)
-
         message = {
             "message": "Ok",
             "client": ClientDetail(browser=self.browser).get_client_details(),

@@ -32,8 +32,28 @@ docker run --name selenium-cr -d -p 4444:4444 -v /dev/shm:/dev/shm selenium/stan
 
 ### method 1 - as Python code
 
+
 ```python
+
+```
+```python
+
+
+from browser_engine.browsers import SeleniumBrowser, URLLibBrowser
 from browser_engine import WebSimulationRequest
+
+
+
+browser = URLLibBrowser(
+    headers=None,
+    browser_settings={
+        "load_images": False,
+        "viewport": "1280x720",
+        "timeout": 180
+    },
+)
+browser.start_browser()
+
 
 tasks = {
     "task-1": {
@@ -51,11 +71,7 @@ web_request =  WebSimulationRequest(
                     url= "https://invana.io",
                     method="GET",
                     init_headers="",
-                    browser_settings={
-                        "viewport": "1280x720",
-                        "timeout": 180,
-                        "load_images": False
-                    },
+                    browser=browser,
                     tasks=tasks
                 )
 response = web_request.run()
