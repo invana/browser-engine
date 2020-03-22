@@ -60,18 +60,36 @@ episodes_extraction_manifest = """
       data_type: StringField
     
 """
+from browser_engine.browsers.selenium import SeleniumBrowser
 
-request = WebSimulationRequest(url=url,
-                               # browser_settings={"selenium_host": "http://192.168.0.10:4444"},
-                               tasks={
-                                   "meta_data": {"task_type": "json_extractor",
-                                                 "task_code": default_extraction_manifest},
-                                   "click_episodes": {"task_type": "browser_simulation",
-                                                      "task_code": click_episodes},
-                                   "episodes_data": {"task_type": "json_extractor",
-                                                     "task_code": episodes_extraction_manifest},
+browser = SeleniumBrowser(
+    headers=None,
+    browser_settings={
+        "load_images": False,
+        "viewport": "1280x720",
+        "timeout": 180
+    },
+)
+browser.start()
 
-                               })
+request = WebSimulationRequest(
+    url=url,
+    browser=browser,
+    tasks={
+        "meta_data": {
+            "task_type": "json_extractor",
+            "task_code": default_extraction_manifest
+        },
+        "click_episodes": {
+            "task_type": "browser_simulation",
+            "task_code": click_episodes
+        },
+        "episodes_data": {
+            "task_type": "json_extractor",
+            "task_code": episodes_extraction_manifest
+        },
+
+    })
 response = request.run()
 
 print("=============")

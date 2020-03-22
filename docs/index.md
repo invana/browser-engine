@@ -27,7 +27,7 @@ docker run --name selenium-ff -d -p 4445:4444 -v /dev/shm:/dev/shm selenium/stan
 ### method1 - running as  
 ```bash
 # setup environment variables needed
-export SELENIUM_HOST=http://0.0.0.0:4444 # selenium host
+export DEFAULT_SELENIUM_HOST=http://0.0.0.0:4444 # selenium host
 export AUTH_TOKEN=iamlazydeveloper
 export BROWSER_TYE=selenium-chrome
 

@@ -1,59 +1,32 @@
-from browser_engine.default_settings import SELENIUM_HOST as DEFAULT_SELENIUM_HOST
 from selenium import webdriver
 from selenium.webdriver.common.proxy import Proxy, ProxyType
 from selenium.webdriver.chrome.options import Options
 import logging
-from browser_engine.default_settings import BROWSER_TYPE
+from browser_engine.default_settings import DEFAULT_BROWSER_TYPE
 from datetime import datetime
-
+from .settings import DefaultBrowserSettings
+from .base import BrowserBase
 logger = logging.getLogger(__name__)
-
-
-class DefaultBrowserSettings(object):
-    """
-
-    options = {
-        "load_images" : false,
-        "enable_adblocker": false,
-        "viewport": "1280x720",
-        "timeout": 180
-    }
-    """
-    viewport = "1280x720"
-    enable_adblocker = False
-    load_images = False
-    timeout = 180
-    browser_type = "CHROME"
-    SELENIUM_HOST = DEFAULT_SELENIUM_HOST
-
-    def __init__(self, options=None):
-        if options is not None:
-            for k, v in options.items():
-                setattr(self, k, v)
-
-    def get_settings(self):
-        settings = {}
-        for key in self.__dict__.keys():
-            settings[key] = getattr(self, key)
-        return settings
 
 
 class SeleniumBrowser:
 
-    def __init__(self, url=None, method=None, headers=None,
-                 browser_settings=None, request=None):
-        self.url = url
-        self.method = method
+    def __init__(self, headers=None, browser_settings=None):
+        """
+
+        :param headers:
+        :param browser_settings:
+        """
+
         self.headers = headers or {}
-        self.request = request
         self.browser_settings = DefaultBrowserSettings(options=browser_settings)
         self.driver = self.create_driver()
         self.started_at = datetime.now()
 
     def get_request(self):
         return {
-            "url": self.url,
-            "http_method": self.method,
+            # "url": self.url,
+            # "http_method": self.method,
             "browser_settings": self.browser_settings,
             "headers": self.headers,
             "browser_options": self.browser_settings.get_settings(),
@@ -74,8 +47,8 @@ class SeleniumBrowser:
     def update_timeout(self):
         self.driver.set_page_load_timeout(self.browser_settings.timeout)
 
-    def get_page(self):
-        self.driver.get(self.url)
+    def load_page(self, url=None):
+        self.driver.get(url)
 
     def refresh_browser(self):
         self.driver.refresh()
@@ -119,13 +92,13 @@ class SeleniumBrowser:
 
     def create_driver(self):
 
-        if BROWSER_TYPE.lower() == "selenium-chrome":
+        if DEFAULT_BROWSER_TYPE.lower() == "selenium-chrome":
             capabilities = webdriver.DesiredCapabilities.CHROME
-        elif BROWSER_TYPE.lower() == "selenium-firefox":
+        elif DEFAULT_BROWSER_TYPE.lower() == "selenium-firefox":
             capabilities = webdriver.DesiredCapabilities.FIREFOX
-        elif BROWSER_TYPE.lower() == "selenium-htmlunit":
+        elif DEFAULT_BROWSER_TYPE.lower() == "selenium-htmlunit":
             capabilities = webdriver.DesiredCapabilities.HTMLUNIT
-        elif BROWSER_TYPE.lower() == "selenium-htmlunitwithjs":
+        elif DEFAULT_BROWSER_TYPE.lower() == "selenium-htmlunitwithjs":
             capabilities = webdriver.DesiredCapabilities.HTMLUNITWITHJS
         else:
             raise NotImplementedError()
@@ -162,7 +135,7 @@ class SeleniumBrowser:
             options.add_argument("user-agent={}".format(user_agent))
 
         driver = webdriver.Remote(
-            command_executor='{}/wd/hub'.format(self.browser_settings.SELENIUM_HOST),
+            command_executor='{}/wd/hub'.format(self.browser_settings.selenium_host),
             desired_capabilities=capabilities,
             proxy=proxy,
             options=options
@@ -173,7 +146,6 @@ class SeleniumBrowser:
         self.update_viewport()
         self.update_timeout()
         self.clear_cookies()
-        self.get_page()
-
         if self.headers:
             self.update_headers()
+        # self.load_page()

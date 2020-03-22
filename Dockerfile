@@ -6,8 +6,8 @@ ARG auth_token
 ARG selenium_host
 ARG browser_type
 ENV AUTH_TOKEN ${auth_token}
-ENV SELENIUM_HOST ${selenium_host}
-ENV BROWSER_TYPE ${browser_type}
+ENV DEFAULT_SELENIUM_HOST ${selenium_host}
+ENV DEFAULT_BROWSER_TYPE ${browser_type}
 
 RUN [ -d /app ] || mkdir /app;
 COPY  ./ /app

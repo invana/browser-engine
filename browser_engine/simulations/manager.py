@@ -51,8 +51,8 @@ class WebSimulationManager:
                     task=task,
                 )
                 if self.debug == 1:
-                    result['html'] = self.browser.page_source()
-                    result['screenshot'] = self.browser.get_screenshot() if \
+                    result['html'] = self.request.browser.page_source()
+                    result['screenshot'] = self.request.browser.get_screenshot() if \
                         self.browser.browser_settings.take_screenshot \
                         is True else None
                 result['error_message'] = None
@@ -75,6 +75,6 @@ class WebSimulationManager:
                 result['task_elapsed_time_ms'] = get_elapsed_time(start_time=task_start_time,
                                                                   end_time=task_end_time)
 
-            result['cookies'] = self.browser.driver.get_cookies()
+            result['cookies'] = self.request.browser.driver.get_cookies()
             all_simulations_result[task_id] = result
         return all_simulations_result

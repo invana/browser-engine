@@ -13,10 +13,7 @@ class BrowserBase:
 
     request_object = None
 
-    def __init__(self,
-                 user_agent=None,
-                 proxy_ip=None,
-                 extra_headers=None
+    def __init__(self, user_agent=None, proxy_ip=None, extra_headers=None
                  ):
         self.user_agent = user_agent or DEFAULT_USER_AGENT
         self.proxy_ip = proxy_ip

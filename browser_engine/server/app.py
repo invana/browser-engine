@@ -3,6 +3,7 @@ from flask_restful import Resource, Api
 from browser_engine.default_settings import AUTH_TOKEN
 from flask import request, render_template
 from browser_engine import WebSimulationRequest
+from browser_engine.browsers.selenium import SeleniumBrowser
 import yaml
 import os
 import logging
@@ -91,7 +92,12 @@ class ExecuteAPIView(Resource):
             return {"message": "Invalid token"}, 403
         kwargs = self.create_browser_request(request)
 
-        return WebSimulationRequest(**kwargs).run()
+        browser = SeleniumBrowser(
+            headers=kwargs['init_headers'],
+            browser_settings=kwargs['browser_settings'],
+        )
+        browser.start()
+        return WebSimulationRequest(**kwargs, browser=browser).run()
 
 
 @app.errorhandler(404)

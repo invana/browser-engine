@@ -1,4 +1,3 @@
-from browser_engine.browsers.selenium import SeleniumBrowser
 from datetime import datetime
 from browser_engine.utils import convert_yaml_to_json
 from browser_engine.simulations.manager import WebSimulationManager
@@ -38,7 +37,7 @@ class WebSimulationRequest:
     def __init__(self, url=None,
                  method="GET",
                  init_headers=None,
-                 browser_settings=None,
+                 browser=None,
                  tasks=None,
                  debug=None):
         """
@@ -47,7 +46,6 @@ class WebSimulationRequest:
         :param url:
         :param method:
         :param init_headers: can be dict
-        :param browser_settings:
         :param tasks:
         """
 
@@ -62,18 +60,13 @@ class WebSimulationRequest:
         self.init_headers = init_headers
         self.tasks = tasks or []
         self.debug = debug
-        self.browser = SeleniumBrowser(
-            url=url,
-            method=method,
-            headers=init_headers,
-            browser_settings=browser_settings,
-            request=self
-        )
-        self.browser.start()
+        self.browser = browser
         self.task_manager = WebSimulationManager(request=self, browser=self.browser, tasks=tasks, debug=debug)
 
     def run(self):
         request_start_time = datetime.now()
+        print("self.url",self.url)
+        self.browser.load_page(url=self.url)
 
         message = {
             "message": "Ok",
