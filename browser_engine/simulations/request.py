@@ -1,9 +1,7 @@
-from browser_engine.browser import WebBrowser
+from browser_engine.browsers.selenium import WebBrowser
 from datetime import datetime
-import socket
-from .utils import convert_yaml_to_json, convert_json_to_yaml
-from .simulations.manager import WebSimulationManager
-from selenium.common.exceptions import TimeoutException
+from browser_engine.utils import convert_yaml_to_json
+from browser_engine.simulations.manager import WebSimulationManager
 from browser_engine.utils import get_elapsed_time
 
 

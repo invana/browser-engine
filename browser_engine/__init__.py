@@ -1,1 +1,1 @@
-from .request import WebSimulationRequest
+from browser_engine.simulations.request import WebSimulationRequest

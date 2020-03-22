@@ -1,5 +1,4 @@
 import yaml
-import web_parsers
 from web_parsers.manifest import WebParserManifest
 from web_parsers.utils.url import get_domain
 

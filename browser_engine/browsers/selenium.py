@@ -1,12 +1,8 @@
-"""
-
-"""
 from browser_engine.default_settings import SELENIUM_HOST as DEFAULT_SELENIUM_HOST
 from selenium import webdriver
 from selenium.webdriver.common.proxy import Proxy, ProxyType
 from selenium.webdriver.chrome.options import Options
 import logging
-import yaml
 from browser_engine.default_settings import BROWSER_TYPE
 from datetime import datetime
 
