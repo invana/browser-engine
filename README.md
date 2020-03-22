@@ -65,7 +65,7 @@ print(response)
     "message": "Ok",
     "client": {
         "browser_type": "CHROME",
-        "elasped_time_ms": "2761.44 ms"
+        "elapsed_time_ms": "2761.44 ms"
     },
     "request": {
         "url": "http://invana.io",

@@ -3,6 +3,7 @@ from datetime import datetime
 from browser_engine.utils import convert_yaml_to_json
 from browser_engine.simulations.manager import WebSimulationManager
 from browser_engine.utils import get_elapsed_time
+import socket
 
 
 class ClientDetail(object):
@@ -10,7 +11,7 @@ class ClientDetail(object):
     def __init__(self, browser=None):
         self.browser = browser
 
-    def get_elaspsed_time(self):
+    def get_elapsed_time(self):
         if self.browser.started_at:
             dt = datetime.now() - self.browser.started_at
             dt_ms = dt.total_seconds() * 1000  # milliseconds
@@ -20,10 +21,10 @@ class ClientDetail(object):
 
     def get_client_details(self):
         return {
-            # "hostname": socket.gethostname(),
-            # "ip_address": socket.gethostbyname(socket.gethostname()),
+            "hostname": socket.gethostname(),
+            "ip_address": socket.gethostbyname(socket.gethostname()),
             "browser_type": self.browser.browser_settings.browser_type,
-            "elasped_time_ms": self.get_elaspsed_time()
+            "elapsed_time_ms": self.get_elapsed_time()
         }
 
 
@@ -96,7 +97,7 @@ class WebSimulationRequest:
             'job_start_time': request_start_time.__str__(),
             'job_end_time': request_end_time.__str__(),
             'job_elapsed_time_ms': get_elapsed_time(start_time=request_start_time,
-                                                           end_time=request_end_time)
+                                                    end_time=request_end_time)
         }
 
         self.browser.close_browser()
