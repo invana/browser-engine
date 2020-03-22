@@ -1,4 +1,4 @@
-from browser_engine.browsers.selenium import WebBrowser
+from browser_engine.browsers.selenium import SeleniumBrowser
 from datetime import datetime
 from browser_engine.utils import convert_yaml_to_json
 from browser_engine.simulations.manager import WebSimulationManager
@@ -62,11 +62,13 @@ class WebSimulationRequest:
         self.init_headers = init_headers
         self.tasks = tasks or []
         self.debug = debug
-        self.browser = WebBrowser(url=url,
-                                  method=method,
-                                  headers=init_headers,
-                                  browser_settings=browser_settings,
-                                  request=self)
+        self.browser = SeleniumBrowser(
+            url=url,
+            method=method,
+            headers=init_headers,
+            browser_settings=browser_settings,
+            request=self
+        )
         self.browser.start()
         self.task_manager = WebSimulationManager(request=self, browser=self.browser, tasks=tasks, debug=debug)
 
@@ -101,5 +103,4 @@ class WebSimulationRequest:
         }
 
         self.browser.close_browser()
-
         return message

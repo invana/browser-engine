@@ -38,7 +38,7 @@ class DefaultBrowserSettings(object):
         return settings
 
 
-class WebBrowser:
+class SeleniumBrowser:
 
     def __init__(self, url=None, method=None, headers=None,
                  browser_settings=None, request=None):
