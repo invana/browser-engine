@@ -63,7 +63,7 @@ episodes_extraction_manifest = """
 """
 from browser_engine.browsers import SeleniumBrowser, URLLibBrowser
 
-browser = URLLibBrowser(
+browser = SeleniumBrowser(
     headers=None,
     browser_settings={
         "load_images": False,

@@ -14,8 +14,6 @@ class SeleniumBrowser(BrowserBase):
         super(SeleniumBrowser, self).__init__(user_agent=user_agent, proxy_ip=proxy_ip, headers=headers,
                                               browser_settings=browser_settings)
 
-        self.driver = self.create_driver()
-
     def get_request(self):
         return {
             # "url": self.url,
@@ -26,28 +24,28 @@ class SeleniumBrowser(BrowserBase):
         }
 
     def clear_cookies(self):
-        self.driver.delete_all_cookies()
+        self.request_object.delete_all_cookies()
 
     def get_cookies(self):
-        return self.driver.get_cookies()
+        return self.request_object.get_cookies()
 
     def stop_browser(self):
-        self.driver.quit()
+        self.request_object.quit()
 
     def update_viewport(self):
         if "x" in self.browser_settings.viewport:
             w, h = self.browser_settings.viewport.split("x")
-            # self.driver.set_window_position(0, 0)
-            self.driver.set_window_size(w, h)
+            # self.request_object.set_window_position(0, 0)
+            self.request_object.set_window_size(w, h)
 
     def update_timeout(self):
-        self.driver.set_page_load_timeout(self.browser_settings.timeout)
+        self.request_object.set_page_load_timeout(self.browser_settings.timeout)
 
     def load_page(self, method="get", url=None, data=None):
-        self.driver.get(url)
+        self.request_object.get(url)
 
     def refresh_browser(self):
-        self.driver.refresh()
+        self.request_object.refresh()
 
     def update_headers(self, ):
         if self.headers:
@@ -58,20 +56,20 @@ class SeleniumBrowser(BrowserBase):
                     if "expiry" in cookie:
                         del cookie['expiry']
                     logger.debug("Adding the cookie", cookie)
-                    self.driver.add_cookie(
+                    self.request_object.add_cookie(
                         cookie
                     )
             self.refresh_browser()
 
     def page_source(self):
-        return self.driver.page_source
+        return self.request_object.page_source
 
     def get_screenshot(self):
-        return self.driver.get_screenshot_as_base64()
+        return self.request_object.get_screenshot_as_base64()
 
     def get_element(self, selector=None, parent_element=None):
 
-        parent_element = parent_element or self.driver
+        parent_element = parent_element or self.request_object
         selector_type = selector.get("selector_type", "css")
         index_number = selector.get("index_number", 0)
         try:
@@ -139,6 +137,7 @@ class SeleniumBrowser(BrowserBase):
         return driver
 
     def start_browser(self):
+        self.request_object = self.create_driver()
         self.update_viewport()
         self.update_timeout()
         self.clear_cookies()

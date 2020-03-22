@@ -49,7 +49,7 @@ class BrowserBase:
     def page_source(self):
         raise NotImplementedError()
 
-    def get_cookies():
+    def get_cookies(self):
         raise NotImplementedError()
 
     def __repr__(self):
