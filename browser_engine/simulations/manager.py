@@ -63,7 +63,10 @@ class WebSimulationManager:
                 result['task_elapsed_time_ms'] = get_elapsed_time(start_time=task_start_time,
                                                                   end_time=task_end_time)
             except Exception as e:
-                print("Failed to run the simulation with error {}".format(e))
+                logger.error("Failed to run the simulation task: {task_id} with error {error}".format(
+                    task_id=task_id,
+                    error=e)
+                )
                 result['result'] = None
                 if self.debug == 1:
                     result['screenshot'] = None

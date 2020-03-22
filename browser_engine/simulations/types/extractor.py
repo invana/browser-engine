@@ -64,7 +64,7 @@ class JsonExtractorSimulation:
             "task_type": "json_extractor",
             "task_code": "- extractor_type: MetaTagExtractor
   extractor_id: meta_tags
-- extractor_type: CustomContentExtractor
+- extractor_type: CustomDataExtractor
   extractor_id: content
   data_selectors:
   - selector_id: title
@@ -138,7 +138,7 @@ class TraversalExtractorSimulation:
             traversal['selector_id'] = traversal['traversal_id']
             traversal_manifest = {
                 "extractor_id": traversal['traversal_id'],
-                "extractor_type": "CustomContentExtractor",
+                "extractor_type": "CustomDataExtractor",
                 "data_selectors": [
                     traversal
                 ]

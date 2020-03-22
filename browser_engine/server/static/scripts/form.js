@@ -38,7 +38,7 @@ $(document).ready(function () {
     // var extractors_template = "" +
     //     "- extractor_type: MetaTagExtractor\n" +
     //     "  extractor_id: meta_tags\n" +
-    //     "- extractor_type: CustomContentExtractor\n" +
+    //     "- extractor_type: CustomDataExtractor\n" +
     //     "  extractor_id: content\n" +
     //     "  data_selectors:\n" +
     //     "  - selector_id: title\n" +

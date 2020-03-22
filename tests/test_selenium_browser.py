@@ -19,7 +19,7 @@ def simulate(request_object=None):
     print('Successfully clicked the episodes')
 """
 episodes_extraction_manifest = """
-- extractor_type: CustomContentExtractor
+- extractor_type: CustomDataExtractor
   extractor_id: episodes
   extractor_fields:
   - field_id: episodes

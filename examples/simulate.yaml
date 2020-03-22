@@ -15,7 +15,7 @@ task4:
     extractors:
     - extractor_type: MetaTagExtractor
       extractor_id: meta_tags
-    - extractor_type: CustomContentExtractor
+    - extractor_type: CustomDataExtractor
       extractor_id: content
       data_selectors:
       - selector_id: title
