@@ -31,7 +31,7 @@ episodes_extraction_manifest = """
     - selector_id: title
       selector: ".episodeTitle .ellipsized"
       selector_type: css
-      selector_attribute: text
+      selector_attribute: text 
       data_type: StringField
     - selector_id: duration
       selector: ".episodeTitle .duration"
