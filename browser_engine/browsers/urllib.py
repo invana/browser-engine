@@ -8,6 +8,7 @@ logger = logging.getLogger(__name__)
 
 
 class URLLibBrowser(BrowserBase):
+    html_source = None  # tmp variable to hold page_source info; this w
 
     def _request(self, method=None, url=None, data=None, headers=None):
 
@@ -31,9 +32,9 @@ class URLLibBrowser(BrowserBase):
         pass
 
     def page_source(self):
-        if self.request_object:
-            return self.request_object.read().decode("utf-8")
-        return None
+        if self.request_object and self.html_source is None:
+            self.html_source = self.request_object.read().decode("utf-8")
+        return self.html_source
 
     def get_screenshot(self):
         return None
